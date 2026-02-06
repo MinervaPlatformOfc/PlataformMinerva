@@ -1,0 +1,62 @@
+package com.example.minerva.filter;
+import java.io.IOException;
+
+import com.example.minerva.model.User;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.*;
+
+@WebFilter("/*")
+public class AuthFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        HttpServletRequest req;
+        HttpServletResponse res;
+        String uri;
+        User user;
+        String role;
+
+
+        req = (HttpServletRequest) request;
+        res = (HttpServletResponse) response;
+
+        HttpSession session = req.getSession(false);
+        uri = req.getRequestURI();
+
+        // permitir login e resgistro sem session
+        if(uri.contains("login") || uri.contains("register-student")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        if(session == null || session.getAttribute("user") == null) {
+            res.sendRedirect(req.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        user = (User) session.getAttribute("user");
+        role = user.getRole();
+
+        if(uri.contains("aluno")) {
+            if(!"student".equals(role)) {
+                res.sendRedirect("login.jsp");
+                return;
+            }
+
+        } else if(uri.contains("professor")) {
+            if(!"teacher".equals(role)) {
+                res.sendRedirect("login.jsp");
+                return;
+            }
+        } else {
+            if(!"admin".equals(role)) {
+                res.sendRedirect("login.jsp");
+                return;
+            }
+        }
+
+        chain.doFilter(request, response);
+    }
+}
