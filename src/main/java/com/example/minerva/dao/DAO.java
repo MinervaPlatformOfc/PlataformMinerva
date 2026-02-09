@@ -23,6 +23,8 @@ public abstract class DAO<T extends Model> {
             int rows = stmt.executeUpdate();
             if(rows == 0) {
                 System.out.println("Erro ao salvar");
+            } else {
+                System.out.println("Salvo com sucesso");
             }
         } catch (SQLException e)  {
             e.printStackTrace();

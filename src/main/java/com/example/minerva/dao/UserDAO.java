@@ -1,5 +1,6 @@
 package com.example.minerva.dao;
 
+import com.example.minerva.model.Subject_student;
 import com.example.minerva.model.User;
 import com.example.minerva.conexao.Conexao;
 
@@ -71,5 +72,17 @@ public class UserDAO extends DAO<User> {
         return "User";
     }
 
+    protected void prepareStatementForSave(java.sql.PreparedStatement stmt, User entidade)
+            throws java.sql.SQLException {
+
+//        stmt.setDouble(1, entidade.getN1());
+//        stmt.setDouble(2, entidade.getN2());
+//        stmt.setInt(3, entidade.getStudent_id());
+//        stmt.setInt(4, entidade.getSubject_id());
+    }
+    @Override
+    protected String getNomesColunas() {
+        return "";
+    }
 
 }

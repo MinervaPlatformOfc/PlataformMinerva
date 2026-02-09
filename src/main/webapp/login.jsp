@@ -16,8 +16,18 @@
     <hr>
     <button type="submit">Entrar</button>
 </form>
-<input id="n1" type="number" oninput="calcularMedia()">
-<input id="n2" type="number" oninput="calcularMedia()">
+<form action="${pageContext.request.contextPath}/notes/insert" method="post">
+
+    <input name="n1" id="n1" type="number" oninput="calcularMedia()">
+    <input name="n2" id="n2" type="number" oninput="calcularMedia()">
+
+    <input name="id" id="student_id" type="hidden" value="1">
+    <input name="subject_id" id="subject_id" type="hidden" value="2">
+
+    <button type="submit">salvar nota</button>
+
+</form>
+
 
 <p>Média: <span id="media">0</span></p>
 
