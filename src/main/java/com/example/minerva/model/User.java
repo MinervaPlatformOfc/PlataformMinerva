@@ -3,7 +3,8 @@ package com.example.minerva.model;
 
 import java.util.Date;
 
-public class User {
+public class User implements Model {
+    private int id;
     private String name;
     private String password;
     private String email;
@@ -27,4 +28,6 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public Object getId() { return id; }
 }

@@ -6,7 +6,7 @@ import com.example.minerva.conexao.Conexao;
 import java.sql.*;
 import java.util.Date;
 
-public class UserDAO {
+public class UserDAO extends DAO<User> {
 
     private Conexao conexao;
 
@@ -54,5 +54,22 @@ public class UserDAO {
         // Retorna null se não encontrar
         return null;
     }
+
+
+    protected User mapResultSet(ResultSet rs) throws SQLException {
+        return new User(
+         rs.getString("name"),
+         rs.getString("password"),
+         rs.getString("email"),
+         rs.getString("role"),
+         rs.getBoolean("first_access"),
+         rs.getTimestamp("created_at")
+        );
+    }
+
+    public String getNomeTabela(){
+        return "User";
+    }
+
 
 }
