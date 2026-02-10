@@ -8,10 +8,12 @@ import com.example.minerva.utils.criptografia.HashSenha;
 import com.example.minerva.utils.matricula.Matricula;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
 import com.example.minerva.utils.validacao.ValidacaoSenha;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -19,7 +21,7 @@ import java.util.Date;
 
 @WebServlet("/register")
 public class ServletRegister extends HttpServlet {
-    protected void doPost(HttpServletRequest  request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest  request, HttpServletResponse response) throws IOException, ServletException {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -49,7 +51,12 @@ public class ServletRegister extends HttpServlet {
         User user = new User(name, email, hash, "student");
         studentDao.save(student, user);
 
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
+
+        request.setAttribute("email", email);
+
 //      Redirect para o descobrir a qual casa o aluno pertence
-        response.sendRedirect(request.getContextPath()+"/");
+        request.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);
     }
 }

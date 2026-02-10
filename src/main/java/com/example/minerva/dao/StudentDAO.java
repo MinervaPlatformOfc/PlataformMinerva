@@ -17,7 +17,7 @@ public class StudentDAO {
     }
 
     public boolean save(Student student, User user){
-        String sql = "call create_student(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "call create_student(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection conn = null;
 
         try {
@@ -33,7 +33,7 @@ public class StudentDAO {
             stmt.setString(3, user.getName());
             stmt.setInt(4, student.getSchoolYear());
             stmt.setString(5, student.getWand());
-            stmt.setBoolean(6, false); //provisório
+            stmt.setBoolean(6, false);
             stmt.setString(7, student.getBlood());
             stmt.setDate(8, java.sql.Date.valueOf(student.getBirthDate()));
             stmt.setString(9, student.getRegistration());
@@ -41,7 +41,7 @@ public class StudentDAO {
             stmt.setString(11, student.getLegalGuardianName());
             stmt.setString(12, student.getPetType());
             stmt.setBoolean(13, student.getBasicKit());
-            stmt.setBoolean(13, student.getGuardianPermission());
+            stmt.setBoolean(14, student.getGuardianPermission());
 
 
             return stmt.executeUpdate()>0;
@@ -157,5 +157,30 @@ public class StudentDAO {
             }
         }
         return null;
+    }
+
+    public boolean updateHouseIdByEmail(String email, String houseName) {
+
+        String sql = " UPDATE student s SET house_id = (SELECT h.id FROM house h WHERE h.name = ?), first_access = false FROM users u WHERE s.user_id = u.id AND u.email = ?";
+        Connection conn = null;
+
+        try {
+            conn = conexao.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, houseName);
+            stmt.setString(2, email);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            // fecha conexão
+            if (conn != null) {
+                conexao.closeConnection(conn);
+            }
+        }
     }
 }

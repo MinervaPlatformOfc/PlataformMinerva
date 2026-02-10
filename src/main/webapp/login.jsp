@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1><%= "Hello World!" %>
-</h1>s
+</h1>
 <br/>
 <form action="login" method="POST">
     <div> <label>Email:</label> <input type="email" name="email" required> </div>
@@ -15,6 +15,7 @@
     <br>
 
     <button type="submit">Entrar</button>
+
 </form>
 <hr>
 <br><br><br>

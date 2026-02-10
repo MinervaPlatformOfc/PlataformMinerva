@@ -35,6 +35,10 @@ public class User {
         return password;
     }
 
+    public boolean isFirstAcess() {
+        return firstAcess;
+    }
+
     public String getName() {
         return name;
     }

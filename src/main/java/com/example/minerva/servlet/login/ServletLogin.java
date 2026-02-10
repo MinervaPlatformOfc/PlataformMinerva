@@ -39,12 +39,18 @@ public class ServletLogin extends HttpServlet {
 
             switch(role) {
                 case "student":
-                    HouseDAO houseDao = new HouseDAO();
-                    StudentDAO studentDAO = new StudentDAO();
-                    StudentHomeDTO homeDto = studentDAO.getStudentByEmail(email);
-                    request.setAttribute("ranking", houseDao.viewRanking());
-                    request.setAttribute("homeDto", homeDto);
-                    request.getRequestDispatcher("/aluno/home.jsp").forward(request, response);
+                    if (user.isFirstAcess()){
+                        request.setAttribute("email", email);
+                        request.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);
+                    }
+                    else {
+                        HouseDAO houseDao = new HouseDAO();
+                        StudentDAO studentDAO = new StudentDAO();
+                        StudentHomeDTO homeDto = studentDAO.getStudentByEmail(email);
+                        request.setAttribute("ranking", houseDao.viewRanking());
+                        request.setAttribute("homeDto", homeDto);
+                        request.getRequestDispatcher("/aluno/home.jsp").forward(request, response);
+                    }
                     break;
                 case "teacher":
                     response.sendRedirect(request.getContextPath() + "/professor/home.jsp");
