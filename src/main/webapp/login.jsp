@@ -6,15 +6,18 @@
 </head>
 <body>
 <h1><%= "Hello World!" %>
-</h1>
+</h1>s
 <br/>
 <form action="login" method="POST">
     <div> <label>Email:</label> <input type="email" name="email" required> </div>
     <br>
     <div> <label>Senha:</label> <input type="password" name="senha" required> </div>
     <br>
-    <hr>
+
     <button type="submit">Entrar</button>
 </form>
+<hr>
+<br><br><br>
+<a href="register.jsp">Cadastre-se</a>
 </body>
 </html>

@@ -1,6 +1,9 @@
 package com.example.minerva.servlet.login;
 
+import com.example.minerva.dao.HouseDAO;
+import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dao.UserDAO;
+import com.example.minerva.dto.StudentHomeDTO;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
 import jakarta.servlet.ServletException;
@@ -27,7 +30,7 @@ public class ServletLogin extends HttpServlet {
 
         HashSenha hash = new HashSenha(senha);
 
-        if(user != null && hash.equals(user.getPassword())) {
+        if(user != null && hash.getHashSenha().equals(user.getPassword())) {
 
             session = request.getSession();
             session.setAttribute("user", user);
@@ -36,7 +39,12 @@ public class ServletLogin extends HttpServlet {
 
             switch(role) {
                 case "student":
-                    response.sendRedirect(request.getContextPath() + "/aluno/home.jsp");
+                    HouseDAO houseDao = new HouseDAO();
+                    StudentDAO studentDAO = new StudentDAO();
+                    StudentHomeDTO homeDto = studentDAO.getStudentByEmail(email);
+                    request.setAttribute("ranking", houseDao.viewRanking());
+                    request.setAttribute("homeDto", homeDto);
+                    request.getRequestDispatcher("/aluno/home.jsp").forward(request, response);
                     break;
                 case "teacher":
                     response.sendRedirect(request.getContextPath() + "/professor/home.jsp");

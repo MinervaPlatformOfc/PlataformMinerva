@@ -20,11 +20,26 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public User(String name, String password, String email, String role){
+        this.name = name;
+        this. password = password;
+        this.email = email;
+        this.role = role;
+    }
+
     public String getRole() {
         return role;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

@@ -26,7 +26,7 @@ public class AuthFilter implements Filter {
         uri = req.getRequestURI();
 
         // permitir login e resgistro sem session
-        if(uri.contains("login") || uri.contains("register-student")) {
+        if(uri.contains("login") || uri.contains("register")) {
             chain.doFilter(request, response);
             return;
         }
@@ -41,18 +41,18 @@ public class AuthFilter implements Filter {
 
         if(uri.contains("aluno")) {
             if(!"student".equals(role)) {
-                res.sendRedirect("login.jsp");
+                res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;
             }
 
         } else if(uri.contains("professor")) {
             if(!"teacher".equals(role)) {
-                res.sendRedirect("login.jsp");
+                res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;
             }
         } else {
             if(!"admin".equals(role)) {
-                res.sendRedirect("login.jsp");
+                res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;
             }
         }
