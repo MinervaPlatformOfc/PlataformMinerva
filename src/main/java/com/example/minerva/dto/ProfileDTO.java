@@ -28,7 +28,7 @@ public class ProfileDTO {
         private final String allergies;
         private final boolean guardianPermission;
 
-        private final List<StudentGradeDTO> grades;
+        private final List<SubjectDTO> grades;
 
         public ProfileDTO(int id, String name, Date birthDate, String bloodStatus, String registration,
                           String residenceAddress, String guardianName, String schoolYear, String houseName,
@@ -51,7 +51,7 @@ public class ProfileDTO {
             this.basicKit = basicKit;
             this.allergies = allergies;
             this.guardianPermission = guardianPermission;
-            this.grades = new GradeDAO().getStudentGrades(id);
+            this.grades = new GradeDAO().getSubjects(id);
         }
 
         // Getters
@@ -72,5 +72,7 @@ public class ProfileDTO {
         public String getAllergies() { return allergies; }
         public boolean isGuardianPermission() { return guardianPermission; }
 
-
+    public List<SubjectDTO> getGrades() {
+        return grades;
+    }
 }

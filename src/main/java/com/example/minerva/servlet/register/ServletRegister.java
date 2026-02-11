@@ -21,6 +21,11 @@ import java.util.Date;
 
 @WebServlet("/register")
 public class ServletRegister extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
+    }
+
     protected void doPost(HttpServletRequest  request, HttpServletResponse response) throws IOException, ServletException {
         String name = request.getParameter("name");
         String email = request.getParameter("email");

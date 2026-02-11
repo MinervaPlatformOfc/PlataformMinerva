@@ -27,7 +27,7 @@ public class StudentDAO {
                 return false;
             }
 
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            CallableStatement stmt = conn.prepareCall(sql);
             stmt.setString(1, user.getEmail());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getName());
@@ -78,6 +78,44 @@ public class StudentDAO {
 
             if (rs.next()) {
                 int id = rs.getInt("student_id");
+                String name = rs.getString("user_name");
+                String houseName = rs.getString("house_name");
+                return new StudentHomeDTO(id, name, houseName);
+            } else {
+                return null; // estudante não encontrado
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            // fecha conexão
+            if (conn != null) {
+                conexao.closeConnection(conn);
+            }
+        }
+    }
+
+    public StudentHomeDTO getStudentById(int id) {
+        String sql = "SELECT u.name AS user_name, h.name AS house_name " +
+                "FROM student s " +
+                "JOIN users u ON s.user_id = u.id " +
+                "LEFT JOIN house h ON s.house_id = h.id " +
+                "WHERE s.id = ?";
+
+        Connection conn = null;
+
+        try {
+            conn = conexao.getConnection(); // pega conexão da classe Conexao
+            if (conn == null) {
+                System.out.println("Erro ao conectar ao banco!");
+                return null;
+            }
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
                 String name = rs.getString("user_name");
                 String houseName = rs.getString("house_name");
                 return new StudentHomeDTO(id, name, houseName);

@@ -17,6 +17,7 @@ import java.util.List;
 public class ServletSubject extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
+        request.setAttribute("id", id);
         int subjectId = Integer.parseInt(request.getParameter("subjectId"));
         String subjectName = request.getParameter("subjectId");
 

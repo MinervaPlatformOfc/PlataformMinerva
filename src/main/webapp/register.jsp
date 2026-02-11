@@ -38,9 +38,9 @@
     <!-- Pet -->
     <label>Animal de estimação:</label><br>
     <select name="pet" required>
-        <option value="Coruja">Coruja</option>
-        <option value="Sapo">Sapo</option>
-        <option value="Gato">Gato</option>
+        <option value="coruja">Coruja</option>
+        <option value="sapo">Sapo</option>
+        <option value="gato">Gato</option>
     </select><br><br>
 
     <!-- Alergias -->
