@@ -30,7 +30,7 @@
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Boletim</button>
     </form>
-    <form action="${pageContext.request.contextPath}/aluno/subject" method="post" >
+    <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Matérias</button>
     </form>
@@ -58,7 +58,7 @@
 <p><strong>Animal de Estimação:</strong> <%= profile.getPetType() %></p>
 <p><strong>Voo Autorizado:</strong> <%= profile.isFlightFitness() ? "Sim" : "Não" %></p>
 <p><strong>Kit Básico:</strong> <%= profile.isBasicKit() ? "Sim" : "Não" %></p>
-<p><strong>Alergias:</strong> <%= profile.getAllergies() %></p>
+<p><strong>Alergias:</strong> <%= profile.getAllergies().equals("") ? "Nenhuma alergia registrada!" : profile.getAllergies()%></p>
 <p><strong>Permissão do Responsável:</strong> <%= profile.isGuardianPermission() ? "Sim" : "Não" %></p>
 
 <h2>Matérias</h2>
@@ -71,5 +71,8 @@
         }
     %>
 </ul>
+<form action="logout" method="post">
+    <button type="submit">Sair</button>
+</form>
 </body>
 </html>

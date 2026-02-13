@@ -53,7 +53,7 @@ public class ServletRegister extends HttpServlet {
 
         StudentDAO studentDao = new StudentDAO();
         Student student =  new Student(birthDate, schoolYear, legalGuardianName, residenceAdress, wand, pet, allergies, blood, basicKit, guardianPermission, matricula);
-        User user = new User(name, email, hash, "student");
+        User user = new User(name, hash, email, "student");
         studentDao.save(student, user);
 
         HttpSession session = request.getSession();

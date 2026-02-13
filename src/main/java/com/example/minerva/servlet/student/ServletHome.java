@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/student/home")
+@WebServlet("/aluno/home")
 public class ServletHome extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -21,12 +21,12 @@ public class ServletHome extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
-        int id = Integer.parseInt(request.getParameter("id"));
+        String id = request.getParameter("id");
         HouseDAO houseDao = new HouseDAO();
         StudentDAO studentDAO = new StudentDAO();
         StudentHomeDTO homeDto;
         if (email!=null && !email.isEmpty()) homeDto = studentDAO.getStudentByEmail(email);
-        else homeDto = studentDAO.getStudentById(id);
+        else homeDto = studentDAO.getStudentById(Integer.parseInt(id));
         request.setAttribute("ranking", houseDao.viewRanking());
         request.setAttribute("homeDto", homeDto);
         request.getRequestDispatcher("/aluno/home.jsp").forward(request, response);

@@ -19,7 +19,7 @@
 </head>
 <body>
 <header style="display: flex;justify-content: space-around">
-    <%int id = (int) request.getAttribute("id");%>
+    <%int id = ((StudentHomeDTO)request.getAttribute("homeDto")).getId();%>
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Home</button>
@@ -28,7 +28,7 @@
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Boletim</button>
     </form>
-    <form action="${pageContext.request.contextPath}/aluno/subject" method="post" >
+    <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Matérias</button>
     </form>

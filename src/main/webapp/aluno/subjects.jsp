@@ -28,7 +28,7 @@
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Boletim</button>
     </form>
-    <form action="${pageContext.request.contextPath}/aluno/subject" method="post" >
+    <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Matérias</button>
     </form>

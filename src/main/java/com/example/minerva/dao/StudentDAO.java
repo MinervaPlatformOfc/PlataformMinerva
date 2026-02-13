@@ -5,9 +5,7 @@ import com.example.minerva.dto.ProfileDTO;
 import com.example.minerva.dto.StudentHomeDTO;
 import com.example.minerva.model.Student;
 import com.example.minerva.model.User;
-
 import java.sql.*;
-import java.text.SimpleDateFormat;
 
 public class StudentDAO {
     private Conexao conexao;
@@ -17,7 +15,7 @@ public class StudentDAO {
     }
 
     public boolean save(Student student, User user){
-        String sql = "call create_student(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "call create_student(?, ?, ?, ?, ?, ?, ?::blood_status, ?, ?, ?, ?, ?, ?, ?)";
         Connection conn = null;
 
         try {
@@ -199,17 +197,22 @@ public class StudentDAO {
 
     public boolean updateHouseIdByEmail(String email, String houseName) {
 
-        String sql = " UPDATE student s SET house_id = (SELECT h.id FROM house h WHERE h.name = ?), first_access = false FROM users u WHERE s.user_id = u.id AND u.email = ?";
+        String sqlStudent = " UPDATE student s SET house_id = (SELECT h.id FROM house h WHERE h.name = ?) FROM users u WHERE s.user_id = u.id AND u.email = ?";
+        String sqlUser = "UPDATE users SET first_access = false WHERE email = ?";
         Connection conn = null;
 
         try {
             conn = conexao.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmtStudent = conn.prepareStatement(sqlStudent);
 
-            stmt.setString(1, houseName);
-            stmt.setString(2, email);
+            stmtStudent.setString(1, houseName);
+            stmtStudent.setString(2, email);
 
-            return stmt.executeUpdate() > 0;
+            PreparedStatement stmtUser = conn.prepareStatement(sqlUser);
+            stmtUser.setString(1, email);
+
+
+            return stmtStudent.executeUpdate()>0 && stmtUser.executeUpdate()>0;
 
         } catch (SQLException e) {
             e.printStackTrace();
