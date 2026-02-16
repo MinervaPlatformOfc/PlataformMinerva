@@ -1,0 +1,51 @@
+package com.example.minerva.dao;
+
+import com.example.minerva.conexao.Conexao;
+import com.example.minerva.model.SubjectStudent;
+import com.example.minerva.model.User;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+
+public class SubjectStudentDAO {
+
+    private Conexao conexao;
+    public SubjectStudentDAO() {
+        this.conexao = new Conexao();
+    }
+
+    public SubjectStudent insert (int subjectId, double n1, double n2, int student_id){
+
+        String sql = "INSERT INTO subject_student (subject_id, n1, n2, student_id) VALUES (?, ?, ?, ?)";
+        Connection conn = null;
+
+        try {
+            conn = conexao.getConnection();
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, subjectId);
+            stmt.setDouble(2, n1);
+            stmt.setDouble(3, n2);
+            stmt.setInt(4, student_id);
+
+            int rows = stmt.executeUpdate();
+
+            if (rows > 0) {
+                return new SubjectStudent(subjectId, n1, n2, student_id);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) conexao.closeConnection(conn);
+        }
+
+        return null;
+    }
+
+}
+

@@ -20,5 +20,32 @@
 <hr>
 <br><br><br>
 <a href="register.jsp">Cadastre-se</a>
+<br><br><br>
+<form action="${pageContext.request.contextPath}/teacher/subject" method="post">
+
+    <label>Nota 1:</label>
+    <input type="number" name="n1" id="n1" oninput="calcularMedia()">
+
+    <label>Nota 2:</label>
+    <input type="number" name="n2" id="n2" oninput="calcularMedia()">
+
+    <input type="hidden" name="student_id" value="3">
+    <input type="hidden" name="subject_id" value="3">
+
+    <h3>Média: <span id="media">0</span></h3>
+
+    <button type="submit">salvar nota</button>
+</form>
+
 </body>
+<script>
+    function calcularMedia() {
+        let n1 = Number(document.getElementById("n1").value);
+        let n2 = Number(document.getElementById("n2").value);
+
+        let media = (n1 + n2) / 2;
+
+        document.getElementById("media").innerText = media.toFixed(2);
+    }
+</script>
 </html>

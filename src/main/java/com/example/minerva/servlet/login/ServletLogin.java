@@ -19,6 +19,8 @@ import java.io.IOException;
 public class ServletLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("ENTROU NO SERVLET");
+
         UserDAO dao;
         User user;
         HttpSession session;
