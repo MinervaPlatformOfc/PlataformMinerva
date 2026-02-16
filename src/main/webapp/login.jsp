@@ -1,3 +1,4 @@
+<%@ page import="com.example.minerva.view.StudentForTeacherView" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -5,22 +6,39 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
+
+<h1>Hello World!</h1>
+
 <br/>
+
+<!-- FORM LOGIN -->
 <form action="login" method="POST">
-    <div> <label>Email:</label> <input type="email" name="email" required> </div>
+    <div>
+        <label>Email:</label>
+        <input type="email" name="email" required>
+    </div>
+
     <br>
-    <div> <label>Senha:</label> <input type="password" name="senha" required> </div>
+
+    <div>
+        <label>Senha:</label>
+        <input type="password" name="senha" required>
+    </div>
+
     <br>
 
     <button type="submit">Entrar</button>
-
 </form>
+
 <hr>
+
 <br><br><br>
+
 <a href="register.jsp">Cadastre-se</a>
+
 <br><br><br>
+
+<!-- FORM NOTAS -->
 <form action="${pageContext.request.contextPath}/teacher/subject" method="post">
 
     <label>Nota 1:</label>
@@ -34,10 +52,19 @@
 
     <h3>Média: <span id="media">0</span></h3>
 
-    <button type="submit">salvar nota</button>
+    <button type="submit">Salvar nota</button>
 </form>
 
-</body>
+<br><br><br>
+
+<!-- FORM BUSCAR ALUNO -->
+<form action="${pageContext.request.contextPath}/teacher/findStudent" method="get">
+
+    <label for="registro">Insira a matrícula do aluno</label>
+    <input type="text" id="registro" name="registro">
+    <button type="submit">Procurar</button>
+</form>
+
 <script>
     function calcularMedia() {
         let n1 = Number(document.getElementById("n1").value);
@@ -48,4 +75,6 @@
         document.getElementById("media").innerText = media.toFixed(2);
     }
 </script>
+
+</body>
 </html>
