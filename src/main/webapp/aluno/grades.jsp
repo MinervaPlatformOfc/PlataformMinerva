@@ -1,5 +1,4 @@
-<%@ page import="com.example.minerva.dto.StudentHomeDTO" %>
-<%@ page import="com.example.minerva.model.House" %>
+<%@ page import="com.example.minerva.dto.StudentGradeDTO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -7,20 +6,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home do Aluno</title>
+    <title>Boletim do Aluno</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <style>
         body { font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; }
-        h1, h2 { color: #333; }
-        table { border-collapse: collapse; width: 50%; margin-bottom: 20px; }
-        th, td { border: 1px solid #999; padding: 8px; text-align: left; }
+        h1 { color: #333; margin-bottom: 20px; }
+        table { border-collapse: collapse; width: 60%; margin-bottom: 20px; background-color: #fff; }
+        th, td { border: 1px solid #999; padding: 10px; text-align: center; }
         th { background-color: #ddd; }
+        td { font-weight: bold; }
+        .nota-nula { color: #999; font-style: italic; }
     </style>
 </head>
 <body>
 <header style="display: flex;justify-content: space-around">
-    <%int id = ((StudentHomeDTO)request.getAttribute("homeDto")).getId();%>
-    <%String houseName = ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName();%>
+    <%int id = (int) request.getAttribute("id");%>
+    <%String houseName = request.getAttribute("houseName");%>
+
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Home</button>
@@ -41,36 +43,40 @@
         <button type="submit">Perfil</button>
     </form>
 </header>
-<div class="home-wrapper">
-    <h1>Bem-vindo, <%= ((StudentHomeDTO)request.getAttribute("homeDto")).getName() %></h1>
-    <p>Casa: <%= ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName() %></p>
+<h1>Boletim do Aluno</h1>
 
-    <h2>Ranking das Casas</h2>
-    <table>
-        <tr>
-            <th>Casa</th>
-            <th>Pontos</th>
-        </tr>
-        <%
-            List<House> ranking = (List<House>) request.getAttribute("ranking");
-            if (ranking != null && !ranking.isEmpty()) {
-                for (House house : ranking) {
-        %>
-        <tr>
-            <td><%= house.getName() %></td>
-            <td><%= house.getPoints() %></td>
-        </tr>
-        <%
-            }
-        } else {
-        %>
-        <tr>
-            <td colspan="2">Nenhum dado disponível</td>
-        </tr>
-        <%
-            }
-        %>
-    </table>
-</div>
+<table>
+    <tr>
+        <th>Matéria</th>
+        <th>Nota 1</th>
+        <th>Nota 2</th>
+        <th>Total</th>
+    </tr>
+    <%
+        List<StudentGradeDTO> grades = (List<StudentGradeDTO>) request.getAttribute("grades");
+        if (grades != null && !grades.isEmpty()) {
+            for (StudentGradeDTO grade : grades) {
+    %>
+    <tr>
+        <td><%= grade.getSubjectName() %></td>
+        <td>
+            <%= grade.getN1() != null ? grade.getN1() : "<span class='nota-nula'>-</span>" %>
+        </td>
+        <td>
+            <%= grade.getN2() != null ? grade.getN2() : "<span class='nota-nula'>-</span>" %>
+        </td>
+        <td><%= grade.getTotal() %></td>
+    </tr>
+    <%
+        }
+    } else {
+    %>
+    <tr>
+        <td colspan="4">Nenhuma nota disponível</td>
+    </tr>
+    <%
+        }
+    %>
+</table>
 </body>
 </html>

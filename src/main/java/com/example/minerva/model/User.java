@@ -11,6 +11,8 @@ public class User {
     private boolean firstAcess;
     private Date createdAt;
 
+    private String imageUrl;
+
     public User(String name, String password, String email, String role, boolean firstAcess, Date createdAt){
         this.name = name;
         this. password = password;
@@ -20,11 +22,35 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public User(String name, String password, String email, String role, String imageUrl){
+        this.name = name;
+        this. password = password;
+        this.email = email;
+        this.role = role;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public String getRole() {
         return role;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public boolean isFirstAcess() {
+        return firstAcess;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

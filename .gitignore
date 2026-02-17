@@ -12,8 +12,8 @@ target/
 *.iml
 *.ipr
 
-#VARIÁVEIS DE AMBIENTE#
-src/main/resources/.env
+# Arquivos de ambiente
+.env
 
 ### Eclipse ###
 .apt_generated

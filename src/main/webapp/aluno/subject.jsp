@@ -1,26 +1,30 @@
+<%@ page import="com.example.minerva.dto.CommentDTO" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.minerva.dto.SubjectDTO" %>
 <%@ page import="com.example.minerva.dto.StudentHomeDTO" %>
-<%@ page import="com.example.minerva.model.House" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home do Aluno</title>
+    <title>Detalhes da Matéria</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <style>
         body { font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; }
-        h1, h2 { color: #333; }
-        table { border-collapse: collapse; width: 50%; margin-bottom: 20px; }
-        th, td { border: 1px solid #999; padding: 8px; text-align: left; }
-        th { background-color: #ddd; }
+        h1 { color: #333; margin-bottom: 10px; }
+        h2 { color: #555; margin-top: 20px; }
+        ul { list-style-type: none; padding: 0; }
+        li { background-color: #fff; margin-bottom: 8px; padding: 10px; border: 1px solid #999; border-radius: 4px; }
+        .score { font-weight: bold; color: #0077cc; }
+        .date { font-size: 0.9em; color: #999; }
     </style>
 </head>
 <body>
 <header style="display: flex;justify-content: space-around">
-    <%int id = ((StudentHomeDTO)request.getAttribute("homeDto")).getId();%>
-    <%String houseName = ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName();%>
+    <%int id = (int) request.getAttribute("id");%>
+    <%String houseName = request.getAttribute("houseName");%>
+
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Home</button>
@@ -41,36 +45,39 @@
         <button type="submit">Perfil</button>
     </form>
 </header>
-<div class="home-wrapper">
-    <h1>Bem-vindo, <%= ((StudentHomeDTO)request.getAttribute("homeDto")).getName() %></h1>
-    <p>Casa: <%= ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName() %></p>
+<%
+    SubjectDTO subject = (SubjectDTO) request.getAttribute("subject");
+    if (subject != null) {
+%>
+<h1>Matéria: <%= subject.getSubjectName() %></h1>
+<h2>Comentários:</h2>
 
-    <h2>Ranking das Casas</h2>
-    <table>
-        <tr>
-            <th>Casa</th>
-            <th>Pontos</th>
-        </tr>
-        <%
-            List<House> ranking = (List<House>) request.getAttribute("ranking");
-            if (ranking != null && !ranking.isEmpty()) {
-                for (House house : ranking) {
-        %>
-        <tr>
-            <td><%= house.getName() %></td>
-            <td><%= house.getPoints() %></td>
-        </tr>
-        <%
-            }
-        } else {
-        %>
-        <tr>
-            <td colspan="2">Nenhum dado disponível</td>
-        </tr>
-        <%
-            }
-        %>
-    </table>
-</div>
+<ul>
+    <%
+        ArrayList<CommentDTO> comments = subject.getComments();
+        if (comments != null && !comments.isEmpty()) {
+            for (CommentDTO comment : comments) {
+    %>
+    <li>
+        <p><%= comment.getContent() %></p>
+        <p class="score">Nota: <%= comment.getScore() != null ? comment.getScore() : "-" %></p>
+        <p class="date">Data: <%= comment.getCreatedAt() != null ? comment.getCreatedAt() : "-" %></p>
+    </li>
+    <%
+        }
+    } else {
+    %>
+    <li>Nenhum comentário disponível</li>
+    <%
+        }
+    %>
+</ul>
+<%
+} else {
+%>
+<p>Matéria não encontrada.</p>
+<%
+    }
+%>
 </body>
 </html>
