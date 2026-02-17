@@ -1,6 +1,7 @@
 <%@ page import="com.example.minerva.dto.CommentDTO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.minerva.dto.SubjectDTO" %>
+<%@ page import="com.example.minerva.dto.StudentHomeDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt">
@@ -22,20 +23,25 @@
 <body>
 <header style="display: flex;justify-content: space-around">
     <%int id = (int) request.getAttribute("id");%>
+    <%String houseName = request.getAttribute("houseName");%>
+
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Home</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/grades" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
+        <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Boletim</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
+        <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Matérias</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/profile" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
+        <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Perfil</button>
     </form>
 </header>

@@ -11,7 +11,7 @@
     <title>Cadastro</title>
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/register" method="post" id="registerForm">
+<form action="${pageContext.request.contextPath}/register" method="post" id="registerForm" enctype="multipart/form-data">
 
     <h2>Registro em Hogwarts</h2>
 
@@ -137,13 +137,17 @@
     <!-- Permissões -->
     <label>
         <input type="checkbox" name="guardianPermission" value="true" >
-        Permissão do responsável
+        Tenho Permissão do responsável
     </label><br><br>
 
     <label>
         <input type="checkbox" name="BasicKit" value="true">
         Tenho kit básico
     </label><br><br>
+
+    <input type="file" name="image"
+           accept="image/jpeg, image/png, image/webp"
+           required>
 
     <button type="submit">Registrar</button>
 

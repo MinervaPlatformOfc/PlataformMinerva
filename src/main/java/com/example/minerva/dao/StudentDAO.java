@@ -15,7 +15,7 @@ public class StudentDAO {
     }
 
     public boolean save(Student student, User user){
-        String sql = "call create_student(?, ?, ?, ?, ?, ?, ?::blood_status, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "call create_student(?, ?, ?, ?, ?, ?, ?::blood_status, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection conn = null;
 
         try {
@@ -40,7 +40,7 @@ public class StudentDAO {
             stmt.setString(12, student.getPetType());
             stmt.setBoolean(13, student.getBasicKit());
             stmt.setBoolean(14, student.getGuardianPermission());
-
+            stmt.setString(15, user.getImageUrl());
 
             return stmt.executeUpdate()>0;
         } catch (SQLException e) {
@@ -132,7 +132,7 @@ public class StudentDAO {
     }
 
     public ProfileDTO getStudentProfile(int studentId) {
-        String sql = "SELECT s.*, u.name AS user_name, h.name AS house_name " +
+        String sql = "SELECT s.*, u.profile_image_url AS image_url, u.name AS user_name, h.name AS house_name " +
                 "FROM student s " +
                 "JOIN users u ON s.user_id = u.id " +
                 "LEFT JOIN house h ON s.house_id = h.id " +
@@ -165,6 +165,7 @@ public class StudentDAO {
 
                 return new ProfileDTO(
                         studentId,
+                        rs.getString("image_url"),
                         rs.getString("user_name"),
                         rs.getDate("birth_date"),
                         rs.getString("blood"),

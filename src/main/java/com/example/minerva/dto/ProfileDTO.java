@@ -8,6 +8,7 @@ import java.util.List;
 
 public class ProfileDTO {
         private final int id;
+        private final String imageUrl;
         private final String name;
         private final Date birthDate;
         private final String bloodStatus;
@@ -30,7 +31,7 @@ public class ProfileDTO {
 
         private final List<SubjectDTO> grades;
 
-        public ProfileDTO(int id, String name, Date birthDate, String bloodStatus, String registration,
+        public ProfileDTO(int id, String imageUrl, String name, Date birthDate, String bloodStatus, String registration,
                           String residenceAddress, String guardianName, String schoolYear, String houseName,
                           String wandWood, String wandCore, String wandFlexibility,
                           String petType, boolean flightFitness, boolean basicKit, String allergies, boolean guardianPermission) {
@@ -52,6 +53,7 @@ public class ProfileDTO {
             this.allergies = allergies;
             this.guardianPermission = guardianPermission;
             this.grades = new GradeDAO().getSubjects(id);
+            this.imageUrl = imageUrl;
         }
 
         // Getters
@@ -71,6 +73,10 @@ public class ProfileDTO {
         public boolean isBasicKit() { return basicKit; }
         public String getAllergies() { return allergies; }
         public boolean isGuardianPermission() { return guardianPermission; }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
 
     public List<SubjectDTO> getGrades() {
         return grades;

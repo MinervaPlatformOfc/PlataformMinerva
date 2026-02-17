@@ -18,6 +18,8 @@ public class ServletGrades extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         request.setAttribute("id", id);
+        String houseName = request.getParameter("houseName");
+        request.setAttribute("houseName", houseName);
         GradeDAO dao = new GradeDAO();
         List<StudentGradeDTO> grades = dao.getStudentGrades(id);
         request.setAttribute("grades", grades);

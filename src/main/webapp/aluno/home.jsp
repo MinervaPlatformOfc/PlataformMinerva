@@ -20,20 +20,24 @@
 <body>
 <header style="display: flex;justify-content: space-around">
     <%int id = ((StudentHomeDTO)request.getAttribute("homeDto")).getId();%>
+    <%String houseName = ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName();%>
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Home</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/grades" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
+        <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Boletim</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
+        <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Matérias</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/profile" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
+        <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Perfil</button>
     </form>
 </header>

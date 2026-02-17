@@ -20,6 +20,8 @@ public class ServletSubjects extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         request.setAttribute("id", id);
+        String houseName = request.getParameter("houseName");
+        request.setAttribute("houseName", houseName);
         GradeDAO dao = new GradeDAO();
         List<SubjectDTO> subjects = dao.getSubjects(id);
         request.setAttribute("subjects", subjects);

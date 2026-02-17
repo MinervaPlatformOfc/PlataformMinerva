@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.register;
 
+import com.example.minerva.conexao.CloudinaryConfig;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.Student;
@@ -16,8 +17,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
+import java.util.Map;
 
 @WebServlet("/register")
 public class ServletRegister extends HttpServlet {
@@ -40,20 +44,41 @@ public class ServletRegister extends HttpServlet {
         String residenceAdress = request.getParameter("residenceAdress");
         boolean guardianPermission =  Boolean.parseBoolean(request.getParameter("guardianPermission"));
         boolean basicKit = Boolean.parseBoolean(request.getParameter("BasicKit"));
+        Part filePart = request.getPart("image");
 
-        String matricula = Matricula.gerarMatricula("STUDENT");
+
+        String registration = request.getParameter("registration");
+        Matricula matricula = new Matricula();
+        if (!matricula.validate(email, registration)){
+            response.sendRedirect(request.getContextPath() + "/register");
+            return;
+        }
         UserDAO userDao = new UserDAO();
 
 //      Validações
-        if (!ValidacaoSenha.validarSenha(password) || !ValidacaoEmail.validarEmail(email) || userDao.findByEmail(email)!=null) {
+        LocalDate today = LocalDate.now();
+        int age = Period.between(birthDate, today).getYears();
+
+        if (!ValidacaoSenha.validarSenha(password) || userDao.findByEmail(email)!=null || age < 11 || age>13 || birthDate.isAfter(today)) {
             response.sendRedirect(request.getContextPath() + "/register");
             return;
         }
         String hash = new HashSenha(request.getParameter("password")).getHashSenha();
 
+        //Armazenar imagem no Cloudinary
+        InputStream inputStream = filePart.getInputStream();
+        Cloudinary cloudinary = CloudinaryConfig.getInstance();
+        Map uploadResult = cloudinary.uploader().upload(
+                inputStream,
+                ObjectUtils.asMap(
+                        "folder", "profile_images"
+                )
+        );
+        String imageUrl = uploadResult.get("secure_url").toString();
+
         StudentDAO studentDao = new StudentDAO();
-        Student student =  new Student(birthDate, schoolYear, legalGuardianName, residenceAdress, wand, pet, allergies, blood, basicKit, guardianPermission, matricula);
-        User user = new User(name, hash, email, "student");
+        Student student =  new Student(birthDate, schoolYear, legalGuardianName, residenceAdress, wand, pet, allergies, blood, basicKit, guardianPermission, registration);
+        User user = new User(name, hash, email, "student", imageUrl);
         studentDao.save(student, user);
 
         HttpSession session = request.getSession();

@@ -18,6 +18,8 @@ public class ServletSubject extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         request.setAttribute("id", id);
+        String houseName = request.getParameter("houseName");
+        request.setAttribute("houseName", houseName);
         int subjectId = Integer.parseInt(request.getParameter("subjectId"));
         String subjectName = request.getParameter("subjectId");
 
