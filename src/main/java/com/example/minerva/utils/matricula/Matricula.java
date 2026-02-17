@@ -1,5 +1,10 @@
 package com.example.minerva.utils.matricula;
 
+import io.github.cdimascio.dotenv.Dotenv;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Random;
