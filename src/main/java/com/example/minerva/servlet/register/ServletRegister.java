@@ -1,5 +1,7 @@
 package com.example.minerva.servlet.register;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.minerva.conexao.CloudinaryConfig;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dao.UserDAO;
@@ -11,10 +13,7 @@ import com.example.minerva.utils.validacao.ValidacaoEmail;
 import com.example.minerva.utils.validacao.ValidacaoSenha;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.io.InputStream;
