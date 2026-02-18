@@ -1,5 +1,6 @@
 package com.example.minerva.utils.matricula;
 
+import com.example.minerva.dao.StudentDAO;
 import io.github.cdimascio.dotenv.Dotenv;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -40,21 +41,43 @@ public class Matricula {
         String diaDoAno = String.format("%03d", hoje.getDayOfYear()); // 3 dígitos do dia do ano
         String part2 = ano + diaDoAno;
 
-        // 2 últimos caracteres aleatórios
-        String letra = "" + letras.charAt(rnd.nextInt(letras.length()));
-        String numero = "" + rnd.nextInt(10);
-        String part3 = letra + numero;
-
-        // Combina tudo
-        String registration = part1+part2+part3;
-
+        StudentDAO dao = new StudentDAO();
+        String registration;
         try (Jedis jedis = pool.getResource()) {
+//            String pong = jedis.ping();
+//            System.out.println("Conexão com Redis: " + pong);
+
+        // 2 últimos caracteres aleatórios
+            do{
+            String letra = "" + letras.charAt(rnd.nextInt(letras.length()));
+            String numero = "" + rnd.nextInt(10);
+            String part3 = letra + numero;
+
+            // Combina tudo
+            registration = part1+part2+part3;
+            } while (dao.findByRegistration(registration) || jedis.get("REGISTRATION_CODE:" + registration) != null);
 
             jedis.setex(
                     "REGISTRATION:" + email,
                     (int) TTL.getSeconds(),
                     registration
             );
+            jedis.setex("REGISTRATION_CODE:" + registration, (int) TTL.getSeconds(), email); //O contrário, salvando a matricula como chave tbm pra ver se existe no redis antes de enviar para o user
+
+//            String keyEmail = "REGISTRATION:" + email;
+//            String keyCode = "REGISTRATION_CODE:" + registration;
+//            String savedRegistration = jedis.get(keyEmail);
+//            String savedEmail = jedis.get(keyCode);
+//            System.out.println("Verificação - Registro salvo: " + savedRegistration);
+//            System.out.println("Verificação - Email salvo: " + savedEmail);
+//
+//            if (savedRegistration != null && savedEmail != null) {
+//                System.out.println("✅ MATRÍCULA SALVA COM SUCESSO NO REDIS!");
+//                System.out.println("TTL " + keyEmail + ": " + jedis.ttl(keyEmail) + " segundos");
+//                System.out.println("TTL " + keyCode + ": " + jedis.ttl(keyCode) + " segundos");
+//            } else {
+//                System.out.println("❌ FALHA AO SALVAR NO REDIS!");
+//            }
         }
 
         return registration;
@@ -62,16 +85,20 @@ public class Matricula {
 
     public boolean validate(String email, String registration) {
         try (Jedis jedis = pool.getResource()) {
+//            String pong = jedis.ping();
+//            System.out.println("Conexão Redis: " + pong);
 
-            String key = "REGISTRATION:" + email;
+            String keyEmail = "REGISTRATION:" + email;
+            String keyCode  = "REGISTRATION_CODE:" + registration;
 
-            String saved = jedis.get(key);
-
+            String saved = jedis.get(keyEmail);
+//            System.out.println("Valor encontrado no Redis: " + (saved != null ? saved : "NULL"));
             if (saved == null || !saved.equals(registration)) {
                 return false;
             }
 
-            jedis.del(key);
+            jedis.del(keyEmail);
+            jedis.del(keyCode);
 
             return true;
         }

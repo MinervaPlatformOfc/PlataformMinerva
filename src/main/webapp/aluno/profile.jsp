@@ -22,7 +22,7 @@
 <body>
 <header style="display: flex;justify-content: space-around">
     <%int id = (int) request.getAttribute("id");%>
-    <%String houseName = request.getAttribute("houseName");%>
+    <%String houseName = (String) request.getAttribute("houseName");%>
 
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
@@ -78,7 +78,7 @@
         }
     %>
 </ul>
-<form action="logout" method="post">
+<form action="${pageContext.request.contextPath}/logout" method="post">
     <button type="submit">Sair</button>
 </form>
 </body>

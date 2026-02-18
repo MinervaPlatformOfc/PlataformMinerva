@@ -148,6 +148,11 @@
     <input type="file" name="image"
            accept="image/jpeg, image/png, image/webp"
            required>
+    <br><br>
+
+    <!-- Matrícula -->
+    <label>Código de Matrícula:</label><br>
+    <input type="text" name="registration"><br><br>
 
     <button type="submit">Registrar</button>
 

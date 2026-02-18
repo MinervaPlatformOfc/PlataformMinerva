@@ -37,11 +37,12 @@ public class AuthFilter implements Filter {
         }
 
         user = (User) session.getAttribute("user");
-        if(user.isFirstAcess()){
+        role = user.getRole();
+
+        if(user.isFirstAcess() && "student".equals(role)){
             req.setAttribute("email", user.getEmail());
             req.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);
         }
-        role = user.getRole();
 
         if(uri.contains("aluno")) {
             if(!"student".equals(role)) {
