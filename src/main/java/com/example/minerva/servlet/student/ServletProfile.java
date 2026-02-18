@@ -17,6 +17,9 @@ import java.util.List;
 public class ServletProfile extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
+        request.setAttribute("id", id);
+        String houseName = request.getParameter("houseName");
+        request.setAttribute("houseName", houseName);
         StudentDAO dao = new StudentDAO();
         ProfileDTO profile = dao.getStudentProfile(id);
         request.setAttribute("profile", profile);
