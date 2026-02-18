@@ -196,6 +196,8 @@ public class StudentDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()){
                     return new StudentForTeacherView(
+                            rs.getInt("user_id"),
+                            rs.getInt("student_id"),
                             rs.getString("name"),
                             rs.getString("email"),
                             rs.getString("registration"),

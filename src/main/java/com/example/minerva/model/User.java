@@ -4,6 +4,7 @@ package com.example.minerva.model;
 import java.util.Date;
 
 public class User {
+    private int id;
     private String name;
     private String password;
     private String email;
@@ -25,6 +26,10 @@ public class User {
         this. password = password;
         this.email = email;
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getRole() {

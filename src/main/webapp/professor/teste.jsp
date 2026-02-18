@@ -106,7 +106,17 @@
             <td><%= student.getAllergies() != null ? student.getAllergies() : "" %></td>
             <td><%= student.getBlood() %></td>
             <td><%= student.getBasicKit() %></td>
-            <td> adicionar comentario </td>
+            <td>
+            <form action="${pageContext.request.contextPath}/teacher/ListComment">
+                <input type="hidden" id="student_id" name="student_id" value="<%=student.getId_student()%>">
+                <input type="hidden" name="teacher">
+                <td> <button type="submit"> adicionar comentario </button></td>
+            </form>
+                <form action="${pageContext.request.contextPath}/aluno/grades">
+                    <input type="text">
+                    <button type="submit"> ver boletim </button>
+                </form>
+            </td>
         </tr>
         <%
         } else {

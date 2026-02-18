@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 public class SubjectStudentDAO {
 
@@ -46,6 +47,29 @@ public class SubjectStudentDAO {
 
         return null;
     }
+
+//    public List<SubjectStudent> listNotes(int student_id){
+//        String sql = "SELECT ss.n1, ss.n2, s.name FROM subject_student ss where student_id = ? " +
+//                "join subject s on ss.subject_id = s.id";
+//        Connection conn = null;
+//        try {
+//            conn = conexao.getConnection();
+//            PreparedStatement stmt = conn.prepareStatement(sql);
+//            stmt.setInt(1, student_id);
+//            try (ResultSet rs = stmt.executeQuery()) {
+//                if (rs.next()) {
+//                    SubjectStudent subject = new SubjectStudent(
+//                            rs.getInt("subjectId"),
+//                            rs.getDouble("n1"),
+//                            rs.getDouble("n2"),
+//                            rs.getInt("student_id")
+//                    );
+//                } else {
+//                    System.out.println("nao foi adicionado");
+//                }
+//            }
+//        }
+//    }
 
 }
 

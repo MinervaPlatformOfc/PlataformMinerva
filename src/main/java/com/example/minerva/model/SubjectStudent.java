@@ -7,9 +7,6 @@ public class SubjectStudent {
     private double n2;
     private int student_id;
 
-    // Construtor vazio
-    public SubjectStudent() {
-    }
 
     // Construtor com parâmetros
     public SubjectStudent(int subjectId, double n1, double n2, int student_id) {

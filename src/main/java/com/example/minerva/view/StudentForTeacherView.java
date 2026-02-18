@@ -1,7 +1,10 @@
 package com.example.minerva.view;
 
 public class StudentForTeacherView {
-
+        private int id_user;
+        private int id_student;
+        private int id_teacher;
+        private int id_subject;
         private String name;
         private String email;
         private String registration;
@@ -14,10 +17,11 @@ public class StudentForTeacherView {
         private String basicKit;
 
         // Constructor
-        public StudentForTeacherView(String name, String email, String registration, String schoolYear,
+        public StudentForTeacherView(int id_user, int id_student, String name, String email, String registration, String schoolYear,
                        String legalGuardianName, String wand, String petType,
                        String allergies, String blood, String basicKit) {
-
+            this.id_student = id_student;
+            this.id_user = id_user;
             this.name = name;
             this.email = email;
             this.registration = registration;
@@ -32,7 +36,16 @@ public class StudentForTeacherView {
 
         // Getters and Setters
 
-        public String getName() {
+
+    public int getId_student() {
+        return id_student;
+    }
+
+    public int getId_user() {
+        return id_user;
+    }
+
+    public String getName() {
             return name;
         }
 
