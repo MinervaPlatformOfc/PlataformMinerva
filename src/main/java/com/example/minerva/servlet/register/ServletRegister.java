@@ -12,80 +12,181 @@ import com.example.minerva.utils.matricula.Matricula;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
 import com.example.minerva.utils.validacao.ValidacaoSenha;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @WebServlet("/register")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024, // 1MB
+        maxFileSize = 1024 * 1024 * 5,   // 5MB
+        maxRequestSize = 1024 * 1024 * 10 // 10MB
+)
 public class ServletRegister extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
 
-    protected void doPost(HttpServletRequest  request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String pet = request.getParameter("pet");
         String allergies = request.getParameter("allergies");
         String blood = request.getParameter("blood");
-        LocalDate birthDate = LocalDate.parse(request.getParameter("birthDate"));
-        String wand = request.getParameter("wood")+" - "+request.getParameter("core")+" - "+request.getParameter("flexibility");
-        int schoolYear = Integer.parseInt(request.getParameter("schoolYear"));
+        LocalDate birthDate = request.getParameter("birthDate") != null
+                ? LocalDate.parse(request.getParameter("birthDate"))
+                : null;
+
+        String wand = request.getParameter("wood") + " - " +
+                request.getParameter("core") + " - " +
+                request.getParameter("flexibility");
+
+        int schoolYear = request.getParameter("schoolYear") != null
+                ? Integer.parseInt(request.getParameter("schoolYear"))
+                : 0;
+
         String legalGuardianName = request.getParameter("legalGuardianName");
         String residenceAdress = request.getParameter("residenceAdress");
-        boolean guardianPermission =  Boolean.parseBoolean(request.getParameter("guardianPermission"));
-        boolean basicKit = Boolean.parseBoolean(request.getParameter("BasicKit"));
-        Part filePart = request.getPart("image");
-
-
+        boolean guardianPermission = "true".equalsIgnoreCase(request.getParameter("guardianPermission"));
+        boolean basicKit = "true".equalsIgnoreCase(request.getParameter("BasicKit"));
         String registration = request.getParameter("registration");
-        Matricula matricula = new Matricula();
-        if (!matricula.validate(email, registration)){
-            response.sendRedirect(request.getContextPath() + "/register");
+
+        Part filePart = request.getPart("image");
+        if (filePart == null) {
+//            System.out.println("❌ ERRO: filePart é NULL");
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_null");
             return;
         }
-        UserDAO userDao = new UserDAO();
 
-//      Validações
+        if (filePart.getSize() == 0) {
+//            System.out.println("❌ ERRO: filePart está VAZIO (tamanho 0)");
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_empty");
+            return;
+        }
+
+//        System.out.println("✅ Arquivo OK:");
+//        System.out.println("   - Nome: " + filePart.getSubmittedFileName());
+//        System.out.println("   - Tamanho: " + filePart.getSize() + " bytes");
+//        System.out.println("   - Content-Type: " + filePart.getContentType());
+
+// Validação da matrícula
+//        System.out.println("=== VALIDAÇÃO DA MATRÍCULA ===");
+//        System.out.println("Email para validação: " + email);
+//        System.out.println("Registration para validação: " + registration);
+
+        Matricula matricula = new Matricula();
+        boolean matriculaValida = matricula.validate(email, registration);
+//        System.out.println("Resultado da validação: " + (matriculaValida ? "✅ VÁLIDA" : "❌ INVÁLIDA"));
+
+        if (!matriculaValida) {
+//            System.out.println("❌ REDIRECIONANDO: matrícula inválida");
+//            System.out.println("   Possíveis causas:");
+//            System.out.println("   - Matrícula não encontrada no Redis para este email");
+//            System.out.println("   - Matrícula expirou (TTL de 4 dias)");
+//            System.out.println("   - Matrícula não corresponde ao email");
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=invalid_registration");
+            return;
+        }
+//        System.out.println("✅ Matrícula validada com sucesso!");
+
+// Validações do usuário
+//        System.out.println("=== VALIDAÇÕES DO USUÁRIO ===");
+        UserDAO userDao = new UserDAO();
         LocalDate today = LocalDate.now();
         int age = Period.between(birthDate, today).getYears();
+//        System.out.println("Data de nascimento: " + birthDate);
+//        System.out.println("Idade calculada: " + age);
+//        System.out.println("Data atual: " + today);
 
-        if (!ValidacaoSenha.validarSenha(password) || userDao.findByEmail(email)!=null || age < 11 || age>13 || birthDate.isAfter(today)) {
-            response.sendRedirect(request.getContextPath() + "/register");
+// Validar senha
+        boolean senhaValida = ValidacaoSenha.validarSenha(password);
+//        System.out.println("Senha válida: " + (senhaValida ? "✅ SIM" : "❌ NÃO"));
+
+// Validar email existente
+        User usuarioExistente = userDao.findByEmail(email);
+//        System.out.println("Email já cadastrado: " + (usuarioExistente != null ? "❌ SIM" : "✅ NÃO"));
+
+// Validar idade
+        boolean idadeValida = age >= 11 && age <= 13;
+//        System.out.println("Idade dentro do permitido (11-13): " + (idadeValida ? "✅ SIM" : "❌ NÃO"));
+
+// Validar data de nascimento
+        boolean dataNascimentoValida = !birthDate.isAfter(today);
+//        System.out.println("Data de nascimento não é futura: " + (dataNascimentoValida ? "✅ SIM" : "❌ NÃO"));
+
+        if (!senhaValida || usuarioExistente != null || !idadeValida || !dataNascimentoValida) {
+//            System.out.println("❌ REDIRECIONANDO: validações de usuário falharam");
+//            System.out.println("   Resumo das falhas:");
+//            if (!senhaValida) System.out.println("   - Senha inválida");
+//            if (usuarioExistente != null) System.out.println("   - Email já cadastrado");
+//            if (!idadeValida) System.out.println("   - Idade fora do permitido");
+//            if (!dataNascimentoValida) System.out.println("   - Data de nascimento inválida");
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=validation_failed");
             return;
         }
-        String hash = new HashSenha(request.getParameter("password")).getHashSenha();
 
-        //Armazenar imagem no Cloudinary
-        InputStream inputStream = filePart.getInputStream();
+//        System.out.println("✅ TODAS AS VALIDAÇÕES PASSSARAM!");
+//        System.out.println("=== CONTINUANDO COM O CADASTRO ===");
+
+        String hash = new HashSenha(password).getHashSenha();
+
+        // Logs de debug
+//        System.out.println("=== DEBUG UPLOAD ===");
+//        System.out.println("Arquivo recebido: " + filePart.getSubmittedFileName());
+//        System.out.println("Tamanho: " + filePart.getSize() + " bytes");
+//        System.out.println("Content Type: " + filePart.getContentType());
+
+        // CONVERTER PARA BYTE
+        byte[] imageBytes;
+        try (InputStream input = filePart.getInputStream()) {
+            imageBytes = input.readAllBytes();
+        }
+
+//        System.out.println("Bytes lidos: " + imageBytes.length);
+
+        // Verificar se é uma imagem válida (magic numbers)
+        if (imageBytes.length < 4) {
+            throw new ServletException("Arquivo muito pequeno");
+        }
+
+        // Upload para Cloudinary com parâmetros explícitos
         Cloudinary cloudinary = CloudinaryConfig.getInstance();
-        Map uploadResult = cloudinary.uploader().upload(
-                inputStream,
-                ObjectUtils.asMap(
-                        "folder", "profile_images"
-                )
-        );
-        String imageUrl = uploadResult.get("secure_url").toString();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("folder", "profile_images");
+        params.put("public_id", "user_" + System.currentTimeMillis());
+        params.put("overwrite", true);
+        params.put("resource_type", "image");
+        params.put("type", "upload");
+
+        // uso do byte array diretamente
+        Map uploadResult = cloudinary.uploader().upload(imageBytes, params);
+
+        String imageUrl = (String) uploadResult.get("secure_url");
+//        System.out.println("Upload sucesso! URL: " + imageUrl);
+
+        Student student = new Student(birthDate, schoolYear, legalGuardianName,
+                residenceAdress, wand, pet, allergies, blood, basicKit, guardianPermission, registration);
+
+        User user = new User(name, hash, email, "student", imageUrl);
 
         StudentDAO studentDao = new StudentDAO();
-        Student student =  new Student(birthDate, schoolYear, legalGuardianName, residenceAdress, wand, pet, allergies, blood, basicKit, guardianPermission, registration);
-        User user = new User(name, hash, email, "student", imageUrl);
         studentDao.save(student, user);
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
 
         request.setAttribute("email", email);
-
-//      Redirect para o descobrir a qual casa o aluno pertence
         request.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);
     }
 }
