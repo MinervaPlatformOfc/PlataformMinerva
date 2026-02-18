@@ -11,7 +11,7 @@
     <title>Cadastro</title>
 </head>
 <body>
-<form action="${pageContext.request.contextPath}/register" method="post" id="registerForm">
+<form action="${pageContext.request.contextPath}/register" method="post" id="registerForm" enctype="multipart/form-data">
 
     <h2>Registro em Hogwarts</h2>
 
@@ -38,9 +38,9 @@
     <!-- Pet -->
     <label>Animal de estimação:</label><br>
     <select name="pet" required>
-        <option value="Coruja">Coruja</option>
-        <option value="Sapo">Sapo</option>
-        <option value="Gato">Gato</option>
+        <option value="coruja">Coruja</option>
+        <option value="sapo">Sapo</option>
+        <option value="gato">Gato</option>
     </select><br><br>
 
     <!-- Alergias -->
@@ -137,13 +137,17 @@
     <!-- Permissões -->
     <label>
         <input type="checkbox" name="guardianPermission" value="true" >
-        Permissão do responsável
+        Tenho Permissão do responsável
     </label><br><br>
 
     <label>
         <input type="checkbox" name="BasicKit" value="true">
         Tenho kit básico
     </label><br><br>
+
+    <input type="file" name="image"
+           accept="image/jpeg, image/png, image/webp"
+           required>
 
     <button type="submit">Registrar</button>
 

@@ -1,17 +1,38 @@
 package com.example.minerva.utils.matricula;
 
+import io.github.cdimascio.dotenv.Dotenv;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Random;
 
 public class Matricula {
-    public static String gerarMatricula(String role) {
+    private static final Duration TTL = Duration.ofDays(4); //Duração de 4 dias
+    private static final Dotenv dotenv = Dotenv.configure()
+            .ignoreIfMissing()
+            .load();
+    private static final JedisPool pool;
+    static {
+        JedisPoolConfig config = new JedisPoolConfig();
+        pool = new JedisPool(
+                config,
+                dotenv.get("REDIS_HOST", System.getenv("REDIS_HOST")),
+                Integer.parseInt(dotenv.get("REDIS_PORT", System.getenv("REDIS_PORT"))),
+                4000,
+                dotenv.get("REDIS_USER", System.getenv("REDIS_USER")),
+                dotenv.get("REDIS_PASSWORD", System.getenv("REDIS_PASSWORD"))
+        );
+    }
+
+    public String generateAndSave(String role, String email) {
         Random rnd = new Random();
         String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         // Identificação de role
-        String part1;
-        if (role.equals("STUDENT")) part1 = "S";
-        else part1 = "T";
+        String part1 = role.equals("STUDENT") ? "S" : "T";
 
         // Ano e dia do ano
         LocalDate hoje = LocalDate.now();
@@ -25,6 +46,34 @@ public class Matricula {
         String part3 = letra + numero;
 
         // Combina tudo
-        return part1+part2+part3;
+        String registration = part1+part2+part3;
+
+        try (Jedis jedis = pool.getResource()) {
+
+            jedis.setex(
+                    "REGISTRATION:" + email,
+                    (int) TTL.getSeconds(),
+                    registration
+            );
+        }
+
+        return registration;
+    }
+
+    public boolean validate(String email, String registration) {
+        try (Jedis jedis = pool.getResource()) {
+
+            String key = "REGISTRATION:" + email;
+
+            String saved = jedis.get(key);
+
+            if (saved == null || !saved.equals(registration)) {
+                return false;
+            }
+
+            jedis.del(key);
+
+            return true;
+        }
     }
 }

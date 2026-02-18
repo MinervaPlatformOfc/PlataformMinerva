@@ -26,7 +26,7 @@ public class AuthFilter implements Filter {
         uri = req.getRequestURI();
 
         // permitir login e resgistro sem session
-        if(uri.contains("login") || uri.contains("register")) {
+        if(uri.contains("login") || uri.contains("register") || uri.endsWith(".js") || uri.endsWith(".css") || uri.endsWith(".png") || uri.endsWith(".jpg")) {
             chain.doFilter(request, response);
             return;
         }
@@ -37,6 +37,10 @@ public class AuthFilter implements Filter {
         }
 
         user = (User) session.getAttribute("user");
+        if(user.isFirstAcess()){
+            req.setAttribute("email", user.getEmail());
+            req.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);
+        }
         role = user.getRole();
 
         if(uri.contains("aluno")) {

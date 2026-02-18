@@ -152,49 +152,38 @@ botoesPerguntas.forEach(botao => {
       sonsConta = preferencia.filter(escolha => sons.includes(escolha)).length;
     
       const casa = Math.max(grifConta, lufaConta, corvConta, sonsConta);
+        let houseName;
 
         if (grifConta === casa) {
             h2Resposta.innerText = "Grifinória";
+            houseName = "Grifinória";
             h2Resposta.style.color = "Red";
             pResposta.innerText = "Hum... vejo muita ousadia aqui. Não há medo de enfrentar o desconhecido e um fogo que queima forte no peito. Onde outros recuam, você avança com nobreza e bravura."
-            imgResposta.src = "imgs/grifinoria.jpg";
+            imgResposta.src = contextPath+"/aluno/quiz/imgs/grifinoria.jpg";
         } else if (sonsConta === casa) {
             h2Resposta.innerText = "Sonserina!";
+            houseName = "Sonserina";
             h2Resposta.style.color = "Green";
-            imgResposta.src = "imgs/sonserina.jpg";
+            imgResposta.src = contextPath+"/aluno/quiz/imgs/sonserina.jpg";
             pResposta.innerText = "Interessante... muito interessante. Vejo uma sede de provar seu valor e uma mente astuta que sabe exatamente onde quer chegar. Você fará grandes coisas, e nada impedirá sua ascensão rumo à grandeza."
         } else if (corvConta === casa) {
             h2Resposta.innerText = "Corvinal!";
+            houseName = "Corvinal";
             h2Resposta.style.color = "Blue";
-            imgResposta.src = "imgs/corvinal.jpg";
+            imgResposta.src = contextPath+"/aluno/quiz/imgs/corvinal.jpg";
             pResposta.innerText = "Ah, veja só... Uma mente afiada e curiosa. Percebo uma criatividade única e um desejo insaciável de entender os mistérios do mundo. Onde o saber é o maior tesouro, você encontrará seus iguais."
         } else {
             h2Resposta.innerText = "Lufa-Lufa!";
+            houseName = "Lufa-Lufa";
             h2Resposta.style.color = "Yellow";
-            imgResposta.src = "imgs/lufalufa.jpg";
+            imgResposta.src = contextPath+"/aluno/quiz/imgs/lufalufa.jpg";
             pResposta.innerText = "Difícil... muito difícil. Mas vejo um coração justo e leal. Você não teme o trabalho árduo e valoriza a verdadeira amizade acima de qualquer glória passageira. A paciência e a bondade são suas maiores forças."
         }
-
+        document.getElementById("houseName").value = houseName;
         document.querySelector('#botoesResultado').classList.remove('escondido');
 
-        const btnAprovar = document.querySelector('#aprovarResultado');
         const btnRecomecar = document.querySelector('#recomecarQuiz');
 
-        btnAprovar.addEventListener('click', () => {
-            const email = document.querySelector('#emailUsuario').value;
-            let casaNome = "";
-
-            if (grifConta === casa) casaNome = "Grifinória";
-            else if (sonsConta === casa) casaNome = "Sonserina";
-            else if (corvConta === casa) casaNome = "Corvinal";
-            else casaNome = "Lufa-Lufa";
-
-            fetch('/aluno/quiz', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `email=${encodeURIComponent(email)}&casa=${encodeURIComponent(casaNome)}`
-            }).catch(error => console.error('Erro ao enviar dados:', error));
-        });
 
         btnRecomecar.addEventListener('click', () => {
             preferencia = [];

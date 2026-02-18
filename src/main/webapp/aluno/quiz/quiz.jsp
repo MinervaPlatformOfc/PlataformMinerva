@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,8 +8,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/aluno/quiz/quiz.css">
 </head>
 <body>
-    <input type="hidden" id="emailUsuario" value="${email}">
-
     <section id="apresentacao">
         <h1>Bem-Vindo a Plataforma Minerva!</h1>
         <h2>Descubra sua <span>casa</span> pelo nosso quiz</h2>
@@ -34,9 +33,16 @@
 
 
     <div id="botoesResultado" class="escondido">
-        <button id="aprovarResultado">Aprovar resultado</button>
+        <form action="${pageContext.request.contextPath}/aluno/quiz" method="post">
+            <input type="hidden" name="houseName" id="houseName" value="">
+            <input type="hidden" id="emailUsuario" name="email" value="${email}">
+            <button id="aprovarResultado" type="submit">Aprovar resultado</button>
+        </form>
         <button id="recomecarQuiz">Recomeçar</button>
     </div>
     <script src="${pageContext.request.contextPath}/aluno/quiz/quiz.js"></script>
+    <script>
+        const contextPath = "<%= request.getContextPath() %>";
+    </script>
 </body>
 </html>

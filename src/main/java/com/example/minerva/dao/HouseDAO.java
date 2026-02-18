@@ -34,7 +34,7 @@ public class HouseDAO {
             Queue<House> ranking = new LinkedList<>();
 
             while (rs.next()) {
-                String name = rs.getString("name");
+                String name = rs.getString("house_name");
                 int points = rs.getInt("points");
                 ranking.add(new House(name, points));
             }
