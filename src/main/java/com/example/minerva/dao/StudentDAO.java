@@ -5,6 +5,8 @@ import com.example.minerva.dto.ProfileDTO;
 import com.example.minerva.dto.StudentHomeDTO;
 import com.example.minerva.model.Student;
 import com.example.minerva.model.User;
+import com.example.minerva.view.StudentForTeacherView;
+
 import java.sql.*;
 
 public class StudentDAO {
@@ -249,5 +251,38 @@ public class StudentDAO {
                 conexao.closeConnection(conn);
             }
         }
+    }
+
+    public StudentForTeacherView findStudentByRegistration(String registration) {
+        String sql = " SELECT * FROM StudentForTeacherView s WHERE s.registration = ?";
+        Connection conn = null;
+        try {
+            conn = conexao.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, registration);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()){
+                    return new StudentForTeacherView(
+                            rs.getInt("user_id"),
+                            rs.getInt("student_id"),
+                            rs.getString("name"),
+                            rs.getString("email"),
+                            rs.getString("registration"),
+                            rs.getString("school_year"),
+                            rs.getString("legal_guardian_name"),
+                            rs.getString("wand"),
+                            rs.getString("pet_type"),
+                            rs.getString("allergies"),
+                            rs.getString("blood"),
+                            rs.getString("basic_kit")
+                    );
+                }
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }
