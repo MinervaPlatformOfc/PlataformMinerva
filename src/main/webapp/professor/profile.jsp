@@ -22,18 +22,18 @@
     <input type="hidden"  name="teacherId" value="<%=teacherId%>">
     <button type="submit">Home</button>
   </form>
-  <form action="${pageContext.request.contextPath}/professor/yearsSubjects" method="post" >
+  <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post" >
     <input type="hidden"  name="teacherId" value="<%=teacherId%>">
     <input type="hidden"  name="houseName" value="<%=houseName%>">
     <button type="submit">Observações</button>
   </form>
-  <form action="${pageContext.request.contextPath}/professor/yearsSubjects" method="post" >
+  <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post" >
     <input type="hidden" name="showGrades" value="true">
     <input type="hidden"  name="teacherId" value="<%=teacherId%>">
     <input type="hidden"  name="houseName" value="<%=houseName%>">
     <button type="submit">Notas</button>
   </form>
-  <form action="${pageContext.request.contextPath}/professor/profile" method="post" >
+  <form action="${pageContext.request.contextPath}/teacher/profile" method="post" >
     <input type="hidden"  name="teacherId" value="<%=teacherId%>">
     <input type="hidden"  name="houseName" value="<%=houseName%>">
     <button type="submit">Perfil</button>

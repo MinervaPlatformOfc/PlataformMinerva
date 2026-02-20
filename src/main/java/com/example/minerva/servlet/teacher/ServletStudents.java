@@ -27,8 +27,18 @@ public class ServletStudents extends HttpServlet {
         int year = Integer.parseInt(request.getParameter("year"));
         String subject = request.getParameter("subject");
 
-        String showGradesParam = request.getParameter("showGrades");
-        boolean showGrades = "true".equals(showGradesParam);
+        Boolean showGrades = null;
+
+        Object attribute = request.getAttribute("showGrades");
+        if (attribute instanceof Boolean) {
+            showGrades = (Boolean) attribute;
+        }
+
+        if (showGrades == null) {
+            String param = request.getParameter("showGrades");
+            showGrades = "true".equals(param); // default false se param for null ou diferente de "true" :)
+        }
+
         request.setAttribute("showGrades", showGrades);
 
         TeacherDAO dao = new TeacherDAO();
@@ -37,6 +47,6 @@ public class ServletStudents extends HttpServlet {
         request.setAttribute("students", students);
         request.setAttribute("year", year);
         request.setAttribute("subject", subject);
-        request.getRequestDispatcher("/teacher/students.jsp").forward(request, response);
+        request.getRequestDispatcher("/professor/students.jsp").forward(request, response);
     }
 }

@@ -51,9 +51,9 @@
     </button>
     <form id="commentForm" action="<%= request.getContextPath() %>/teacher/insertComment" method="post" style="display:none; margin-top:15px;">
 
-        <input type="hidden" name="student_id" value="<%= studentId %>">
-        <input type="hidden" name="teacher_id" value="<%= teacherId %>">
-        <input type="hidden" name="subject_id" value="<%= subjectId %>">
+        <input type="hidden" name="studentId" value="<%= studentId %>">
+        <input type="hidden" name="teacherId" value="<%= teacherId %>">
+        <input type="hidden" name="subjectId" value="<%= subjectId %>">
         <input type="hidden" name="year" value="<%= year %>">
         <input type="hidden" name="houseName" value="<%= houseName %>">
         <input type="hidden" name="subject" value="<%= subject %>">

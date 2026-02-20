@@ -20,12 +20,12 @@ public class ServletInsertGrade extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String subject = request.getParameter("subject");
-        int student_id = Integer.parseInt(request.getParameter("student_id"));
+        int studentId = Integer.parseInt(request.getParameter("studentId"));
         String n1 = request.getParameter("n1");
         String n2 = request.getParameter("n2");
         if (!request.getParameter("n1Original").equals(n1) || !request.getParameter("n1Original").equals(n2)){
             GradeDAO dao = new GradeDAO();
-            dao.updateGrades(dao.getSubjectId(subject),student_id,n1,n2);
+            dao.updateGrades(dao.getSubjectId(subject),studentId,n1,n2);
         }
 
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
@@ -37,7 +37,7 @@ public class ServletInsertGrade extends HttpServlet {
         request.setAttribute("year", year);
         request.setAttribute("subject", subject);
 
-        request.getRequestDispatcher("/professor/students.jsp").forward(request, response);
+        request.getRequestDispatcher("/teacher/students").forward(request, response);
     }
 }
 

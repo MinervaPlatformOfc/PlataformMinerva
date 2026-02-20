@@ -55,7 +55,7 @@
 </ul>
 
 <hr><br>
-<form action="<%= request.getContextPath() %>/teacher/home" method="post">
+<form action="<%= request.getContextPath() %>/professor/home" method="post">
   <input type="hidden" name="teacherId" value="<%= teacherId %>">
   <button type="submit">Voltar</button>
 </form>

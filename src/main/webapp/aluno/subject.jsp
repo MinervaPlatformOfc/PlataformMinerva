@@ -16,14 +16,14 @@
         h2 { color: #555; margin-top: 20px; }
         ul { list-style-type: none; padding: 0; }
         li { background-color: #fff; margin-bottom: 8px; padding: 10px; border: 1px solid #999; border-radius: 4px; }
-        .score { font-weight: bold; color: #0077cc; }
+        .score { font-weight: bold; }
         .date { font-size: 0.9em; color: #999; }
     </style>
 </head>
 <body>
 <header style="display: flex;justify-content: space-around">
     <%int id = (int) request.getAttribute("id");%>
-    <%String houseName = request.getAttribute("houseName");%>
+    <%String houseName = (String) request.getAttribute("houseName");%>
 
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
@@ -57,10 +57,17 @@
         ArrayList<CommentDTO> comments = subject.getComments();
         if (comments != null && !comments.isEmpty()) {
             for (CommentDTO comment : comments) {
+                Integer score = comment.getScore();
+                String color = "gray";
+                if (score < 0) {
+                    color = "red";
+                } else if (score > 0) {
+                    color = "green";
+                }
     %>
     <li>
         <p><%= comment.getContent() %></p>
-        <p class="score">Nota: <%= comment.getScore() != null ? comment.getScore() : "-" %></p>
+        <p class="score" style="color:<%= color %>;">Pontuação: <%= score != null ? score : "-" %></p>
         <p class="date">Data: <%= comment.getCreatedAt() != null ? comment.getCreatedAt() : "-" %></p>
     </li>
     <%

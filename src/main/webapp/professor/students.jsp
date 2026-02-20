@@ -36,13 +36,13 @@
       <form method="post" action="<%= request.getContextPath() %>/teacher/studentGrade" style="display:none;" class="gradeForm" id="form-<%= s.getStudentId() %>">
         <input type="hidden" name="studentId" value="<%= s.getStudentId() %>">
         <input type="hidden" name="subject" value="<%= subject %>">
-        <input type="hidden" name="subject" value="<%= year %>">
+        <input type="hidden" name="year" value="<%= year %>">
         <input type="hidden" name="houseName" value="<%= houseName %>">
         <input type="hidden"  name="teacherId" value="<%=teacherId%>">
         <input type="hidden" name="n1Original" value="<%= s.getN1() != null ? s.getN1() : "" %>">
         <input type="hidden" name="n2Original" value="<%= s.getN2() != null ? s.getN2() : "" %>">
-        <input type="number" step="0.01" name="n1" value="<%= s.getN1() != null ? s.getN1() : "" %>" placeholder="N1" min="0" max="10">
-        <input type="number" step="0.01" name="n2" value="<%= s.getN2() != null ? s.getN2() : "" %>" placeholder="N2" min="0" max="10">
+        <label>Nota 1: <input type="number" step="0.01" name="n1" value="<%= s.getN1() != null ? s.getN1() : "" %>" placeholder="N1" min="0" max="10"></label>
+        <label>Nota 2: <input type="number" step="0.01" name="n2" value="<%= s.getN2() != null ? s.getN2() : "" %>" placeholder="N2" min="0" max="10"></label>
         <button type="submit">Salvar</button>
       </form>
       <button onclick="document.getElementById('form-<%= s.getStudentId() %>').style.display='block'; this.style.display='none';">
@@ -52,10 +52,10 @@
       <!-- Leva para servlet de comentários -->
       <form method="post" action="<%= request.getContextPath() %>/teacher/studentComments">
         <input type="hidden" name="teacherId" value="<%= teacherId %>">
+        <input type="hidden" name="year" value="<%= year %>">
         <input type="hidden" name="houseName" value="<%= houseName %>">
         <input type="hidden" name="subject" value="<%= subject %>">
         <input type="hidden" name="studentId" value="<%= s.getStudentId() %>">
-        <input type="hidden" name="subject" value="<%= subject %>">
         <button type="submit" style="border:none; background:none; padding:0; cursor:pointer; font-size:inherit;">
           <%= s.getStudentName() %>
         </button>

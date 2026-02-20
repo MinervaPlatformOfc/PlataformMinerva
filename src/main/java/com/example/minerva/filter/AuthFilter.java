@@ -50,7 +50,7 @@ public class AuthFilter implements Filter {
                 return;
             }
 
-        } else if(uri.contains("professor")) {
+        } else if(uri.contains("professor") || uri.contains("teacher")) {
             if(!"teacher".equals(role)) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;

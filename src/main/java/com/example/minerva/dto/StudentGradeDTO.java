@@ -13,7 +13,7 @@ public class StudentGradeDTO {
             this.n1 = n1;
             this.n2 = n2;
         }
-    public StudentGradeDTO(int studentId, String studentName, String studentHouseName, double n1, double n2, String subjectName) {
+    public StudentGradeDTO(int studentId, String studentName, String studentHouseName, Double n1, Double n2, String subjectName) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentHouseName = studentHouseName;
@@ -22,7 +22,7 @@ public class StudentGradeDTO {
         this.subjectName = subjectName;
     }
 
-    public StudentGradeDTO(int studentId, String studentName, String studentHouseName, double n1, double n2) {
+    public StudentGradeDTO(int studentId, String studentName, String studentHouseName, Double n1, Double n2) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentHouseName = studentHouseName;

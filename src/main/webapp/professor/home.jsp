@@ -30,18 +30,18 @@
         <input type="hidden"  name="teacherId" value="<%=teacherDTO.getTeacherId()%>">
         <button type="submit">Home</button>
     </form>
-    <form action="${pageContext.request.contextPath}/professor/yearsSubjects" method="post" >
+    <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post" >
         <input type="hidden"  name="teacherId" value="<%=teacherDTO.getTeacherId()%>">
         <input type="hidden"  name="houseName" value="<%=teacherHouseName%>">
         <button type="submit">Observações</button>
     </form>
-    <form action="${pageContext.request.contextPath}/professor/yearsSubjects" method="post" >
+    <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post" >
         <input type="hidden" name="showGrades" value="true">
         <input type="hidden"  name="teacherId" value="<%=teacherDTO.getTeacherId()%>">
         <input type="hidden"  name="houseName" value="<%=teacherHouseName%>">
         <button type="submit">Notas</button>
     </form>
-    <form action="${pageContext.request.contextPath}/professor/profile" method="post" >
+    <form action="${pageContext.request.contextPath}/teacher/profile" method="post" >
         <input type="hidden"  name="teacherId" value="<%=teacherDTO.getTeacherId()%>">
         <input type="hidden"  name="houseName" value="<%=teacherHouseName%>">
         <button type="submit">Perfil</button>
@@ -79,18 +79,20 @@
         String studentHouseName = studentHouseNameRaw.equals("Grifinória") ? "grifinoria" :
                 studentHouseNameRaw.equals("Lufa-Lufa") ? "lufalufa" :
                         studentHouseNameRaw.equals("Sonserina") ? "sonserina" : "corvinal";
-    %><form method="post" action="${pageContext.request.contextPath}/teacher/studentProfile">
-    <input type="hidden" name="teacherId" value="<%= teacherDTO.getTeacherId() %>">
-    <input type="hidden" name="studentId" value="<%= student.getStudentId() %>">
-    <input type="hidden" name="houseName" value="<%= studentHouseName %>">
-    <button type="submit" style="width:100%; border:none; background:none; padding:0; cursor:pointer;">
-    <td>IMAGEM JOAOOO</td>
-        <td ><%= student.getStudentName() %></td>
+    %><td>IMAGEM JOAOOO</td>
+    <td >
+        <form method="post" action="${pageContext.request.contextPath}/teacher/studentProfile">
+            <input type="hidden" name="teacherId" value="<%= teacherDTO.getTeacherId() %>">
+            <input type="hidden" name="studentId" value="<%= student.getStudentId() %>">
+            <input type="hidden" name="houseName" value="<%= studentHouseName %>">
+            <button type="submit" style="width:100%; border:none; background:none; padding:0; cursor:pointer;"><%= student.getStudentName() %></button>
+        </form>
+    </td>
         <td><%= student.getSubjectName() %></td>
         <td><%= student.getN1() != null ? student.getN1() : "-" %></td>
         <td><%= student.getN2() != null ? student.getN2() : "-" %></td>
-    </button>
-    </form>
+
+
     </tr>
     <%
         }

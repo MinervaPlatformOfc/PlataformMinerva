@@ -49,14 +49,13 @@ public class TeacherDAO {
                 }
 
                 // adiciona cada aluno no array
-                int studentId = rs.getInt("student_id");
-                String studentName = rs.getString("student_name");
+                Integer studentId = rs.getObject("student_id") != null ? rs.getInt("student_id") : null;                String studentName = rs.getString("student_name");
                 String studentHouse = rs.getString("student_house_name");
-                double n1 = rs.getObject("n1") != null ? rs.getDouble("n1") : null;
-                double n2 =rs.getObject("n2") != null ? rs.getDouble("n2") : null;
+                Double n1 = rs.getObject("n1") != null ? rs.getDouble("n1") : null;
+                Double n2 =rs.getObject("n2") != null ? rs.getDouble("n2") : null;
                 String subjectName = rs.getString("subject_name");
 
-                students.add(new StudentGradeDTO(studentId, studentName, studentHouse, n1, n2, subjectName));
+                if (studentId != null ) students.add(new StudentGradeDTO(studentId, studentName, studentHouse, n1, n2, subjectName));
             }
 
             return teacherDTO;
@@ -167,17 +166,18 @@ public class TeacherDAO {
                 if (teacherDTO == null) {
                     String teacherName = rs.getString("teacher_name");
                     String teacherHouse = rs.getString("teacher_house_name");
+
                     teacherDTO = new TeacherHomeDTO(teacherId, teacherName, teacherHouse, students);
                 }
 
-                int studentId = rs.getInt("student_id");
+                Integer studentId = rs.getObject("student_id") != null ? rs.getInt("student_id") : null;
                 String studentName = rs.getString("student_name");
                 String studentHouse = rs.getString("student_house_name");
                 Double n1 = rs.getObject("n1") != null ? rs.getDouble("n1") : null;
                 Double n2 = rs.getObject("n2") != null ? rs.getDouble("n2") : null;
                 String subjectName = rs.getString("subject_name");
 
-                students.add(new StudentGradeDTO(studentId, studentName, studentHouse, n1, n2, subjectName));
+                if (studentId != null ) students.add(new StudentGradeDTO(studentId, studentName, studentHouse, n1, n2, subjectName));
             }
 
             return teacherDTO;
@@ -214,9 +214,12 @@ public class TeacherDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int year = rs.getInt("school_year");
+                Integer year = rs.getObject("school_year") != null ? rs.getInt("school_year") : null;
                 String subject = rs.getString("subject_name");
-                result.add(year + "º Ano (" + subject + ")");
+
+                if (year != null && subject != null) {
+                    result.add(year + "º Ano (" + subject + ")");
+                }
             }
 
         } catch (SQLException e) {

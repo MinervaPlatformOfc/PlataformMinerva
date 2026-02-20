@@ -4,7 +4,6 @@
   List<String> yearsSubjects = (List<String>) request.getAttribute("yearsSubjects");
   int teacherId = (int) request.getAttribute("teacherId");
   String houseName = (String) request.getAttribute("houseName");%>
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,18 +16,18 @@
     <input type="hidden"  name="teacherId" value="<%=teacherId%>">
     <button type="submit">Home</button>
   </form>
-  <form action="${pageContext.request.contextPath}/professor/yearsSubjects" method="post" >
+  <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post" >
     <input type="hidden"  name="teacherId" value="<%=teacherId%>">
     <input type="hidden"  name="houseName" value="<%=houseName%>">
     <button type="submit">Observações</button>
   </form>
-  <form action="${pageContext.request.contextPath}/professor/yearsSubjects" method="post" >
+  <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post" >
     <input type="hidden" name="showGrades" value="true">
     <input type="hidden"  name="teacherId" value="<%=teacherId%>">
     <input type="hidden"  name="houseName" value="<%=houseName%>">
     <button type="submit">Notas</button>
   </form>
-  <form action="${pageContext.request.contextPath}/professor/profile" method="post" >
+  <form action="${pageContext.request.contextPath}/teacher/profile" method="post" >
     <input type="hidden"  name="teacherId" value="<%=teacherId%>">
     <input type="hidden"  name="houseName" value="<%=houseName%>">
     <button type="submit">Perfil</button>
@@ -44,6 +43,7 @@
   %>
   <li>
     <form method="post" action="<%=request.getContextPath()%>/teacher/students">
+      <input type="hidden" name="showGrades" value="<%= request.getAttribute("showGrades") %>">
       <input type="hidden" name="teacherId" value="<%= teacherId %>">
       <input type="hidden" name="year" value="<%= yearStr %>">
       <input type="hidden" name="subject" value="<%= subject %>">

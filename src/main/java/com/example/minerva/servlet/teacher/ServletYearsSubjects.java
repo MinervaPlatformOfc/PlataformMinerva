@@ -31,6 +31,6 @@ public class ServletYearsSubjects extends HttpServlet {
         List<String> yearsSubjects = dao.getYearsAndSubjectsByTeacherId(teacherId);
 
         request.setAttribute("yearsSubjects", yearsSubjects);
-        request.getRequestDispatcher("/teacher/yearsSubjects.jsp").forward(request, response);
+        request.getRequestDispatcher("/professor/yearsSubjects.jsp").forward(request, response);
     }
 }

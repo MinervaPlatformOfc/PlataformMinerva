@@ -22,6 +22,6 @@ public class ServletProfile extends HttpServlet {
         TeacherProfileDTO profile = dao.getTeacherProfile(teacherId);
 
         request.setAttribute("profile", profile);
-        request.getRequestDispatcher("/teacher/profile.jsp").forward(request, response);
+        request.getRequestDispatcher("/professor/profile.jsp").forward(request, response);
     }
 }

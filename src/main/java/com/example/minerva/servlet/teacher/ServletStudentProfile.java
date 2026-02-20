@@ -16,7 +16,7 @@ public class ServletStudentProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String teacherId = request.getParameter("teacherId");
-        request.setAttribute("techerId", teacherId);
+        request.setAttribute("teacherId", Integer.parseInt(teacherId));
         int id = Integer.parseInt(request.getParameter("studentId"));
         String houseName = request.getParameter("houseName");
         request.setAttribute("houseName", houseName);
