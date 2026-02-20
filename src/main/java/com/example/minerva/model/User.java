@@ -28,6 +28,7 @@ public class User {
         this.email = email;
         this.role = role;
         this.imageUrl = imageUrl;
+        this.firstAcess = true;
     }
 
     public String getImageUrl() {

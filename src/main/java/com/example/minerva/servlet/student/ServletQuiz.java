@@ -20,15 +20,11 @@ public class ServletQuiz extends HttpServlet {
         StudentDAO dao = new StudentDAO();
         req.setCharacterEncoding("UTF-8");
         String email = req.getParameter("email");
+        req.setAttribute("email", email);
         dao.updateHouseIdByEmail(email, req.getParameter("houseName"));
-        HouseDAO houseDao = new HouseDAO();
-        StudentDAO studentDAO = new StudentDAO();
-        StudentHomeDTO homeDto = studentDAO.getStudentByEmail(email);
         UserDAO userDAO = new UserDAO();
-        req.setAttribute("ranking", houseDao.viewRanking());
-        req.setAttribute("homeDto", homeDto);
         HttpSession session = req.getSession();
         session.setAttribute("user", userDAO.findByEmail(email));
-        req.getRequestDispatcher("/aluno/home.jsp").forward(req, resp);
+        req.getRequestDispatcher("/aluno/home").forward(req, resp);
     }
 }
