@@ -44,13 +44,14 @@ public class AuthFilter implements Filter {
             req.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);
         }
 
+
         if(uri.contains("aluno")) {
             if(!"student".equals(role)) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;
             }
 
-        } else if(uri.contains("professor")) {
+        } else if(uri.contains("professor") || uri.contains("teacher")) {
             if(!"teacher".equals(role)) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;

@@ -54,6 +54,7 @@
         <form action="${pageContext.request.contextPath}/aluno/subject" method="post" style="margin:0; padding:0;">
             <input type="hidden" name="id" value="<%= id %>">
             <input type="hidden" name="subjectId" value="<%= subject.getSubjectId() %>">
+            <input type="hidden" name="subjectName" value="<%= subject.getSubjectName() %>">
             <input type="hidden"  name="houseName" value="<%=houseName%>">
             <button type="submit" style="all: unset; cursor: pointer;">
                 <%= subject.getSubjectName() %>

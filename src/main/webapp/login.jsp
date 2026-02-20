@@ -5,20 +5,34 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
+
+<h1>Hello World!</h1>
+
 <br/>
+
+<!-- FORM LOGIN -->
 <form action="login" method="POST">
-    <div> <label>Email:</label> <input type="email" name="email" required> </div>
+    <div>
+        <label>Email:</label>
+        <input type="email" name="email" required>
+    </div>
+
     <br>
-    <div> <label>Senha:</label> <input type="password" name="senha" required> </div>
+
+    <div>
+        <label>Senha:</label>
+        <input type="password" name="senha" required>
+    </div>
+
     <br>
 
     <button type="submit">Entrar</button>
-
 </form>
+
 <hr>
+
 <br><br><br>
+
 <a href="register.jsp">Cadastre-se</a>
 </body>
 </html>
