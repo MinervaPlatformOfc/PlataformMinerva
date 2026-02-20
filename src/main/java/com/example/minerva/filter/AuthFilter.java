@@ -39,9 +39,10 @@ public class AuthFilter implements Filter {
         user = (User) session.getAttribute("user");
         role = user.getRole();
 
-        if(user.isFirstAcess() && "student".equals(role)){
+        if(user.isFirstAcess() && "student".equals(role) &&  !uri.contains("/aluno/quiz")){
             req.setAttribute("email", user.getEmail());
             req.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);
+            return;
         }
 
 
@@ -49,7 +50,7 @@ public class AuthFilter implements Filter {
             if(!"student".equals(role)) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;
-            }
+            } else if (uri.contains("quiz") && !user.isFirstAcess()){ res.sendRedirect(req.getContextPath() + "/login.jsp"); return; }
 
         } else if(uri.contains("professor") || uri.contains("teacher")) {
             if(!"teacher".equals(role)) {
