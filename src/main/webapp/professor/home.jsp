@@ -11,57 +11,69 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        .link-student {
+            text-decoration: none;  /* tira o sublinhado */
+            color: black;           /* tira o azul */
+        }
+    </style>
 </head>
 <body>
-    <form action="">
-        <label for="registro">Insira a matricula do aluno</label>
-        <input type="text" id="registro" name="registro">
-        <button type="submit"> Procurar </button>
-    </form>
-    <table>
-        <thead>
-        <tr>
-            <th>Nome </th>
-            <th>Email </th>
-            <th>Matricula</th>
-            <th>Ano Escolar</th>
-            <th>Responsável Legal</th>
-            <th>Varinha</th>
-            <th>Tipo de Pet</th>
-            <th>Alergias</th>
-            <th>Tipo Sanguíneo</th>
-            <th>Kit Básico</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
+<header>
+    <a href="home.jsp">inicio</a>
+    <a href="comment.jsp">observacoes</a>
+    <a href="home.jsp">notas</a>
+    <a href="">perfil professor</a>
+</header>
+<br>
+<% String name = (String) session.getAttribute("name");%>
+<h1>SEJA BEM VINDO <%= name %></h1>
+<%
+    List<StudentForTeacherView> alunos =
+            (List<StudentForTeacherView>) session.getAttribute("studentList");
 
-        <tbody>
-        <%
-            StudentForTeacherView student =
-                    (StudentForTeacherView) request.getAttribute("student");
+    if (alunos != null && !alunos.isEmpty()) {
+%>
+<table>
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>acao</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%
+        for (StudentForTeacherView aluno : alunos) {
+    %>
+    <tr>
 
-            if (student != null) {
-        %>
-        <tr>
-            <td><%= student.getName() %></td>
-            <td><%= student.getEmail() %></td>
-            <td><%= student.getRegistration() %></td>
-            <td><%= student.getSchoolYear() %></td>
-            <td><%= student.getLegalGuardianName() %></td>
-            <td><%= student.getWand() %></td>
-            <td><%= student.getPetType() %></td>
-            <td><%= student.getAllergies() != null ? student.getAllergies() : "" %></td>
-            <td><%= student.getBlood() %></td>
-            <td><%= student.getBasicKit() %></td>
-        </tr>
-        <%
-            } else {
-        %> <h3> insira uma matricula existente </h3> <%
-            }%>
+        <td>
+            <%= aluno.getName() %>
+        </td>
+        <td>
+            <form action="${pageContext.request.contextPath}/teacher/findStudent">
+                <input type="hidden" name="id" value="<%= aluno.getId_user()%>">
+                <button type="submit">ver mais</button>
+            </form>
+        </td>
+    </tr>
+    <%
+        }
+    %>
 
-        </tbody>
+    </tbody>
+</table>
 
-    </table>
+<%
+} else {
+%>
+<h3>Sem alunos no sistema</h3>
+<%
+    }
+%>
 
 </body>
 </html>
+
+
+

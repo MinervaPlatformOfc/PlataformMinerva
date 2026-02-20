@@ -13,11 +13,10 @@ import java.io.IOException;
 public class ServletFindStudant extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("entrou no servlet");
-        response.getWriter().println("SERVLET FUNCIONOU");
-        String registro = request.getParameter("registro");
+        int id = Integer.parseInt(request.getParameter("id"));
+        System.out.println("ID recebido: " + id);
         StudentDAO dao = new StudentDAO();
-        StudentForTeacherView studentForTeacherView = dao.findStudentByRegistration(registro);
+        StudentForTeacherView studentForTeacherView = dao.findStudentByRegistration(id);
         request.setAttribute("student", studentForTeacherView);
         request.getRequestDispatcher("/professor/teste.jsp").forward(request, response);
 

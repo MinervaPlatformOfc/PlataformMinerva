@@ -35,6 +35,7 @@
 <br><br><br>
 
 <a href="register.jsp">Cadastre-se</a>
+<br>
 
 <br><br><br>
 

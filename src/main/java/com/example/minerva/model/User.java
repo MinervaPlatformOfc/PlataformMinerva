@@ -14,7 +14,8 @@ public class User {
 
     private String imageUrl;
 
-    public User(String name, String password, String email, String role, boolean firstAcess, Date createdAt){
+    public User(int id, String name, String password, String email, String role, boolean firstAcess, Date createdAt){
+        this.id = id;
         this.name = name;
         this. password = password;
         this.email = email;
@@ -30,6 +31,7 @@ public class User {
         this.role = role;
         this.imageUrl = imageUrl;
     }
+
 
     public String getImageUrl() {
         return imageUrl;

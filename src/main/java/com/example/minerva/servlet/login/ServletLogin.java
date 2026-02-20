@@ -8,11 +8,13 @@ import com.example.minerva.dto.StudentHomeDTO;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
 
+import com.example.minerva.view.StudentForTeacherView;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/login")
 public class ServletLogin extends HttpServlet {
@@ -65,11 +67,20 @@ public class ServletLogin extends HttpServlet {
                 case "teacher":
                     int teacherId = user.getId();
 
+                    StudentDAO studentDAO = new StudentDAO();
+                    List<StudentForTeacherView> list = studentDAO.listStudents();
+
                     Subject_teacherDAO subject_teacherDAO = new Subject_teacherDAO();
                     int subjectId = subject_teacherDAO.findSubjectByTeacher(teacherId);
 
+
                     session.setAttribute("teacherId", teacherId);
                     session.setAttribute("subjectId", subjectId);
+                    session.setAttribute("name", user.getName());
+                    session.setAttribute("studentList", list);
+
+                    System.out.println(user.getName());
+
 
                     response.sendRedirect(request.getContextPath() + "/professor/home.jsp");
                     break;

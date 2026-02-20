@@ -8,6 +8,8 @@ import com.example.minerva.model.User;
 import com.example.minerva.view.StudentForTeacherView;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentDAO {
     private Conexao conexao;
@@ -228,14 +230,14 @@ public class StudentDAO {
         }
     }
 
-    public StudentForTeacherView findStudentByRegistration(String registration) {
-        String sql = " SELECT * FROM StudentForTeacherView s WHERE s.registration = ?";
+    public StudentForTeacherView findStudentByRegistration(int registration) {
+        String sql = " SELECT * FROM StudentForTeacherView s WHERE s.user_id = ?";
         Connection conn = null;
         try {
             conn = conexao.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, registration);
+            stmt.setInt(1, registration);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()){
                     return new StudentForTeacherView(
@@ -254,6 +256,40 @@ public class StudentDAO {
                     );
                 }
 
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<StudentForTeacherView> listStudents() {
+        String sql = " SELECT * FROM StudentForTeacherView";
+        Connection conn = null;
+        try {
+            List<StudentForTeacherView> list = new ArrayList<>();
+            conn = conexao.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()){
+                    StudentForTeacherView studentForTeacherView = new StudentForTeacherView(
+                            rs.getInt("user_id"),
+                            rs.getInt("student_id"),
+                            rs.getString("name"),
+                            rs.getString("email"),
+                            rs.getString("registration"),
+                            rs.getString("school_year"),
+                            rs.getString("legal_guardian_name"),
+                            rs.getString("wand"),
+                            rs.getString("pet_type"),
+                            rs.getString("allergies"),
+                            rs.getString("blood"),
+                            rs.getString("basic_kit")
+                    );
+                    list.add(studentForTeacherView);
+                }
+                return list;
             }
         }catch (SQLException e){
             e.printStackTrace();

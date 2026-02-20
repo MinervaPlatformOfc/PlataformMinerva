@@ -1,14 +1,10 @@
-<%@ page import="com.example.minerva.view.StudentForTeacherView" %><%--
-  Created by IntelliJ IDEA.
-  User: brunajesus-ieg
-  Date: 16/02/2026
-  Time: 12:46
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.example.minerva.view.StudentForTeacherView" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
-    <title>Title</title>
+    <title>Detalhes do Aluno</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,11 +36,6 @@
             text-align: left;
         }
 
-        th {
-            font-size: 14px;
-            letter-spacing: 0.5px;
-        }
-
         tbody tr {
             border-bottom: 1px solid #eee;
         }
@@ -64,74 +55,106 @@
             color: #777;
             font-style: italic;
         }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions form {
+            margin: 0;
+        }
+
+        button {
+            padding: 6px 10px;
+            border: none;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1a252f;
+        }
     </style>
-
 </head>
+
 <body>
-    <h1>Alunos</h1>
 
-    <!-- TABELA RESULTADO -->
-    <table>
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Matrícula</th>
-            <th>Ano Escolar</th>
-            <th>Responsável Legal</th>
-            <th>Varinha</th>
-            <th>Tipo de Pet</th>
-            <th>Alergias</th>
-            <th>Tipo Sanguíneo</th>
-            <th>Kit Básico</th>
-            <th> ações  </th>
-        </tr>
-        </thead>
+<h1>Aluno</h1>
 
-        <tbody>
-        <%
-            StudentForTeacherView student =
-                    (StudentForTeacherView) request.getAttribute("student");
+<table>
+    <thead>
+    <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Matrícula</th>
+        <th>Ano Escolar</th>
+        <th>Responsável Legal</th>
+        <th>Varinha</th>
+        <th>Tipo de Pet</th>
+        <th>Alergias</th>
+        <th>Tipo Sanguíneo</th>
+        <th>Kit Básico</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
 
-            if (student != null) {
-        %>
-        <tr>
-            <td><%= student.getName() %></td>
-            <td><%= student.getEmail() %></td>
-            <td><%= student.getRegistration() %></td>
-            <td><%= student.getSchoolYear() %></td>
-            <td><%= student.getLegalGuardianName() %></td>
-            <td><%= student.getWand() %></td>
-            <td><%= student.getPetType() %></td>
-            <td><%= student.getAllergies() != null ? student.getAllergies() : "" %></td>
-            <td><%= student.getBlood() %></td>
-            <td><%= student.getBasicKit() %></td>
-            <td>
-            <form action="${pageContext.request.contextPath}/teacher/ListComment">
-                <input type="hidden" id="student_id" name="student_id" value="<%=student.getId_student()%>">
-                <input type="hidden" name="teacher">
-                <td> <button type="submit"> adicionar comentario </button></td>
+    <tbody>
+    <%
+        StudentForTeacherView student =
+                (StudentForTeacherView) request.getAttribute("student");
+
+        if (student != null) {
+    %>
+
+    <tr>
+        <td><%= student.getName() %></td>
+        <td><%= student.getEmail() %></td>
+        <td><%= student.getRegistration() %></td>
+        <td><%= student.getSchoolYear() %></td>
+        <td><%= student.getLegalGuardianName() %></td>
+        <td><%= student.getWand() %></td>
+        <td><%= student.getPetType() %></td>
+        <td><%= student.getAllergies() != null ? student.getAllergies() : "" %></td>
+        <td><%= student.getBlood() %></td>
+        <td><%= student.getBasicKit() %></td>
+
+        <td class="actions">
+
+            <!-- Adicionar comentário -->
+            <form action="${pageContext.request.contextPath}/teacher/ListComment" method="get">
+                <input type="hidden" name="student_id" value="<%= student.getId_student() %>">
+                <input type="hidden" name="teacher_id" value="<%= session.getAttribute("teacherId") %>">
+                <button type="submit">Adicionar comentário</button>
             </form>
-                <form action="${pageContext.request.contextPath}/aluno/grades">
-                    <input type="text">
-                    <button type="submit"> ver boletim </button>
-                </form>
-            </td>
-        </tr>
-        <%
-        } else {
-        %>
-        <tr>
-            <td colspan="10" class="empty">Insira uma matrícula existente</td>
-        </tr>
-        <%
-            }
-        %>
-        </tbody>
-    </table>
-    <br>
-    <br>
-    <br><br>
-    <h1>CSS PROVISORIO PARA NN FICAR PESSIMA A VISUALIZAÇÃO</h1>
+
+            <!-- Ver boletim -->
+            <form action="${pageContext.request.contextPath}/aluno/grades" method="get">
+                <input type="hidden" name="student_id" value="<%= student.getId_student() %>">
+                <button type="submit">Ver boletim</button>
+            </form>
+
+        </td>
+    </tr>
+
+    <%
+    } else {
+    %>
+
+    <tr>
+        <td colspan="11" class="empty">
+            Insira uma matrícula existente
+        </td>
+    </tr>
+
+    <%
+        }
+    %>
+
+    </tbody>
+</table>
+
 </body>
 </html>

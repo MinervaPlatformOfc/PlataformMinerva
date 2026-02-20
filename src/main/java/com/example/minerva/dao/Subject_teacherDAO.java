@@ -7,8 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Subject_teacherDAO {
-    private Conexao conexao;
-
+    private Conexao conexao = new Conexao();
     public int findSubjectByTeacher(int teacherId) {
 
         String sql = "SELECT subject_id FROM subject_teacher WHERE teacher_id = ?";

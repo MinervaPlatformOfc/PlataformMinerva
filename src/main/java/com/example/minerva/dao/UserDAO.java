@@ -17,7 +17,7 @@ public class UserDAO {
     // Busca usuário pelo email
     public User findByEmail(String email) {
 
-        String sql = "SELECT name, password, email, role, first_access, created_at FROM users WHERE email = ?";
+        String sql = "SELECT id, name, password, email, role, first_access, created_at FROM users WHERE email = ?";
         Connection conn = null;
 
         try {
@@ -33,13 +33,14 @@ public class UserDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String password = rs.getString("password");
                 String role = rs.getString("role");
                 boolean firstAccess = rs.getBoolean("first_access");
                 Date createdAt = rs.getTimestamp("created_at");
 
-                return new User(name, password, email, role, firstAccess, createdAt);
+                return new User(id, name, password, email, role, firstAccess, createdAt);
             }
 
         } catch (SQLException e) {
