@@ -20,8 +20,11 @@
 <body>
 <header style="display: flex;justify-content: space-around">
     <%int id = ((StudentHomeDTO)request.getAttribute("homeDto")).getId();%>
-<%--    USE SEM O RAW JOAOOO --%>
-    <%String houseName = ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName();%>
+    <%String houseNameRaw = ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName();
+
+    String houseName = houseNameRaw.equals("Grifinória") ? "grifinoria" :
+                houseNameRaw.equals("Lufa-Lufa") ? "lufalufa" :
+                        houseNameRaw.equals("Sonserina") ? "sonserina" : "corvinal"%>
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Home</button>
@@ -44,7 +47,7 @@
 </header>
 <div class="home-wrapper">
     <h1>Bem-vindo, <%= ((StudentHomeDTO)request.getAttribute("homeDto")).getName() %></h1>
-    <p>Casa: <%= ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName() %></p>
+    <p>Casa: <%= houseNameRaw %></p>
 
     <h2>Ranking das Casas</h2>
     <table>

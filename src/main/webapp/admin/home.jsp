@@ -11,6 +11,10 @@
     <title>Title</title>
 </head>
 <body>
-
+    <form action="${pageContext.request.contextPath}/admin/generateRegistration" method="post">
+        <div> <label>Email:</label> <input type="email" name="email" required> </div>
+        <br>
+        <button type="submit">Enviar Código de Matrícula</button>
+    </form>
 </body>
 </html>

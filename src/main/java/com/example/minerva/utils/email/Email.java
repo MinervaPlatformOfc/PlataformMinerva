@@ -17,7 +17,7 @@ public class Email {
     private final String username = dotenv.get("EMAIL_USER", System.getenv("EMAIL_USER"));
     private final String password = dotenv.get("EMAIL_PASSWORD", System.getenv("EMAIL_PASSWORD"));
 
-    public void sendRegistration(String toEmail, String registration) {
+    public boolean sendRegistration(String toEmail, String registration) {
 
         // Configurações SMTP do Gmail
         Properties props = new Properties();
@@ -49,8 +49,8 @@ public class Email {
                     "<html>\n" +
                             "<body style=\"font-family: Georgia, serif; background-color: #fdf6e3; padding: 20px;\">\n" +
                             "<div style=\"border: 2px solid #2E8B57; border-radius: 10px; padding: 20px; background-color: #fffde7; max-width: 600px; margin: auto;\">\n" +
-                            "<h1 style=\"color: #4B0082; text-align: center;\"> ⫘⫘⫘⫘⫘⫘ Bem-vindo(a) a Hogwarts! ⫘⫘⫘⫘⫘⫘</h1>\n" +
-                            "<p>Seu código de matrícula é:</p>\n" +
+                            "<h1 style=\"color: #4B0082; text-align: center;\">⫘ Bem-vindo(a) a Hogwarts! ⫘</h1>\n" +
+                            "<p style=\"text-align: center;\">Seu código de matrícula é:</p>\n" +
                             "<h2 style=\"color: #2E8B57; text-align: center;\">" + registration + "</h2>\n" +
                             "<p style=\"text-align: center;\">Válido por 4 dias.</p>\n" +
                             "<hr>\n" +
@@ -65,11 +65,12 @@ public class Email {
             message.setContent(html, "text/html; charset=utf-8");
 
             Transport.send(message);
+            return true; // sucesso
 
-            System.out.println("Email enviado com sucesso!");
 
         } catch (MessagingException me) {
             me.printStackTrace();
+            return false; // falha
         }
     }
 }

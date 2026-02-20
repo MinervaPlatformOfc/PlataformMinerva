@@ -15,6 +15,31 @@ public class StudentDAO {
         this.conexao = new Conexao(); // usa a classe de conexão
     }
 
+    public boolean findByRegistration(String registration){
+        String sql = "select 1 from student where registration = ?";
+        Connection conn = null;
+
+        try {
+            conn = conexao.getConnection(); // pega conexão da classe Conexao
+            if (conn == null) {
+                System.out.println("Erro ao conectar ao banco!");
+                return false;
+            }
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, registration);
+            return stmt.executeQuery().next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            // fecha conexão
+            if (conn != null) {
+                conexao.closeConnection(conn);
+            }
+        }
+    }
+
     public boolean save(Student student, User user){
         String sql = "call create_student(?, ?, ?, ?, ?, ?, ?::blood_status, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection conn = null;

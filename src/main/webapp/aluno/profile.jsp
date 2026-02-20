@@ -78,7 +78,7 @@
         }
     %>
 </ul>
-<form action="logout" method="post">
+<form action="${pageContext.request.contextPath}/logout" method="post">
     <button type="submit">Sair</button>
 </form>
 </body>
