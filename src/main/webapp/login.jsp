@@ -55,26 +55,26 @@
     <button type="submit">Salvar nota</button>
 </form>
 
-<br><br><br>
+<%--<br><br><br>--%>
 
-<!-- FORM BUSCAR ALUNO -->
-<form action="${pageContext.request.contextPath}/teacher/findStudent" method="get">
+<%--<!-- FORM BUSCAR ALUNO -->--%>
+<%--<form action="${pageContext.request.contextPath}/teacher/findStudent" method="get">--%>
 
-    <label for="registro">Insira a matrícula do aluno</label>
-    <input type="text" id="registro" name="registro">
-    <button type="submit">Procurar</button>
-</form>
+<%--    <label for="registro">Insira a matrícula do aluno</label>--%>
+<%--    <input type="text" id="registro" name="registro">--%>
+<%--    <button type="submit">Procurar</button>--%>
+<%--</form>--%>
 
-<script>
-    function calcularMedia() {
-        let n1 = Number(document.getElementById("n1").value);
-        let n2 = Number(document.getElementById("n2").value);
+<%--<script>--%>
+<%--    function calcularMedia() {--%>
+<%--        let n1 = Number(document.getElementById("n1").value);--%>
+<%--        let n2 = Number(document.getElementById("n2").value);--%>
 
-        let media = (n1 + n2) / 2;
+<%--        let media = (n1 + n2) / 2;--%>
 
-        document.getElementById("media").innerText = media.toFixed(2);
-    }
-</script>
+<%--        document.getElementById("media").innerText = media.toFixed(2);--%>
+<%--    }--%>
+<%--</script>--%>
 
 </body>
 </html>

@@ -20,6 +20,7 @@
 <body>
 <header style="display: flex;justify-content: space-around">
     <%int id = ((StudentHomeDTO)request.getAttribute("homeDto")).getId();%>
+<%--    USE SEM O RAW JOAOOO --%>
     <%String houseName = ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName();%>
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">

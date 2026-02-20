@@ -21,7 +21,7 @@
 <body>
 <header style="display: flex;justify-content: space-around">
     <%int id = (int) request.getAttribute("id");%>
-    <%String houseName = request.getAttribute("houseName");%>
+    <%String houseName = (String) request.getAttribute("houseName");%>
 
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
@@ -50,7 +50,7 @@
         <th>Matéria</th>
         <th>Nota 1</th>
         <th>Nota 2</th>
-        <th>Total</th>
+        <th>Média</th>
     </tr>
     <%
         List<StudentGradeDTO> grades = (List<StudentGradeDTO>) request.getAttribute("grades");
@@ -65,7 +65,7 @@
         <td>
             <%= grade.getN2() != null ? grade.getN2() : "<span class='nota-nula'>-</span>" %>
         </td>
-        <td><%= grade.getTotal() %></td>
+        <td><%= grade.getMedia() != null ? grade.getMedia() : "<span class='nota-nula'>-</span>" %></td>
     </tr>
     <%
         }
