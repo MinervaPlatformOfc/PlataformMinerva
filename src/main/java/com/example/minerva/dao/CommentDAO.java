@@ -112,4 +112,35 @@ public class CommentDAO {
             e.printStackTrace();
         }
     }
+
+    public List<CommentDTO> listAllByTeacher(int id){
+        String sql = "select * from commentView " +
+                "where id_teacher = ?;";
+
+        Connection conn = conexao.getConnection();
+
+        List<CommentDTO> comments = new ArrayList<>();
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1, id);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                CommentDTO temp = new CommentDTO(
+                        rs.getString("content"),
+                        rs.getInt("score"),
+                        rs.getTimestamp("date_time").toLocalDateTime()
+                );
+
+                comments.add(temp);
+            }
+            return comments;
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return new ArrayList<>();
+        }finally {
+            conexao.closeConnection(conn);
+        }
+    }
 }
