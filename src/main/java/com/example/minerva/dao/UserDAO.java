@@ -2,17 +2,14 @@ package com.example.minerva.dao;
 
 import com.example.minerva.model.User;
 import com.example.minerva.conexao.Conexao;
+import com.example.minerva.utils.criptografia.HashSenha;
 
 import java.sql.*;
 import java.util.Date;
 
 public class UserDAO {
 
-    private Conexao conexao;
-
-    public UserDAO() {
-        this.conexao = new Conexao(); // usa a classe de conexão
-    }
+    private final Conexao conexao = new Conexao();
 
     // Busca usuário pelo email
     public User findByEmail(String email) {
@@ -54,5 +51,114 @@ public class UserDAO {
         // Retorna null se não encontrar
         return null;
     }
+
+
+    public boolean updateName(int id, String newName){
+        String sql = "update users set name = ? where id = ?";
+
+        Connection conn = conexao.getConnection();
+
+        if(conn == null){
+            System.out.println("Erro de conexão (PostgreSQL)");
+            return false;
+        }
+
+        int lines = 0;
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, newName);
+            pstmt.setInt(2, id);
+
+            lines = pstmt.executeUpdate();
+
+            return lines > 0;
+        }catch(SQLException sqle){
+            sqle.printStackTrace();
+            return false;
+        }finally {
+            conexao.closeConnection(conn);
+        }
+
+    }
+
+    public boolean updateEmail(int id, String newEmail){
+        String sql = "update users set email = ? where id = ?";
+
+        Connection conn = conexao.getConnection();
+
+        if(conn == null){
+            System.out.println("Erro de conexão (PostgreSQL)");
+            return false;
+        }
+        int lines = 0;
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, newEmail);
+            pstmt.setInt(2, id);
+
+            lines = pstmt.executeUpdate();
+
+            return lines > 0;
+        }catch(SQLException sqle){
+            sqle.printStackTrace();
+            return false;
+        }finally {
+            conexao.closeConnection(conn);
+        }
+
+    }
+
+    public boolean updatePassword(int id, String newPassword){
+        String sql = "update users set password = ? where id = ?";
+
+        Connection conn = conexao.getConnection();
+
+        if(conn == null){
+            System.out.println("Erro de conexão (PostgreSQL)");
+            return false;
+        }
+        int lines = 0;
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, String.valueOf(new HashSenha(newPassword)));
+            pstmt.setInt(2, id);
+
+            lines = pstmt.executeUpdate();
+
+            return lines > 0;
+        }catch(SQLException sqle){
+            sqle.printStackTrace();
+            return false;
+        }finally {
+            conexao.closeConnection(conn);
+        }
+
+    }
+
+    public boolean delete(int id){
+        String sql = "delete from users where id = ?";
+
+        Connection conn = conexao.getConnection();
+
+        if(conn == null){
+            System.out.println("Erro de conexão (PostgreSQL)");
+            return false;
+        }
+        int lines = 0;
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1, id);
+
+            lines = pstmt.executeUpdate();
+
+            return lines > 0;
+        }catch(SQLException sqle){
+            sqle.printStackTrace();
+            return false;
+        }finally {
+            conexao.closeConnection(conn);
+        }
+    }
+
 
 }
