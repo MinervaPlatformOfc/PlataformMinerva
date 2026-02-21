@@ -1,11 +1,14 @@
 package com.example.minerva.dao;
 
+import com.example.minerva.dto.AdminDTO;
 import com.example.minerva.model.User;
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.utils.criptografia.HashSenha;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class UserDAO {
 
@@ -50,6 +53,34 @@ public class UserDAO {
 
         // Retorna null se não encontrar
         return null;
+    }
+
+    public List<AdminDTO> getAllAdmins(){
+        String sql = "SELECT id, email, password,name FROM users where role = \'admin\'";
+
+        Connection conn = conexao.getConnection();
+
+        List<AdminDTO> users = new ArrayList<>();
+
+        try(Statement stmt = conn.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while(rs.next()){
+                AdminDTO temp = new AdminDTO(
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("name")
+                );
+                users.add(temp);
+            }
+            return users;
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return new ArrayList<>();
+        }finally {
+            conexao.closeConnection(conn);
+        }
     }
 
 
