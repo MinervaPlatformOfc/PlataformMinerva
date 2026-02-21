@@ -3,7 +3,6 @@ package com.example.minerva.dao;
 import java.sql.*;
 
 import com.example.minerva.conexao.Conexao;
-import com.example.minerva.dto.CommentDTO;
 import com.example.minerva.dto.TeacherDTO;
 import com.example.minerva.model.Teacher;
 import com.example.minerva.model.User;
@@ -136,6 +135,31 @@ public class TeacherDAO {
             sqle.printStackTrace();
             return null;
         }finally {
+            conexao.closeConnection(conn);
+        }
+    }
+    
+    public boolean delete(int id){
+        String sql = "delete from teacher where id = ?";
+
+        Connection conn = conexao.getConnection();
+
+        if(conn == null){
+            System.out.println("Erro de conexão (PostgreSQL)");
+            return false;
+        }
+        int lines = 0;
+
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1, id);
+
+            lines = pstmt.executeUpdate();
+
+            return lines > 0;
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return false;
+        }finally{
             conexao.closeConnection(conn);
         }
     }
