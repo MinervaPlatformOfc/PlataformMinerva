@@ -14,6 +14,29 @@ public class UserDAO {
 
     private final Conexao conexao = new Conexao();
 
+    public boolean saveAdmin(User user){
+        String sql = "call create_admin(?, ?, ?)";
+
+        Connection conn = conexao.getConnection();
+
+        int lines = 0;
+
+        try(CallableStatement stmt = conn.prepareCall(sql)){
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, String.valueOf(new HashSenha(user.getPassword())));
+            stmt.setString(3, user.getName());
+
+            lines = stmt.executeUpdate();
+
+            return lines > 0;
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return false;
+        }finally{
+            conexao.closeConnection(conn);
+        }
+    }
+
     // Busca usuário pelo email
     public User findByEmail(String email) {
 

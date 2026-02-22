@@ -19,6 +19,7 @@
                 <td>${adm.getName()}</td>
 
             </tr>
+
         </c:forEach>
     </table>
 </body>

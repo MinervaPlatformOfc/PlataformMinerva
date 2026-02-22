@@ -31,6 +31,12 @@ public class User {
         this.imageUrl = imageUrl;
     }
 
+    public User(String name, String password, String email){
+        this.name = name;
+        this. password = password;
+        this.email = email;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
