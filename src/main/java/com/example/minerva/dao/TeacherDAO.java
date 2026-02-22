@@ -275,4 +275,29 @@ public class TeacherDAO {
 
         return students;
     }
+
+    public boolean findByRegistration(String registration){
+        String sql = "select 1 from teacher where teacher_registration_code = ?";
+        Connection conn = null;
+
+        try {
+            conn = conexao.getConnection(); // pega conexão da classe Conexao
+            if (conn == null) {
+                System.out.println("Erro ao conectar ao banco!");
+                return false;
+            }
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, registration);
+            return stmt.executeQuery().next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            // fecha conexão
+            if (conn != null) {
+                conexao.closeConnection(conn);
+            }
+        }
+    }
 }
