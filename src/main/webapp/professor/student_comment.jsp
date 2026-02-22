@@ -1,10 +1,9 @@
-<%@ page import="java.util.List" %>
 <%@ page import="com.example.minerva.view.StudentForTeacherView" %>
-<%@ page import="static jdk.internal.org.jline.utils.Colors.h" %><%--
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
-  User: erickbarbosa-ieg
-  Date: 05/02/2026
-  Time: 11:03
+  User: brunajesus-ieg
+  Date: 20/02/2026
+  Time: 00:40
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,20 +11,13 @@
 <head>
     <title>Title</title>
 </head>
-<>
-<header>
-    <a href="home.jsp">inicio</a>
-    <a href="schoolYear.jsp?type=comment">observacoes</a>
-    <a href="schoolYear.jsp?type=grade">notas</a>
-    <a href="">perfil professor</a>
-</header>
+<body>
 <%--ERICK E FARIAS PONHAM O FILTRO DE JAVA SCRIPTTTTTTT--%>
-<br>
-<% String name = (String) session.getAttribute("name");%>
-<h1>SEJA BEM VINDO <%= name %></h1>
+
 <%
+
     List<StudentForTeacherView> alunos =
-            (List<StudentForTeacherView>) session.getAttribute("studentList");
+            (List<StudentForTeacherView>) request.getAttribute("list");
 
     if (alunos != null && !alunos.isEmpty()) {
 %>
@@ -46,9 +38,12 @@
             <%= aluno.getName() %>
         </td>
         <td>
-            <form action="${pageContext.request.contextPath}/teacher/findStudent">
+            <form action="${pageContext.request.contextPath}/teacher/ListComment" method="get">
                 <input type="hidden" name="id" value="<%= aluno.getId_user()%>">
-                <button type="submit">ver mais</button>
+                <input type="hidden" name="house_id" value="<%= aluno.getId_house()%>">
+                <input type="hidden" name="student_id" value="<%= aluno.getId_student()%>">
+                <input type="hidden" name="path" value="/professor/comment.jsp">
+                <button type="submit"> adicionar comentario </button>
             </form>
         </td>
     </tr>
@@ -66,9 +61,5 @@
 <%
     }
 %>
-
 </body>
 </html>
-
-
-

@@ -10,21 +10,25 @@ import jakarta.servlet.http.HttpServlet;
 
 
 import java.io.IOException;
-@WebServlet("/teacher/subject")
+@WebServlet("/teacher/insertNotes")
 public class ServletInsertNotes extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("ENTROU NO SERVLET");
+        int schoolYear = Integer.parseInt(request.getParameter("school_year"));
 
-        double n1 = Double.parseDouble(request.getParameter("n1"));
-        double n2 = Double.parseDouble(request.getParameter("n2"));
+        String n1Param = request.getParameter("n1");
+        String n2Param = request.getParameter("n2");
+
+        double n1 = (n1Param == null || n1Param.isEmpty()) ? 0 : Double.parseDouble(n1Param);
+        double n2 = (n2Param == null || n2Param.isEmpty()) ? 0 : Double.parseDouble(n2Param);
         int subject_id = Integer.parseInt(request.getParameter("subject_id"));
         int student_id = Integer.parseInt(request.getParameter("student_id"));
 
         SubjectStudentDAO subjectStudentDAO = new SubjectStudentDAO();
-        SubjectStudent subjectStudent = subjectStudentDAO.insert(subject_id, n1, n2, student_id);
+        SubjectStudent subjectStudent = subjectStudentDAO.save(subject_id, n1, n2, student_id);
         if(subjectStudent != null){
             System.out.println("Salvo com sucesso");
         }else{
@@ -33,8 +37,9 @@ public class ServletInsertNotes extends HttpServlet {
 
 
         System.out.println("salvo no banco com sucesso");
-
-        request.getRequestDispatcher("/professor/home.jsp").forward(request, response);
+        response.sendRedirect(
+                request.getContextPath() + "/teacher/listStudentByNotes?schoolYear=" + schoolYear
+        );
     }
 }
 

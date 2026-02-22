@@ -43,7 +43,7 @@ public class AuthFilter implements Filter {
         }
         role = user.getRole();
 
-        if(uri.contains("aluno")) {
+        if(uri.contains("aluno") || uri.contains("student")) {
             if(!"student".equals(role)) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;

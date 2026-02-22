@@ -13,13 +13,16 @@
     <title>Title</title>
 </head>
 <body>
+<%--ISSO SERA UM POP UPPPPPP--%>
     <%String studentName = (String) request.getAttribute("studentName");%>
+    <%int houseId = Integer.parseInt(request.getParameter("house_id"));%>
     <h1> escreva o comentario para o aluno: <%= studentName%></h1>
     <br>
     <%
         Integer studentId = (Integer) request.getAttribute("studentId");
         Integer teacherId = (Integer) request.getAttribute("teacherId");
         Integer subjectId = (Integer) request.getAttribute("subjectId");
+
     %>
 
     <form action="${pageContext.request.contextPath}/teacher/insertComment" method="post">
@@ -27,13 +30,13 @@
         <input type="hidden" name="student_id" value="<%= studentId %>">
         <input type="hidden" name="teacher_id" value="<%= teacherId %>">
         <input type="hidden" name="subject_id" value="<%= subjectId %>">
+        <input type="hidden" name="house_id" value="<%=houseId%>">
 
+        <label for="">conteudo</label>
         <input type="text" id="comment" name="comment">
 
-        <select name="score" id="score">
-            <option value="1">Comentario Positivo</option>
-            <option value="0">Comentario Negativo</option>
-        </select>
+        <label for="">pontos</label>
+        <input type="number" id="score" name="score">
 
         <button type="submit">Enviar comentario</button>
 

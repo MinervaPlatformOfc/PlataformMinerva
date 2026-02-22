@@ -1,10 +1,8 @@
 package com.example.minerva.servlet.login;
 
-import com.example.minerva.dao.HouseDAO;
-import com.example.minerva.dao.StudentDAO;
-import com.example.minerva.dao.Subject_teacherDAO;
-import com.example.minerva.dao.UserDAO;
+import com.example.minerva.dao.*;
 import com.example.minerva.dto.StudentHomeDTO;
+import com.example.minerva.model.Teacher;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
 
@@ -65,21 +63,24 @@ public class ServletLogin extends HttpServlet {
                     break;
 
                 case "teacher":
-                    int teacherId = user.getId();
+                    TeacherDAO teacherDAO = new TeacherDAO();
+                    Teacher teacher = teacherDAO.findTeacherByUserId(user.getId());
 
                     StudentDAO studentDAO = new StudentDAO();
                     List<StudentForTeacherView> list = studentDAO.listStudents();
 
                     Subject_teacherDAO subject_teacherDAO = new Subject_teacherDAO();
-                    int subjectId = subject_teacherDAO.findSubjectByTeacher(teacherId);
+                    int subjectId = subject_teacherDAO.findSubjectByTeacher(teacher.getId());
 
 
-                    session.setAttribute("teacherId", teacherId);
+                    session.setAttribute("teacherId", teacher.getId());
                     session.setAttribute("subjectId", subjectId);
                     session.setAttribute("name", user.getName());
                     session.setAttribute("studentList", list);
 
                     System.out.println(user.getName());
+                    System.out.println(teacher.getId());
+                    System.out.println(subjectId);
 
 
                     response.sendRedirect(request.getContextPath() + "/professor/home.jsp");

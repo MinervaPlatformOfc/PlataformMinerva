@@ -252,7 +252,8 @@ public class StudentDAO {
                             rs.getString("pet_type"),
                             rs.getString("allergies"),
                             rs.getString("blood"),
-                            rs.getString("basic_kit")
+                            rs.getString("basic_kit"),
+                            rs.getInt("house_id")
                     );
                 }
 
@@ -285,7 +286,9 @@ public class StudentDAO {
                             rs.getString("pet_type"),
                             rs.getString("allergies"),
                             rs.getString("blood"),
-                            rs.getString("basic_kit")
+                            rs.getString("basic_kit"),
+                            rs.getInt("house_id" +
+                                    "")
                     );
                     list.add(studentForTeacherView);
                 }
@@ -296,4 +299,41 @@ public class StudentDAO {
         }
         return null;
     }
+    public List<StudentForTeacherView> listStudentBySchoolYear(int schoolYear) {
+        String sql = " SELECT * FROM StudentForTeacherView s WHERE s.school_year = ?";
+        Connection conn = null;
+        try {
+            List<StudentForTeacherView>  list = new ArrayList<>();
+            conn = conexao.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, schoolYear);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()){
+                    StudentForTeacherView studentForTeacherView = new StudentForTeacherView(
+                            rs.getInt("user_id"),
+                            rs.getInt("student_id"),
+                            rs.getString("name"),
+                            rs.getString("email"),
+                            rs.getString("registration"),
+                            rs.getString("school_year"),
+                            rs.getString("legal_guardian_name"),
+                            rs.getString("wand"),
+                            rs.getString("pet_type"),
+                            rs.getString("allergies"),
+                            rs.getString("blood"),
+                            rs.getString("basic_kit"),
+                            rs.getInt("house_id")
+                    );
+                    list.add(studentForTeacherView);
+                }
+                return list;
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

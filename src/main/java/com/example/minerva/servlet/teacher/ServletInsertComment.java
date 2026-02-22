@@ -1,6 +1,7 @@
 package com.example.minerva.servlet.teacher;
 
 import com.example.minerva.dao.CommentDAO;
+import com.example.minerva.dao.HouseDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,21 +16,27 @@ public class ServletInsertComment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String content  = request.getParameter("comment");
         int score =  Integer.parseInt(request.getParameter("score"));
-        HttpSession session = request.getSession();
-        int teacherId = 1;//(int) session.getAttribute("teacherId");
-        int subjectId = 3;//(int) session.getAttribute("subjectId");
         int student_id = Integer.parseInt(request.getParameter("student_id"));
-        int pontos = 0;
-        if (score == 0){
-            pontos = -50;
-        } else {
-            pontos = 50;
-        }
+        int house_id = Integer.parseInt(request.getParameter("house_id"));
+        String path = request.getParameter("path");
+
+        HttpSession session = request.getSession();
+        int teacherId = (int) session.getAttribute("teacherId");
+        int subjectId = (int) session.getAttribute("subjectId");
+
+        HouseDAO houseDAO = new HouseDAO();
+        houseDAO.updatePointsHouse(house_id, score);
 
         CommentDAO  commentDAO = new CommentDAO();
-        commentDAO.insertComment(content,pontos,teacherId,subjectId,student_id);
+        commentDAO.insertComment(content,score,teacherId,subjectId,student_id);
+
+        request.setAttribute("path","comment.jsp");
+
         response.sendRedirect(
-                request.getContextPath() + "/teacher/ListComment?student_id=" + student_id
+                request.getContextPath()
+                        + "/teacher/ListComment?student_id=" + student_id
+                        + "&house_id=" + house_id
+                        + "&path=/professor/comment.jsp"
         );
 
     }
