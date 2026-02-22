@@ -72,8 +72,17 @@
 <ul>
     <%
         for (SubjectDTO grade : grades) {
+            String subjectName = grade.getSubjectName();
     %>
-    <li><%= grade.getSubjectName() %></li>
+    <li>
+        <form action="${pageContext.request.contextPath}/aluno/subject" method="post">
+            <input type="hidden" name="id" value="<%= id %>">
+            <input type="hidden" name="subjectId" value="<%= grade.getSubjectId() %>">
+            <input type="hidden" name="subjectName" value="<%= subjectName %>">
+            <input type="hidden"  name="houseName" value="<%=houseName%>">
+            <button type="submit"> <%= subjectName %></button>
+        </form>
+    </li>
     <%
         }
     %>
