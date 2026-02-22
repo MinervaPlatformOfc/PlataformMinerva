@@ -138,6 +138,57 @@ public class TeacherDAO {
             conexao.closeConnection(conn);
         }
     }
+
+    public int update(int id, Teacher newTeacher){
+        String sqlWand = "update teacher set wand = ? where id = ?";
+        String sqlPastExperiences = "update teacher set past_experiences = ? where id = ?";
+        String sqlWizardTitle = "update teacher set wizard_title = ? where id = ?";
+
+        Connection conn = conexao.getConnection();
+
+        if (conn == null) {
+            System.out.println("Erro de conexão (PostgreSQL)");
+            return 0;
+        }
+
+        int lines = 0;
+
+        TeacherDTO teacher = findById(id);
+        if (teacher == null) return 0;
+
+        try (
+                PreparedStatement pstmtWand = conn.prepareStatement(sqlWand);
+                PreparedStatement pstmtPastExperiences = conn.prepareStatement(sqlPastExperiences);
+                PreparedStatement pstmtWizardTitle = conn.prepareStatement(sqlWizardTitle)
+        ) {
+
+            if(!teacher.getWand().equals(newTeacher.getWand())){
+                pstmtWand.setString(1, newTeacher.getWand());
+                pstmtWand.setInt(2, id);
+                lines += pstmtWand.executeUpdate();
+            }
+
+            if(!teacher.getPastExperiences().equals(newTeacher.getPastExperiences())){
+                pstmtPastExperiences.setString(1, newTeacher.getPastExperiences());
+                pstmtPastExperiences.setInt(2, id);
+                lines += pstmtPastExperiences.executeUpdate();
+            }
+
+            if(!teacher.getWizardTitle().equals(newTeacher.getWizardTitle())){
+                pstmtWizardTitle.setString(1, newTeacher.getWizardTitle());
+                pstmtPastExperiences.setInt(2, id);
+                lines += pstmtWizardTitle.executeUpdate();
+            }
+
+            return lines;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return 0;
+        } finally {
+            conexao.closeConnection(conn);
+        }
+    }
     
     public boolean delete(int id){
         String sql = "delete from teacher where id = ?";

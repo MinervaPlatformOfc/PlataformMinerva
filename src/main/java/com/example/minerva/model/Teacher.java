@@ -2,14 +2,14 @@ package com.example.minerva.model;
 
 public class Teacher {
     //Attributes
-    private int id;
-    private int houseId;
-    private int userId;
-    private String wand;
+    private int id,
+            houseId,
+            userId;
     private boolean headHouse;
-    private String pastExperiences;
-    private String wizardTitle;
-    private String teacherRegistrationCode;
+    private String wand,
+            pastExperiences,
+            wizardTitle,
+            teacherRegistrationCode;
 
     //Constructor
     public Teacher(
