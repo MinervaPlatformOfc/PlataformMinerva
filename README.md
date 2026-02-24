@@ -1,41 +1,61 @@
-# 🏰 Minerva Platform — Sistema de Alunos de Hogwarts ⚡
+# 🏰 Minerva Platform - Hogwarts School System ⚡
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Turma-2%C2%BA%20I%20Tech-purple?style=for-the-badge" alt="Turma">
-  <img src="https://img.shields.io/badge/Ambiente-Full%20Stack-orange?style=for-the-badge" alt="Ambiente">
-  <img src="https://img.shields.io/badge/Backend-Java%20Servlets-red?style=for-the-badge" alt="Backend">
+  <img src="https://img.shields.io/badge/Turma-2%C2%BA%20I%20Tech-purple?style=for-the-badge&logo=github" alt="Turma">
+  <img src="https://img.shields.io/badge/Projeto-Acad%C3%AAmico-gold?style=for-the-badge" alt="Projeto">
+  <img src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-green?style=for-the-badge" alt="Status">
 </p>
 
 ---
 
-## 📖 Sobre o Repositório
-Este repositório é o núcleo da **Plataforma Minerva**. Aqui reside a integração entre a interface do usuário (Frontend) e a inteligência do sistema (Backend). Nossa plataforma foi construída para simular o dia a dia acadêmico de Hogwarts, permitindo a gestão de alunos, notas e permissões administrativas.
+## 📖 Sobre o Projeto
+A **Plataforma Minerva** é um sistema de gestão escolar imersivo inspirado no universo de Harry Potter. O projeto foi desenvolvido como um trabalho prático para a disciplina de **Desenvolvimento**, com o objetivo de simular a experiência acadêmica dos alunos de Hogwarts, unindo funcionalidades reais de uma plataforma escolar a uma interface mágica e temática.
 
-> 📂 **Nota:** Este repositório contém o código da aplicação. A estrutura de dados e procedures podem ser encontradas em nosso repositório de [Banco de Dados](LINK_DO_OUTRO_REPO_AQUI).
+## ✨ Funcionalidades Principais
+* **🧙‍♂️ Portal do Aluno:** Acesso a notas, obsevações individuais e perfil completo
+* **📝 Diário do Professor:** Espaço para lançar observações pedagógicas e avaliações.
+* **🏆 Taça das Casas:** Sistema dinâmico de pontuação integrado.
+* **🔒 Níveis de Acesso:** Perfis distintos para Alunos, Professores e Administradores (Diretoria).
 
----
-
-## 🏗️ O que você encontrará aqui?
-
-### 🖥️ Frontend 
-Desenvolvido com foco na imersão do usuário (UX), utilizando uma estética inspirada nos filmes e livros.
-* **Telas de Login:** Diferenciação visual entre alunos e ADM.
-* **Painel do Aluno:** Visualização de desempenho e avisos das Casas.
-* **Área do Professor:** Interface para lançamento de notas e observações.
-### ⚙️ Backend 
-Onde a lógica de negócio acontece através de tecnologias robustas:
-* **Servlets de Fluxo:** Gerenciamento de rotas e segurança para áreas administrativas.
-* **Métodos CRUD:** Lógica completa para Criar, Ler, Atualizar e Deletar registros de bruxos e poções.
-* **Controladores de Acesso:** Filtros que garantem que apenas quem tem permissão acesse a "Seção Reservada".
-* ## 🛠️ Tecnologias Utilizadas
-* **Linguagem Principal:** Java (Servlets).
-* **Frontend:** HTML5, CSS3, JavaScript.
-* **Ferramentas:** GitHub, VS Code / IntelliJ.
+## 🛠️ Tecnologias Utilizadas
+O projeto utiliza ferramentas modernas para garantir performance e uma interface "encantadora":
+* **Frontend:**  --
+* **Estilização:** --
+* **Backend/Banco:** --
+* **Versionamento:** GitHub (Trabalho colaborativo)
 
 ---
 
-## 🚀 Como Rodar o Projeto
-1. Certifique-se de ter o **Tomcat** (ou outro servidor de Servlets) configurado.
-2. Clone o repositório:
-   ```bash
-   git clone [https://github.com/MinervaPlatformOfc/PlataformMinerva.git](https://github.com/MinervaPlatformOfc/PlataformMinerva.git)
+## 👥 Equipe de Desenvolvimento (2º Ano Tech)
+Este projeto é o resultado do esforço conjunto de 6 alunos:
+
+| Aluno | Responsabilidade |
+| :--- | :--- |
+| **Rebecca Sarah** | **Tech Lead & UX Designer:** Arquitetura do sistema, modelagem de dados, design de interface, gestão de prazos e documentação (README). |
+| **Eduardo Farias** | **Backend & Database:** Desenvolveu Servlets ADM, Métodos CRUD e Procedures SQL. |
+| **Erick Neves** | -- |
+| **João Pedro Capelli** | -- |
+| **Isabela --** | -- |
+| **Bruna --** | -- |
+
+---
+
+## 🚀 Como Abrir o Portal (Execução)
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/MinervaPlatformOfc/PlataformMinerva.git](https://github.com/MinervaPlatformOfc/PlataformMinerva.git)
+    ```
+2.  **Instale as poções (dependências):**
+    ```bash
+    npm install
+    ```
+3.  **Inicie o ambiente:**
+    ```bash
+    npm run dev
+    ```
+
+---
+<p align="center">
+  <i>"Juro solenemente não fazer nada de bom."</i><br>
+  <b>Equipe Minerva Platform - 2026</b>
+</p>

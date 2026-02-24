@@ -1,6 +1,7 @@
 package com.example.minerva.utils.matricula;
 
 import com.example.minerva.dao.StudentDAO;
+import com.example.minerva.dao.TeacherDAO;
 import io.github.cdimascio.dotenv.Dotenv;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -33,7 +34,8 @@ public class Matricula {
         String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         // Identificação de role
-        String part1 = role.equals("STUDENT") ? "S" : "T";
+        boolean isStudent = role.equals("STUDENT");
+        String part1 = isStudent ? "S" : "T";
 
         // Ano e dia do ano
         LocalDate hoje = LocalDate.now();
@@ -41,9 +43,11 @@ public class Matricula {
         String diaDoAno = String.format("%03d", hoje.getDayOfYear()); // 3 dígitos do dia do ano
         String part2 = ano + diaDoAno;
 
-        StudentDAO dao = new StudentDAO();
+        StudentDAO studentDAO = new StudentDAO();
+        TeacherDAO teacherDAO = new TeacherDAO();
+
         String registration;
-        try (Jedis jedis = pool.getResource()) {
+        try (Jedis jedis = isStudent ? pool.getResource() : null) {
 //            String pong = jedis.ping();
 //            System.out.println("Conexão com Redis: " + pong);
 
@@ -55,15 +59,19 @@ public class Matricula {
 
             // Combina tudo
             registration = part1+part2+part3;
-            } while (dao.findByRegistration(registration) || jedis.get("REGISTRATION_CODE:" + registration) != null);
-
-            jedis.setex(
-                    "REGISTRATION:" + email,
-                    (int) TTL.getSeconds(),
-                    registration
+            } while (isStudent ? studentDAO.findByRegistration(registration)
+                    || jedis.get("REGISTRATION_CODE:" + registration) != null
+                    : teacherDAO.findByRegistration(registration)
             );
-            jedis.setex("REGISTRATION_CODE:" + registration, (int) TTL.getSeconds(), email); //O contrário, salvando a matricula como chave tbm pra ver se existe no redis antes de enviar para o user
 
+            if (isStudent) {
+                jedis.setex(
+                        "REGISTRATION:" + email,
+                        (int) TTL.getSeconds(),
+                        registration
+                );
+                jedis.setex("REGISTRATION_CODE:" + registration, (int) TTL.getSeconds(), email); //O contrário, salvando a matricula como chave tbm pra ver se existe no redis antes de enviar para o user
+            }
 //            String keyEmail = "REGISTRATION:" + email;
 //            String keyCode = "REGISTRATION_CODE:" + registration;
 //            String savedRegistration = jedis.get(keyEmail);
