@@ -426,8 +426,6 @@ public class TeacherDAO {
 
                 return result;
         }
-
-<<<<<<< administrador
         public List<StudentGradeDTO> getStudentsByTeacherYearAndSubject(int teacherId, int year, String subject) {
                 String sql = "SELECT DISTINCT student_id, student_name, student_house_name, n1, n2 " +
                         "FROM teacher_students " +
@@ -470,10 +468,6 @@ public class TeacherDAO {
 
                 return students;
         }
-}
-=======
-        return students;
-    }
 
     public boolean findByRegistration(String registration){
         String sql = "select 1 from teacher where teacher_registration_code = ?";
@@ -500,4 +494,4 @@ public class TeacherDAO {
         }
     }
 }
->>>>>>> main
+
