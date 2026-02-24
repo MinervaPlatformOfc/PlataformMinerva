@@ -16,5 +16,8 @@
         <br>
         <button type="submit">Enviar Código de Matrícula</button>
     </form>
+    <form action="${pageContext.request.contextPath}/admin/ViewAdmins" method="get">
+        <button type="submit">CRUD Admins</button>
+    </form>
 </body>
 </html>
