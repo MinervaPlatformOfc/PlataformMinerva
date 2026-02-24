@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/admin/ViewAdmins", asyncSupported = true)
+@WebServlet(urlPatterns = "/admin/ViewAdmins")
 public class ServletListAdmins extends HttpServlet {
 
     @Override

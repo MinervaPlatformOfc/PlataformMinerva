@@ -152,7 +152,6 @@ public class UserDAO {
 
     public int update(int id, User newUser) {
 
-        String sqlName = "update users set name = ? where id = ?";
         String sqlEmail = "update users set email = ? where id = ?";
         String sqlPassword = "update users set password = ? where id = ?";
 
@@ -171,16 +170,10 @@ public class UserDAO {
         String newHashedPassword = String.valueOf(new HashSenha(newUser.getPassword()));
 
         try (
-                PreparedStatement pstmtName = conn.prepareStatement(sqlName);
                 PreparedStatement pstmtEmail = conn.prepareStatement(sqlEmail);
                 PreparedStatement pstmtPassword = conn.prepareStatement(sqlPassword)
         ) {
 
-            if (!newUser.getName().equals(user.getName())) {
-                pstmtName.setString(1, newUser.getName());
-                pstmtName.setInt(2, id);
-                lines += pstmtName.executeUpdate();
-            }
 
             if (!newUser.getEmail().equals(user.getEmail())) {
                 pstmtEmail.setString(1, newUser.getEmail());

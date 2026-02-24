@@ -15,6 +15,11 @@ import java.io.IOException;
 public class ServletCreateAdmin extends HttpServlet {
 
     @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        doPost(request, response);
+    }
+
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         UserDAO userRepository = new UserDAO();
 
