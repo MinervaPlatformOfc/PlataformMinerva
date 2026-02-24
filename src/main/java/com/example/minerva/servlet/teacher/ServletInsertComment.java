@@ -13,24 +13,28 @@ import java.io.IOException;
 @WebServlet("/teacher/insertComment")
 public class ServletInsertComment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String content  = request.getParameter("comment");
         int score =  Integer.parseInt(request.getParameter("score"));
-        HttpSession session = request.getSession();
-        int teacherId = 1;//(int) session.getAttribute("teacherId");
-        int subjectId = 3;//(int) session.getAttribute("subjectId");
-        int student_id = Integer.parseInt(request.getParameter("student_id"));
-        int pontos = 0;
-        if (score == 0){
-            pontos = -50;
-        } else {
-            pontos = 50;
-        }
+        int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+        int studentId = Integer.parseInt(request.getParameter("studentId"));
+
+        int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+        request.setAttribute("teacherId", teacherId);
+
+        int year = Integer.parseInt(request.getParameter("year"));
+        request.setAttribute("year", year);
+        String houseName = request.getParameter("houseName");
+        request.setAttribute("houseName", houseName);
+        String subject = request.getParameter("subject");
+        request.setAttribute("subject", subject);
+
+
+        request.setAttribute("studentId", studentId);
 
         CommentDAO  commentDAO = new CommentDAO();
-        commentDAO.insertComment(content,pontos,teacherId,subjectId,student_id);
-        response.sendRedirect(
-                request.getContextPath() + "/teacher/ListComment?student_id=" + student_id
-        );
+        commentDAO.insertComment(content,score,teacherId,subjectId,studentId);
 
+        request.getRequestDispatcher("/teacher/studentComments").forward(request, response);
     }
 }

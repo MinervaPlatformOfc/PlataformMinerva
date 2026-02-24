@@ -1,6 +1,9 @@
 <%@ page import="javax.xml.stream.events.Comment" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.example.minerva.view.CommentView" %><%--
+<%@ page import="com.example.minerva.dto.ProfileDTO" %>
+<%@ page import="com.example.minerva.dto.CommentDTO" %>
+
+<%--
   Created by IntelliJ IDEA.
   User: brunajesus-ieg
   Date: 16/02/2026
@@ -13,72 +16,107 @@
     <title>Title</title>
 </head>
 <body>
-    <%String studentName = (String) request.getAttribute("studentName");%>
-    <h1> escreva o comentario para o aluno: <%= studentName%></h1>
+    <%ProfileDTO profile = (ProfileDTO) request.getAttribute("profile");%>
     <br>
     <%
-        Integer studentId = (Integer) request.getAttribute("studentId");
-        Integer teacherId = (Integer) request.getAttribute("teacherId");
-        Integer subjectId = (Integer) request.getAttribute("subjectId");
+        String houseName = (String) request.getAttribute("houseName");
+        String subject = (String) request.getAttribute("subject");
+        int year = (int) request.getAttribute("year");
+        List<CommentDTO> commentList = (List<CommentDTO>) request.getAttribute("listComments");
+        int studentId = (int) request.getAttribute("studentId");
+        int teacherId = (int) request.getAttribute("teacherId");
+        int subjectId = (int) request.getAttribute("subjectId");
     %>
 
-    <form action="${pageContext.request.contextPath}/teacher/insertComment" method="post">
+    <!-- PERFIL DO CARAAAAA -->
+    <div style="border:1px solid #ccc; padding:15px; width:400px;">
 
-        <input type="hidden" name="student_id" value="<%= studentId %>">
-        <input type="hidden" name="teacher_id" value="<%= teacherId %>">
-        <input type="hidden" name="subject_id" value="<%= subjectId %>">
+        <img src="<%= profile.getImageUrl()%>"
+             alt="Foto de Perfil"
+             width="120"
+             height="120"
+             style="border-radius:50%;">
 
-        <input type="text" id="comment" name="comment">
+        <p><strong>Nome:</strong> <%= profile.getName() %></p>
+        <p><strong>Responsável Legal:</strong> <%= profile.getGuardianName() %></p>
+        <p><strong>Ano Escolar:</strong> <%= year %>º Ano</p>
+        <p><strong>Casa:</strong> <%= profile.getHouseName() %></p>
+        <p><strong>Matéria:</strong> <%= subject %></p>
 
-        <select name="score" id="score">
-            <option value="1">Comentario Positivo</option>
-            <option value="0">Comentario Negativo</option>
-        </select>
-
-        <button type="submit">Enviar comentario</button>
-
-    </form>
-
+    </div>
     <hr>
+    <!-- BOTÃO PARA MOSTRAR FORM DE COLOCAR COMENTARIOS -->
+    <button onclick="document.getElementById('commentForm').style.display='block'; this.style.display='none';">
+        Novo Comentário
+    </button>
+    <form id="commentForm" action="<%= request.getContextPath() %>/teacher/insertComment" method="post" style="display:none; margin-top:15px;">
+
+        <input type="hidden" name="studentId" value="<%= studentId %>">
+        <input type="hidden" name="teacherId" value="<%= teacherId %>">
+        <input type="hidden" name="subjectId" value="<%= subjectId %>">
+        <input type="hidden" name="year" value="<%= year %>">
+        <input type="hidden" name="houseName" value="<%= houseName %>">
+        <input type="hidden" name="subject" value="<%= subject %>">
+
+        <textarea name="comment" rows="3" cols="40" placeholder="Digite o comentário" required></textarea>
+        <br><br>
+
+        <input type="number" name="score" step="1" placeholder="Ex: 1 ou -1" required>
+        <br><br>
+        <button type="submit">Salvar Comentário</button>
+    </form>
 
     <h3>Histórico de Comentários</h3>
 
-    <tr>
-        <th>Comentário</th>
-        <th>Aluno</th>
-        <th>Professor</th>
-        <th>Matéria</th>
-        <th>Pontos</th>
-        <th>Data</th>
-    </tr>
-    <br>
-    <%
-        List<CommentView> commentList = (List<CommentView>) request.getAttribute("listComments");
-        if (commentList != null && !commentList.isEmpty()){
-            for (CommentView commentView : commentList){
-    %>
+    <table border="1" cellpadding="5">
+        <thead>
+        <tr>
+            <th>Comentário</th>
+            <th>Pontos</th>
+            <th>Data</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+            if (commentList != null && !commentList.isEmpty()) {
+                for (CommentDTO comment : commentList) {
+                    int score = comment.getScore();
+                    String color = "gray";
+                    if (score < 0) {
+                        color = "red";
+                    } else if (score > 0) {
+                        color = "green";
+                    }
 
-    <tr>
-        <td style="display:none;">
-            <input type="hidden" name="idStudent" value="<%= commentView.getIdStudent() %>">
-            <input type="hidden" name="idTeacher" value="<%= commentView.getIdTeacher() %>">
-            <input type="hidden" name="subjectId" value="<%= commentView.getSubjectId() %>">
-        </td>
-
-        <td><%= commentView.getContent() %></td>
-        <td><%= commentView.getStudent() %></td>
-        <td><%= commentView.getTeacher() %></td>
-        <td><%= commentView.getSubjectName() %></td>
-        <td><%= commentView.getScore() %></td>
-        <td><%= commentView.getDateTime() %></td>
-
-    </tr>
-    <hr>
-    <%
+        %>
+        <tr>
+            <td><%= comment.getContent() %></td>
+            <td style="color:<%= color %>;">
+                <%= score > 0 ? "+" + score : score %>
+            </td>
+            <td><%= comment.getCreatedAt() %></td>
+        </tr>
+        <%
             }
-        } else { %>
-    <td> aluno sem comentarios </td> <% }
-    %>
+        } else {
+        %>
+        <tr>
+            <td colspan="3" style="text-align:center;">Aluno sem comentários</td>
+        </tr>
+        <%
+            }
+        %>
+        </tbody>
+    </table>
 
+    <br>
+<%--    BUTTON FOR BACK TO STUDENTS--%>
+    <form action="<%= request.getContextPath() %>/teacher/students" method="post">
+        <input type="hidden" name="teacherId" value="<%= teacherId %>">
+        <input type="hidden" name="year" value="<%= year %>">
+        <input type="hidden" name="houseName" value="<%= houseName %>">
+        <input type="hidden" name="subject" value="<%= subject %>">
+        <button type="submit">Voltar</button>
+    </form>
 </body>
 </html>

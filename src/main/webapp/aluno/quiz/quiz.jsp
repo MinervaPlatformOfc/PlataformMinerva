@@ -35,7 +35,7 @@
     <div id="botoesResultado" class="escondido">
         <form action="${pageContext.request.contextPath}/aluno/quiz" method="post">
             <input type="hidden" name="houseName" id="houseName" value="">
-            <input type="hidden" id="emailUsuario" name="email" value="${email}">
+            <input type="hidden" id="emailUsuario" name="email" value="<%= (String) request.getAttribute("email")%>">
             <button id="aprovarResultado" type="submit">Aprovar resultado</button>
         </form>
         <button id="recomecarQuiz">Recomeçar</button>

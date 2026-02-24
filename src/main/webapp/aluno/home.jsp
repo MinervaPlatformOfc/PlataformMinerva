@@ -24,7 +24,8 @@
 
     String houseName = houseNameRaw.equals("Grifinória") ? "grifinoria" :
                 houseNameRaw.equals("Lufa-Lufa") ? "lufalufa" :
-                        houseNameRaw.equals("Sonserina") ? "sonserina" : "corvinal"%>
+                        houseNameRaw.equals("Sonserina") ? "sonserina" : "corvinal";
+    %>
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Home</button>

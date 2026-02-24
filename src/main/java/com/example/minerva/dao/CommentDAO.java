@@ -2,7 +2,6 @@ package com.example.minerva.dao;
 
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dto.CommentDTO;
-import com.example.minerva.view.CommentView;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -51,40 +50,6 @@ public class CommentDAO {
                 conexao.closeConnection(conn);
             }
         }
-    }
-
-    public List<CommentView> listAllByStudent(int id) {
-        String sql = "select * from commentView where id_student = ?";
-        Connection conn = null;
-        List<CommentView> commentsList = new ArrayList<>();
-        try{
-            conn = conexao.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-
-            try  (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()){
-                    CommentView comment = new CommentView(
-                            rs.getString("content"),
-                            rs.getString("student"),
-                            rs.getInt("id_student"),
-                            rs.getString("teacher"),
-                            rs.getInt("id_teacher"),
-                            rs.getString("subject"),
-                            rs.getInt("id_subject"),
-                            rs.getDouble("score"),
-                            rs.getTimestamp("date_time").toLocalDateTime()
-                    );
-                    commentsList.add(comment);
-                }
-
-            }
-
-        }catch (SQLException e){
-            e.printStackTrace();
-            return null;
-        }
-        return commentsList;
     }
 
     public void insertComment(String content, int score, int teacher_id, int subject_id, int student_id) {
@@ -167,5 +132,43 @@ public class CommentDAO {
         }finally{
             conexao.closeConnection(conn);
         }
+    }
+
+    public List<CommentDTO> findBySubjectStudentTeacher(int subjectId, int studentId, int teacherId) {
+
+        String sql = "SELECT id, content, score, date_time " +
+                "FROM comment " +
+                "WHERE subject_id = ? AND student_id = ? AND teacher_id = ? " +
+                "ORDER BY id";
+
+        List<CommentDTO> comments = new ArrayList<>();
+        Connection conn = null;
+
+        try {
+            conn = conexao.getConnection();
+            if (conn == null) {
+                System.out.println("Erro ao conectar ao banco!");
+                return comments;
+            }
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, subjectId);
+            stmt.setInt(2, studentId);
+            stmt.setInt(3, teacherId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                CommentDTO comment = new CommentDTO(rs.getString("content"), rs.getInt("score"), rs.getTimestamp("date_time").toLocalDateTime());
+                comments.add(comment);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) conexao.closeConnection(conn);
+        }
+
+        return comments;
     }
 }

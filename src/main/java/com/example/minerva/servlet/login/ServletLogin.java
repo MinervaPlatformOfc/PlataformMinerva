@@ -1,9 +1,6 @@
 package com.example.minerva.servlet.login;
 
-import com.example.minerva.dao.HouseDAO;
-import com.example.minerva.dao.StudentDAO;
-import com.example.minerva.dao.Subject_teacherDAO;
-import com.example.minerva.dao.UserDAO;
+import com.example.minerva.dao.*;
 import com.example.minerva.dto.StudentHomeDTO;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
@@ -20,7 +17,7 @@ public class ServletLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        System.out.println("ENTROU NO SERVLET LOGIN");
+//        System.out.println("ENTROU NO SERVLET LOGIN");
 
         String email = request.getParameter("email");
         String senha = request.getParameter("senha");
@@ -29,6 +26,7 @@ public class ServletLogin extends HttpServlet {
         User user = dao.findByEmail(email);
 
         HashSenha hash = new HashSenha(senha);
+//        System.out.println(hash.getHashSenha());
 
         if(user != null && hash.getHashSenha().equals(user.getPassword())) {
 
@@ -41,43 +39,18 @@ public class ServletLogin extends HttpServlet {
             switch(role) {
 
                 case "student":
-
-                    if (user.isFirstAcess()) {
-                        request.setAttribute("email", email);
-                        request.getRequestDispatcher("/aluno/quiz/quiz.jsp")
-                                .forward(request, response);
-
-                    } else {
-                        HouseDAO houseDao = new HouseDAO();
-                        StudentDAO studentDAO = new StudentDAO();
-
-                        StudentHomeDTO homeDto = studentDAO.getStudentByEmail(email);
-
-                        request.setAttribute("ranking", houseDao.viewRanking());
-                        request.setAttribute("homeDto", homeDto);
-
-                        request.getRequestDispatcher("/aluno/home.jsp")
-                                .forward(request, response);
-                    }
-
+                    request.setAttribute("email", email);
+                    if (user.isFirstAcess()) {request.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);}
+                    else {request.getRequestDispatcher("/aluno/home").forward(request, response);}
                     break;
 
                 case "teacher":
-                    int teacherId = user.getId();
-
-                    Subject_teacherDAO subject_teacherDAO = new Subject_teacherDAO();
-                    int subjectId = subject_teacherDAO.findSubjectByTeacher(teacherId);
-
-                    session.setAttribute("teacherId", teacherId);
-                    session.setAttribute("subjectId", subjectId);
-
-                    response.sendRedirect(request.getContextPath() + "/professor/home.jsp");
+                    request.setAttribute("email", email);
+                    request.getRequestDispatcher("/professor/home")
+                            .forward(request, response);
                     break;
 
                 case "admin":
-
-                    session.setAttribute("adminId", user.getId());
-
                     response.sendRedirect(request.getContextPath() + "/admin/home.jsp");
                     break;
 
@@ -87,7 +60,7 @@ public class ServletLogin extends HttpServlet {
             }
 
         } else {
-            System.out.println("LOGIN INVALIDO");
+//            System.out.println("LOGIN INVALIDO");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
     }

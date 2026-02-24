@@ -20,7 +20,7 @@ public class ServletHome extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
+        String email = (String) request.getAttribute("email");
         String id = request.getParameter("id");
         HouseDAO houseDao = new HouseDAO();
         StudentDAO studentDAO = new StudentDAO();
