@@ -39,7 +39,7 @@ public class ServletListComments extends HttpServlet {
         request.setAttribute("subjectId", subject_id);
         request.setAttribute("studentId", student_id);
         request.setAttribute("listComments", listComments);
-        //request.setAttribute("studentName", listComments.get(0).getStudent());
+        request.setAttribute("studentName", listComments.get(0).getStudent());
         request.setAttribute("house_id", house_id);
 
 

@@ -1,91 +1,85 @@
-<%@ page import="com.example.minerva.model.Teacher" %><%--
-  Created by IntelliJ IDEA.
-  User: brunajesus-ieg
-  Date: 22/02/2026
-  Time: 10:21
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.example.minerva.model.Teacher" %>
+<%@ page import="com.example.minerva.model.User" %>
+<%@ page import="com.example.minerva.dao.HouseDAO" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Perfil</title>
+    <title>Perfil do Professor</title>
 </head>
 <body>
+<header>
+    <a href="home.jsp">inicio</a>
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=comment">observacoes</a>
 
-<h2>Informações Pessoais</h2>
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=grade">notas</a>
+    <a href="${pageContext.request.contextPath}/professor/teacher_profile.jsp">perfil professor</a>
+</header>
+<%
+    Teacher teacher = (Teacher) session.getAttribute("teacher");
+    User user = (User) session.getAttribute("user");
+    HouseDAO houseDAO = new HouseDAO();
+
+    String wand = teacher.getWand();
+    String[] parts = wand.split("-");
+
+    String wandWood = parts[0].trim();
+    String wandCore = parts[1].trim();
+    String wandFlexibility = parts[2].trim();
+
+    String houseName = houseDAO.getHouseName(teacher.getHouseId());
+%>
+
+    <img src="<%= user.getImageUrl() %>" width="200">
+
+    <h3>Matérias</h3>
+
+    <ul>
         <%
-            Teacher teachers = (Teacher) request.getParameter("teacher");
+            List<String> subjects = (List<String>) session.getAttribute("subjects");
 
-            for (Teacher teacher: teachers){
+            for(String s : subjects){
         %>
-<table border="1">
 
-    <tr>
-        <td><b>Nome Completo:</b></td>
-        <td><%= teacher.get %>></td>
-    </tr>
+        <li><%= s %></li>
 
-    <tr>
-        <td><b>Número de Registro Docente:</b></td>
-        <td>${usuario.registro}</td>
-    </tr>
+        <%
+            }
+        %>
+    </ul>
 
-    <tr>
-        <td><b>Casa de Origem:</b></td>
-        <td>${usuario.casaOrigem}</td>
-    </tr>
+    <h2>Informações pessoais</h2>
 
-    <tr>
-        <td><b>Título:</b></td>
-        <td>${usuario.titulo}</td>
-    </tr>
+    <p><b>Nome Completo:</b> <%= user.getName() %></p>
 
-    <tr>
-        <td><b>Chefe da Casa:</b></td>
-        <td>${usuario.chefeCasa}</td>
-    </tr>
+    <p><b>Número de Registro Docente:</b> <%= teacher.getId() %></p>
 
-    <tr>
-        <td><b>Casa Atual:</b></td>
-        <td>${usuario.casaAtual}</td>
-    </tr>
+    <p><b>Casa de Origem:</b> <%= houseName %></p>
 
-    <%}%>
-</table>
+    <p><b>Título Bruxo:</b> <%= teacher.getWizardTitle() %></p>
 
-<br>
+    <p><b>Chefe da casa:</b>
+        <%= teacher.isHeadHouse() ? "Sim" : "Não" %>
+    </p>
 
-<h2>Identificação da Varinha</h2>
+    <p><b>Casa:</b> <%= houseName %></p>
 
-<table border="1">
+    <h2>Equipamento e varinha</h2>
 
-    <tr>
-        <td><b>Madeira:</b></td>
-        <td>${usuario.madeira}</td>
-    </tr>
+    <p><b>Identificação da Varinha</b></p>
 
-    <tr>
-        <td><b>Núcleo:</b></td>
-        <td>${usuario.nucleo}</td>
-    </tr>
+    <p><b>Madeira:</b> <%= wandWood %></p>
 
-    <tr>
-        <td><b>Flexibilidade:</b></td>
-        <td>${usuario.flexibilidade}</td>
-    </tr>
+    <p><b>Núcleo:</b> <%= wandCore %></p>
 
-</table>
+    <p><b>Flexibilidade:</b> <%= wandFlexibility %></p>
 
-<br>
+    <h2>Currículo</h2>
 
-<h2>Currículo</h2>
-
-<table border="1">
-    <tr>
-        <td>${usuario.curriculo}</td>
-    </tr>
-</table>
+    <p>
+        <%= teacher.getPastExperiences() %>
+    </p>
 
 </body>
 </html>

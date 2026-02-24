@@ -30,6 +30,7 @@ public class Teacher {
 
     // Getters e Setters
 
+
     public int getId() {
         return id;
     }
@@ -93,4 +94,5 @@ public class Teacher {
     public void setTeacherRegistrationCode(String teacherRegistrationCode) {
         this.teacherRegistrationCode = teacherRegistrationCode;
     }
+
 }

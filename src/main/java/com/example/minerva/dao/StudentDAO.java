@@ -300,7 +300,7 @@ public class StudentDAO {
         return null;
     }
     public List<StudentForTeacherView> listStudentBySchoolYear(int schoolYear) {
-        String sql = " SELECT * FROM StudentForTeacherView s WHERE s.school_year = ?";
+        String sql = " SELECT * FROM StudentForTeacherView s WHERE s.school_year = ? ";
         Connection conn = null;
         try {
             List<StudentForTeacherView>  list = new ArrayList<>();
@@ -329,6 +329,50 @@ public class StudentDAO {
                 }
                 return list;
 
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<StudentForTeacherView> listStudentsForSubject(int subjectId) {
+        String sql = """
+        SELECT v.*, ss.n1, ss.n2, s.name
+        FROM StudentForTeacherView v
+        JOIN subject_student ss\s
+             ON ss.student_id = v.student_id
+        JOIN subject s on s.id = ss.subject_id	\s
+        
+        WHERE ss.subject_id = ?;
+""";
+        Connection conn = null;
+        try {
+            List<StudentForTeacherView> list = new ArrayList<>();
+            conn = conexao.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, subjectId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()){
+                    StudentForTeacherView studentForTeacherView = new StudentForTeacherView(
+                            rs.getInt("user_id"),
+                            rs.getInt("student_id"),
+                            rs.getString("name"),
+                            rs.getString("email"),
+                            rs.getString("registration"),
+                            rs.getString("school_year"),
+                            rs.getString("legal_guardian_name"),
+                            rs.getString("wand"),
+                            rs.getString("pet_type"),
+                            rs.getString("allergies"),
+                            rs.getString("blood"),
+                            rs.getString("basic_kit"),
+                            rs.getInt("house_id" +
+                                    "")
+                    );
+                    list.add(studentForTeacherView);
+                }
+                return list;
             }
         }catch (SQLException e){
             e.printStackTrace();

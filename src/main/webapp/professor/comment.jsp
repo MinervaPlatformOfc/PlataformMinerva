@@ -13,10 +13,16 @@
     <title>Title</title>
 </head>
 <body>
+<header>
+    <a href="home.jsp">inicio</a>
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=comment">observacoes</a>
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=grade">notas</a>
+    <a href="${pageContext.request.contextPath}/professor/teacher_profile.jsp">perfil professor</a>
+</header>
 <%--ISSO SERA UM POP UPPPPPP--%>
     <%String studentName = (String) request.getAttribute("studentName");%>
     <%int houseId = Integer.parseInt(request.getParameter("house_id"));%>
-    <h1> escreva o comentario para o aluno: <%= studentName%></h1>
+    <h1> escreva o comentario para o aluno: <%= studentName %></h1>
     <br>
     <%
         Integer studentId = (Integer) request.getAttribute("studentId");

@@ -7,7 +7,13 @@
     <title>Notas dos Alunos</title>
 </head>
 <body>
+<header>
+    <a href="home.jsp">inicio</a>
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=comment">observacoes</a>
 
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=grade">notas</a>
+    <a href="${pageContext.request.contextPath}/professor/teacher_profile.jsp">perfil professor</a>
+</header>
 <%
     List<StudentByNotesDTO> alunos =
             (List<StudentByNotesDTO>) request.getAttribute("list");

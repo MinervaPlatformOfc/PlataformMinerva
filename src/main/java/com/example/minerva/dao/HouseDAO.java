@@ -67,4 +67,32 @@ public class HouseDAO {
             e.printStackTrace();
         }
     }
+
+
+
+        public String getHouseName(int id) {
+            Connection conn = null;
+            String name = null;
+
+            String sql = "SELECT name FROM house WHERE id = ?";
+
+            try {
+                conn = conexao.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+
+                stmt.setInt(1, id);
+
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    name = rs.getString("name");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return name;
+        }
+
 }

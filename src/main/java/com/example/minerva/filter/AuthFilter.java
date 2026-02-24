@@ -43,17 +43,12 @@ public class AuthFilter implements Filter {
         }
         role = user.getRole();
 
-        if(uri.contains("aluno") || uri.contains("student")) {
-            if(!"student".equals(role)) {
+        if(uri.contains("professor") || uri.contains("teacher") || uri.contains("aluno")|| uri.contains("student")) {
+            if(!"student".equals(role) && !"teacher".equals(role) ) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;
             }
 
-        } else if(uri.contains("professor") || uri.contains("teacher")) {
-            if(!"teacher".equals(role)) {
-                res.sendRedirect(req.getContextPath() + "/login.jsp");
-                return;
-            }
         } else {
             if(!"admin".equals(role)) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");

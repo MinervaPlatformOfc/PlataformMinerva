@@ -38,8 +38,8 @@
 <br>
 
 <br><br><br>
-
-<!-- FORM NOTAS -->
+<!--
+ FORM NOTAS
 <form action="${pageContext.request.contextPath}/teacher/subject" method="post">
 
     <label>Nota 1:</label>
@@ -58,14 +58,14 @@
 
 <br><br><br>
 
-<!-- FORM BUSCAR ALUNO -->
+ FORM BUSCAR ALUNO
 <form action="${pageContext.request.contextPath}/teacher/findStudent" method="get">
 
     <label for="registro">Insira a matrícula do aluno</label>
     <input type="text" id="registro" name="registro">
     <button type="submit">Procurar</button>
 </form>
-
+-->
 <script>
     function calcularMedia() {
         let n1 = Number(document.getElementById("n1").value);

@@ -13,7 +13,12 @@
 </head>
 <body>
 <%--ERICK E FARIAS PONHAM O FILTRO DE JAVA SCRIPTTTTTTT--%>
-
+<header>
+    <a href="home.jsp">inicio</a>
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=comment">observacoes</a>
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=grade">notas</a>
+    <a href="${pageContext.request.contextPath}/professor/teacher_profile.jsp">perfil professor</a>
+</header>
 <%
 
     List<StudentForTeacherView> alunos =
@@ -43,7 +48,7 @@
                 <input type="hidden" name="house_id" value="<%= aluno.getId_house()%>">
                 <input type="hidden" name="student_id" value="<%= aluno.getId_student()%>">
                 <input type="hidden" name="path" value="/professor/comment.jsp">
-                <button type="submit"> adicionar comentario </button>
+                <button type="submit"> adicionar comentario!!! </button>
             </form>
         </td>
     </tr>

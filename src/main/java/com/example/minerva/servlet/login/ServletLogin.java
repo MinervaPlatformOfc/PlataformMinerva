@@ -66,21 +66,22 @@ public class ServletLogin extends HttpServlet {
                     TeacherDAO teacherDAO = new TeacherDAO();
                     Teacher teacher = teacherDAO.findTeacherByUserId(user.getId());
 
-                    StudentDAO studentDAO = new StudentDAO();
-                    List<StudentForTeacherView> list = studentDAO.listStudents();
-
                     Subject_teacherDAO subject_teacherDAO = new Subject_teacherDAO();
                     int subjectId = subject_teacherDAO.findSubjectByTeacher(teacher.getId());
 
+                    StudentDAO studentDAO = new StudentDAO();
+                    List<StudentForTeacherView> list = studentDAO.listStudentsForSubject(subjectId);
+                    //pega as diferente materias do novo modelo
+                    List<String> subjects = subject_teacherDAO.listSubjectsByTeacher(teacher.getId());
 
+                    session.setAttribute("subjects", subjects);
+
+                    session.setAttribute("teacher", teacher);
                     session.setAttribute("teacherId", teacher.getId());
                     session.setAttribute("subjectId", subjectId);
-                    session.setAttribute("name", user.getName());
+                    session.setAttribute("user", user);
                     session.setAttribute("studentList", list);
-
-                    System.out.println(user.getName());
-                    System.out.println(teacher.getId());
-                    System.out.println(subjectId);
+                    session.setAttribute("subjects", subjects);
 
 
                     response.sendRedirect(request.getContextPath() + "/professor/home.jsp");
@@ -100,6 +101,7 @@ public class ServletLogin extends HttpServlet {
 
         } else {
             System.out.println("LOGIN INVALIDO");
+            System.out.println(hash.getHashSenha());
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
     }

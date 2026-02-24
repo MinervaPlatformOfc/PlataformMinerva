@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.minerva.view.StudentForTeacherView" %>
-<%@ page import="static jdk.internal.org.jline.utils.Colors.h" %><%--
+<%@ page import="static jdk.internal.org.jline.utils.Colors.h" %>
+<%@ page import="com.example.minerva.model.User" %><%--
   Created by IntelliJ IDEA.
   User: erickbarbosa-ieg
   Date: 05/02/2026
@@ -15,14 +16,15 @@
 <>
 <header>
     <a href="home.jsp">inicio</a>
-    <a href="schoolYear.jsp?type=comment">observacoes</a>
-    <a href="schoolYear.jsp?type=grade">notas</a>
-    <a href="">perfil professor</a>
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=comment">observacoes</a>
+    <a href="${pageContext.request.contextPath}/professor/schoolYear.jsp?type=grade">notas</a>
+    <a href="${pageContext.request.contextPath}/professorteacher_profile.jsp">perfil professor</a>
 </header>
 <%--ERICK E FARIAS PONHAM O FILTRO DE JAVA SCRIPTTTTTTT--%>
 <br>
-<% String name = (String) session.getAttribute("name");%>
-<h1>SEJA BEM VINDO <%= name %></h1>
+<% User user = (User) session.getAttribute("user");%>
+<h1>SEJA BEM VINDO <%= user.getName() %></h1>
+<h5>filtro js</h5>
 <%
     List<StudentForTeacherView> alunos =
             (List<StudentForTeacherView>) session.getAttribute("studentList");

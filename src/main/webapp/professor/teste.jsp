@@ -1,4 +1,5 @@
 <%@ page import="com.example.minerva.view.StudentForTeacherView" %>
+<%@ page import="com.example.minerva.dao.HouseDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -103,10 +104,13 @@
 
     <tbody>
     <%
+
         StudentForTeacherView student =
                 (StudentForTeacherView) request.getAttribute("student");
-
+        HouseDAO houseDAO = new HouseDAO();
+        String house = houseDAO.getHouseName(student.getId_house());
         if (student != null) {
+
     %>
 
     <tr>
@@ -122,20 +126,12 @@
         <td><%= student.getBasicKit() %></td>
 
         <td class="actions">
-
-            <!-- Adicionar comentário -->
-            <form action="${pageContext.request.contextPath}/teacher/ListComment" method="get">
-                <input type="hidden" name="student_id" value="<%= student.getId_student() %>">
-                <input type="hidden" name="teacher_id" value="<%= session.getAttribute("teacherId") %>">
-                <button type="submit">Adicionar comentário</button>
-            </form>
-
             <!-- Ver boletim -->
-            <form action="${pageContext.request.contextPath}/aluno/grades" method="get">
-                <input type="hidden" name="student_id" value="<%= student.getId_student() %>">
-                <button type="submit">Ver boletim</button>
+            <form action="${pageContext.request.contextPath}/aluno/grades" method="post" >
+                <input type="hidden"  name="id" value="<%= student.getId_student() %>">
+                <input type="hidden"  name="houseName" value="<%= house %>">
+                <button type="submit">Boletim</button>
             </form>
-
         </td>
     </tr>
 
