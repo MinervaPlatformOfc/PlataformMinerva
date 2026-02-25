@@ -7,6 +7,8 @@ import com.example.minerva.model.Student;
 import com.example.minerva.model.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentDAO {
     private Conexao conexao;
@@ -38,6 +40,42 @@ public class StudentDAO {
                 conexao.closeConnection(conn);
             }
         }
+    }
+
+    public List<Student> getAllStudents(){
+        String sql = "select * from student order by id";
+
+        Connection conn = conexao.getConnection();
+
+        List<Student> students = new ArrayList<>();
+
+        try(Statement stmt = conn.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while(rs.next()){
+                Student temp = new Student(
+                        rs.getInt("id"),
+                        rs.getInt("school_year"),
+                        rs.getString("legal_guardian_name"),
+                        rs.getString("residence_address"),
+                        rs.getString("wand"),
+                        rs.getString("pet"),
+                        rs.getString("allergies"),
+                        rs.getString("blood"),
+                        rs.getBoolean("basic_kit"),
+                        rs.getBoolean("guardian_permission"),
+                        rs.getString("registration")
+                );
+                students.add(temp);
+            }
+            return students;
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return new ArrayList<>();
+        }finally {
+            conexao.closeConnection(conn);
+        }
+
     }
 
     public boolean save(Student student, User user){

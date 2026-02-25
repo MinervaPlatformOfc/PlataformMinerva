@@ -6,7 +6,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.*;
 
-@WebFilter("/*")
+@WebFilter(value = "/*", asyncSupported = true)
 public class AuthFilter implements Filter {
 
     @Override

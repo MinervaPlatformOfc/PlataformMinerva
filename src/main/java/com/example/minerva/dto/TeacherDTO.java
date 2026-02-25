@@ -7,6 +7,7 @@ import java.util.List;
 public class TeacherDTO {
 
     //Attrubutes
+    private int id;
     private String email,
             password,
             name,
@@ -28,6 +29,18 @@ public class TeacherDTO {
         this.wizardTitle = wizardTitle;
         this.comments = comments;
     }
+    public TeacherDTO(int id, String email, String password, String name, String house, String wand, String pastExperiences, String wizardTitle, List<CommentDTO> comments){
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.house = house;
+        this.wand = wand;
+        this.pastExperiences = pastExperiences;
+        this.wizardTitle = wizardTitle;
+        this.comments = comments;
+    }
+
 
     //Getters methods
     public String getName() {

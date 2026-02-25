@@ -27,6 +27,17 @@ public class Teacher {
         this.wizardTitle = wizardTitle;
         this.teacherRegistrationCode = teacherRegistrationCode;
     }
+    public Teacher(
+            String wand,
+            boolean headHouse,
+            String pastExperiences,
+            String wizardTitle
+    ){
+        this.wand = wand;
+        this.headHouse = headHouse;
+        this.pastExperiences = pastExperiences;
+        this.wizardTitle = wizardTitle;
+    }
 
     //Getters methods
     public int getHouseId(){
