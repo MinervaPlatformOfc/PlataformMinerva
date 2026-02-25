@@ -3,7 +3,7 @@ package com.example.minerva.servlet.adm.crudAdmins;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
-import jakarta.servlet.ServletException;
+import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +28,13 @@ public class ServletCreateAdmin extends HttpServlet {
         String name = (String)  request.getAttribute("nameInput");
 
         User newUser = new User(name, email, password);
+
+        AsyncContext async = request.startAsync();
+
+        async.start(() -> {
+            userRepository.saveAdmin(newUser);
+            async.complete();
+        });
 
         userRepository.saveAdmin(newUser);
 

@@ -148,6 +148,8 @@ public class TeacherDAO {
 
                 if(rs.next()){
                     return rs.getInt("user_id");
+                }else{
+                    return null;
                 }
             }catch (SQLException sqle){
                 sqle.printStackTrace();

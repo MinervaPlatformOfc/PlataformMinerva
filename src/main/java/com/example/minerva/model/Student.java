@@ -32,6 +32,19 @@ public class Student {
         this.guardianPermission = guardianPermission;
         this.registration = registration;
     }
+    public Student(int id, Integer schoolYear, String legalGuardianName, String residenceAdress, String wand, String pet, String allergies, String blood, boolean basicKit, boolean guardianPermission, String registration){
+        this.id = id;
+        this.schoolYear = schoolYear;
+        this.legalGuardianName = legalGuardianName;
+        this.residenceAddress = residenceAdress;
+        this.wand = wand;
+        this.petType = pet;
+        this.allergies = allergies;
+        this.blood = blood;
+        this.basicKit = basicKit;
+        this.guardianPermission = guardianPermission;
+        this.registration = registration;
+    }
 
     public int getId() {
         return id;
