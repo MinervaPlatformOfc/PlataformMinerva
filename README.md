@@ -11,17 +11,18 @@
 ## 📖 Sobre o Projeto
 A **Plataforma Minerva** é um sistema de gestão escolar imersivo inspirado no universo de Harry Potter. O projeto foi desenvolvido como um trabalho prático para a disciplina de **Desenvolvimento**, com o objetivo de simular a experiência acadêmica dos alunos de Hogwarts, unindo funcionalidades reais de uma plataforma escolar a uma interface mágica e temática.
 
-## ✨ Funcionalidades Principais
-* **🧙‍♂️ Portal do Aluno:** Acesso a notas, obsevações individuais e perfil completo
-* **📝 Diário do Professor:** Espaço para lançar observações pedagógicas e avaliações.
-* **🏆 Taça das Casas:** Sistema dinâmico de pontuação integrado.
-* **🔒 Níveis de Acesso:** Perfis distintos para Alunos, Professores e Administradores (Diretoria).
+## ✨ Funcionalidades em Destaque
+* **🛡️ Proteção de Rotas:** Filtros que garantem que apenas bruxos autorizados acessem o painel administrativo.
+* **🦁 Sistema de Casas Dinâmico:** Comentários inseridos pelos professores alteram automaticamente a pontuação total das Casas.
+* **📊 Banco Otimizado:** Uso de índices para garantir que a busca por notas e alunos seja instantânea.
+* **🎓 Portal do Aluno:** Interface dedicada para consulta de desempenho e histórico.
+* **🧙‍♂️ Login Inteligente:** Redirecionamento automático baseado no perfil do usuário (Adm/Aluno/Professor).
 
-## 🛠️ Tecnologias Utilizadas
-O projeto utiliza ferramentas modernas para garantir performance e uma interface "encantadora":
-* **Frontend:**  --
-* **Estilização:** --
-* **Backend/Banco:** --
+## 🛠️ Tecnologias e Arquitetura
+* **Backend:** Java Servlets com padrão de projeto DAO (Data Access Object).
+* **Banco de Dados:** SQL Server/MySQL com uso de Procedures, Views e Índices para performance.
+* **Frontend:** JSP, HTML5, CSS3 e JavaScript.
+* **Segurança:** Filtros de requisição (Filters) para controle de níveis de acesso.
 * **Versionamento:** GitHub (Trabalho colaborativo)
 
 ---
@@ -33,10 +34,10 @@ Este projeto é o resultado do esforço conjunto de 6 alunos:
 | :--- | :--- |
 | **Rebecca Sarah** | **Tech Lead & UX Designer:** Arquitetura do sistema, modelagem de dados, design de interface, gestão de prazos e documentação (README). |
 | **Eduardo Farias** | **Backend & Database:** Desenvolveu Servlets ADM, Métodos CRUD e Procedures SQL. |
-| **Erick Neves** | -- |
-| **João Pedro Capelli** | -- |
-| **Isabela --** | -- |
-| **Bruna --** | -- |
+| **Erick Neves** | **Full-Stack Assistant:** Desenvolvimento da lógica do Quiz e suporte em funcionalidades diversas |
+| **João Pedro Capelli** | **Frontend Developer:** Implementação das páginas JSP e estilização temática de Hogwarts. |
+| **Isabela Gimenes** | **Frontend & UI Designer:** Criação de protótipos de telas CRUD, design de elementos visuais e backgrounds temáticos da plataforma. |
+| **Bruna Oliveira** | **Backend & Integration Developer:** Funcionalidades do Professor: Servlets/DAOs de notas e comentários, além da lógica de pontuação automática das Casas. |
 
 ---
 
