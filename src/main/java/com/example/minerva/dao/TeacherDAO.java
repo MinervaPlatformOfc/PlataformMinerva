@@ -1,10 +1,7 @@
 package com.example.minerva.dao;
 
 import com.example.minerva.conexao.Conexao;
-import com.example.minerva.dto.StudentGradeDTO;
-import com.example.minerva.dto.TeacherDTO;
-import com.example.minerva.dto.TeacherHomeDTO;
-import com.example.minerva.dto.TeacherProfileDTO;
+import com.example.minerva.dto.*;
 import com.example.minerva.model.Teacher;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
@@ -60,6 +57,7 @@ public class TeacherDAO {
                 List<TeacherDTO> teachers = new ArrayList<>();
 
                 CommentDAO commentRepository = new CommentDAO();
+                GradeDAO subjectRepository = new GradeDAO();
 
                 if(conn == null){
                         System.out.println("Erro de conexão (PostgreSQL)");
@@ -69,6 +67,7 @@ public class TeacherDAO {
                         ResultSet rs = stmt.executeQuery(sql);
 
                         while(rs.next()){
+                            int teacherId = rs.getInt("teacher_id");
                                 TeacherDTO temp = new TeacherDTO(
                                         rs.getInt("teacher_id"),
                                         rs.getString("email"),
@@ -78,8 +77,8 @@ public class TeacherDAO {
                                         rs.getString("wand"),
                                         rs.getString("past_experiences"),
                                         rs.getString("wizard_title"),
-                                        commentRepository.listAllByTeacher(rs.getInt("teacher_id"))
-
+                                        commentRepository.listAllByTeacher(teacherId),
+                                        getYearsAndSubjectsByTeacherId(teacherId)
                                 );
                                 teachers.add(temp);
                         }
@@ -525,6 +524,42 @@ public class TeacherDAO {
             if (conn != null) {
                 conexao.closeConnection(conn);
             }
+        }
+    }
+
+    public boolean removeSubjectFromTeacher(int teacherId, int subjectId) {
+        String sql = "DELETE FROM subject_teacher WHERE teacher_id = ? AND subject_id = ?";
+        Connection conn = conexao.getConnection();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, teacherId);
+            pstmt.setInt(2, subjectId);
+
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        } finally {
+            conexao.closeConnection(conn);
+        }
+    }
+
+    public boolean addSubjectToTeacher(int teacherId, int subjectId) {
+        String sql = "INSERT INTO subject_teacher (teacher_id, subject_id) VALUES (?, ?)";
+        Connection conn = conexao.getConnection();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, teacherId);
+            pstmt.setInt(2, subjectId);
+
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        } finally {
+            conexao.closeConnection(conn);
         }
     }
 }
