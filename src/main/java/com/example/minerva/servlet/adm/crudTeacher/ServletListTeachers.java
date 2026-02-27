@@ -1,6 +1,7 @@
 package com.example.minerva.servlet.adm.crudTeacher;
 
 import com.example.minerva.dao.GradeDAO;
+import com.example.minerva.dao.HouseDAO;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dto.SubjectDTO;
 import com.example.minerva.dto.TeacherDTO;
@@ -22,7 +23,9 @@ public class ServletListTeachers extends HttpServlet {
 
         List<TeacherDTO> teachers = teacherRepository.getAllTeachers();
         List<SubjectDTO> subjects = subjectRepository.getAllSubjects();
+        HouseDAO houseDAO = new HouseDAO();
 
+        request.setAttribute("house", houseDAO.getAllHouses());
         request.setAttribute("teacherList", teachers);
         request.setAttribute("subjects", subjects);
 

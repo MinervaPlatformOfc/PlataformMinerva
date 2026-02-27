@@ -4,8 +4,8 @@ import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.User;
-import com.example.minerva.utils.criptografia.HashSenha;
-import jakarta.servlet.*;
+import com.example.minerva.utils.validacao.ValidacaoEmail;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,34 +18,44 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/admin/createAdmin", asyncSupported = true)
+@WebServlet("/admin/UpdateAdmin")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
         maxRequestSize = 1024 * 1024 * 10
 )
-public class ServletCreateAdmin extends HttpServlet {
 
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        doPost(request, response);
-    }
+public class ServletUpdateAdmin extends HttpServlet {
 
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        UserDAO userRepository = new UserDAO();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
 
-        String email = (String) request.getAttribute("emailInput");
-        String password = String.valueOf(new HashSenha((String) request.getAttribute("passwordInput")));
-        String name = (String)  request.getAttribute("nameInput");
+        UserDAO userDAO = new UserDAO();
 
-        // ====== TRATAR IMAGEM ======
+// ====== PEGAR DADOS ======
+        String nameInput = request.getParameter("nameInput");
+        String email = request.getParameter("emailInput");
+
+// ====== VALIDAÇÕES ======
+        if (userDAO.findByEmail(email) != null) {
+            request.setAttribute("msg", "Email já existente");
+            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            return;
+        }
+
+        if (!ValidacaoEmail.validarEmail(email)) {
+            request.setAttribute("msg", "Email inválido");
+            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            return;
+        }
+
+// ====== TRATAR IMAGEM ======
         Part filePart = request.getPart("imageInput");
         String imageUrl;
 
         if (filePart == null || filePart.getSize() == 0) {
-            response.sendRedirect(request.getContextPath() + "/admin/CRUD/Admin.jsp?error=validation_image_failed");
-            return;
+            // Mantém a imagem antiga
+            imageUrl = request.getParameter("currentImageUrl");
         } else {
 
             byte[] imageBytes;
@@ -71,19 +81,22 @@ public class ServletCreateAdmin extends HttpServlet {
             imageUrl = (String) uploadResult.get("secure_url");
         }
 
-        User newUser = new User(name, password, email, "ADMIN", imageUrl);
+// ====== CRIAR OBJETO ======
+        User user = new User(nameInput, email, imageUrl);
 
-        AsyncContext async = request.startAsync();
+// ====== ATUALIZAR ======
+        boolean userUpdated = userDAO.updateAdmin(id, user);
 
-        async.start(() -> {
-            userRepository.saveAdmin(newUser);
-            async.complete();
-        });
+        if (userUpdated) {
+            request.setAttribute("msg", "Usuário atualizado com sucesso");
+        } else {
+            request.setAttribute("msg", "Erro ao atualizar usuário");
+        }
 
-        userRepository.saveAdmin(newUser);
-
-        request.setAttribute("msg", "Administrador inserido com sucesso!");
-
+        String name = request.getParameter("name");
+        String url = request.getParameter("url");
+        request.setAttribute("name", name);
+        request.setAttribute("url", url);
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
     }
 }

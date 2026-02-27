@@ -16,7 +16,7 @@ public class TeacherDAO {
 
     //Metodo de listagem de todos os professores
     public boolean save(Teacher teacher, User user){
-        String sql = "call create_teacher(?,?,?,?,?,?,?,?,?)";
+        String sql = "call create_teacher(?,?,?,?,?,?,?,?,?,?)";
 
         Connection conn = conexao.getConnection();
 
@@ -35,6 +35,7 @@ public class TeacherDAO {
             pstmt.setString(7, teacher.getPastExperiences());
             pstmt.setString(8, teacher.getWizardTitle());
             pstmt.setString(9, teacher.getTeacherRegistrationCode());
+            pstmt.setString(10, user.getImageUrl());
             lines = pstmt.executeUpdate();
             return lines > 0;
         }catch(SQLException sqle){
@@ -46,7 +47,7 @@ public class TeacherDAO {
     }
 
         public List<TeacherDTO> getAllTeachers(){
-                String sql = "select t.id as \"teacher_id\",u.email, u.password, u.name as \"user\", h.name as \"house\", t.wand, t.past_experiences, t.wizard_title " +
+                String sql = "select t.id as \"teacher_id\",u.email, u.password, u.name, u.profile_image_url as \"user\", h.name as \"house\", t.wand, t.past_experiences, t.wizard_title " +
                         "from teacher t " +
                         "join users u on t.user_id = u.id " +
                         "join house h on t.house_id = h.id " +
@@ -77,6 +78,7 @@ public class TeacherDAO {
                                         rs.getString("wand"),
                                         rs.getString("past_experiences"),
                                         rs.getString("wizard_title"),
+                                        rs.getString("profile_image_url"),
                                         commentRepository.listAllByTeacher(teacherId),
                                         getYearsAndSubjectsByTeacherId(teacherId)
                                 );

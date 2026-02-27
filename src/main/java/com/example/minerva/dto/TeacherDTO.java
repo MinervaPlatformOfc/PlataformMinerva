@@ -15,7 +15,8 @@ public class TeacherDTO {
             house,
             wand,
             pastExperiences,
-            wizardTitle;
+            wizardTitle,
+            imageUrl;
 
     private List<CommentDTO> comments;
 
@@ -32,7 +33,7 @@ public class TeacherDTO {
         this.wizardTitle = wizardTitle;
         this.comments = comments;
     }
-    public TeacherDTO(int id, String email, String password, String name, String house, String wand, String pastExperiences, String wizardTitle, List<CommentDTO> comments, List<String> subjects){
+    public TeacherDTO(int id, String email, String password, String name, String house, String wand, String pastExperiences, String wizardTitle, String imageUrl, List<CommentDTO> comments, List<String> subjects){
         this.id = id;
         this.email = email;
         this.password = password;
@@ -41,6 +42,7 @@ public class TeacherDTO {
         this.wand = wand;
         this.pastExperiences = pastExperiences;
         this.wizardTitle = wizardTitle;
+        this.imageUrl = imageUrl;
         this.comments = comments;
 
         List<String> list = new ArrayList<>();
@@ -61,6 +63,14 @@ public class TeacherDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getPassword() {

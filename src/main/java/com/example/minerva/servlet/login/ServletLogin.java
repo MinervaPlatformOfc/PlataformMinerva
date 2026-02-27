@@ -51,7 +51,9 @@ public class ServletLogin extends HttpServlet {
                     break;
 
                 case "admin":
-                    response.sendRedirect(request.getContextPath() + "/admin/home.jsp");
+                    request.setAttribute("email", email);
+                    request.getRequestDispatcher("/admin/users")
+                            .forward(request, response);
                     break;
 
                 default:
