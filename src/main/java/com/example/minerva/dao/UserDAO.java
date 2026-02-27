@@ -247,15 +247,15 @@ public class UserDAO {
         }
     }
 
-    public  boolean updateAdminPassword(int id, String password) {
+    public  boolean updatePassword(String email, String password) {
 
-        String sql = "UPDATE users SET password = ? WHERE id = ?";
+        String sql = "UPDATE users SET password = ? WHERE email = ?";
 
         try (Connection conn = conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, password);
-            stmt.setInt(2, id);
+            stmt.setString(2, email);
 
             return stmt.executeUpdate()>0;
 

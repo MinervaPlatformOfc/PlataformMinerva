@@ -65,11 +65,11 @@ public class Matricula {
             );
 
             if (isStudent) {
-                jedis.setex(
-                        "REGISTRATION:" + email,
-                        (int) TTL.getSeconds(),
-                        registration
-                );
+//                jedis.setex(
+//                        "REGISTRATION:" + email,
+//                        (int) TTL.getSeconds(),
+//                        registration
+//                );
                 jedis.setex("REGISTRATION_CODE:" + registration, (int) TTL.getSeconds(), email); //O contrário, salvando a matricula como chave tbm pra ver se existe no redis antes de enviar para o user
             }
 //            String keyEmail = "REGISTRATION:" + email;
@@ -96,17 +96,17 @@ public class Matricula {
 //            String pong = jedis.ping();
 //            System.out.println("Conexão Redis: " + pong);
 
-            String keyEmail = "REGISTRATION:" + email;
+//            String keyEmail = "REGISTRATION:" + email;
             String keyCode  = "REGISTRATION_CODE:" + registration;
+            String saved = jedis.get(keyCode);
 
-            String saved = jedis.get(keyEmail);
 //            System.out.println("Valor encontrado no Redis: " + (saved != null ? saved : "NULL"));
-            if (saved == null || !saved.equals(registration)) {
+            if (saved == null || !saved.equals(email)) {
                 return false;
             }
 
-            jedis.del(keyEmail);
             jedis.del(keyCode);
+//            jedis.del(keyEmail);
 
             return true;
         }

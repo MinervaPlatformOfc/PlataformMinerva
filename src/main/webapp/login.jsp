@@ -34,5 +34,7 @@
 <br><br><br>
 
 <a href="register.jsp">Cadastre-se</a>
+<br><br><br>
+<a href="recoverPassword/reciveEmail.jsp">Esqueci minha senha</a>
 </body>
 </html>
