@@ -81,7 +81,7 @@ public class CommentDAO {
     }
 
     public List<CommentDTO> listAllByTeacher(int id){
-        String sql = "select * from commentView " +
+        String sql = "select content, score, date_time from commentView " +
                 "where id_teacher = ?;";
 
         List<CommentDTO> comments = new ArrayList<>();

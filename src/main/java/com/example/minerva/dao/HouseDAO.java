@@ -20,7 +20,7 @@ public class HouseDAO {
             }
 
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM house_ranking";
+            String sql = "SELECT house_name, points FROM house_ranking";
             ResultSet rs = stmt.executeQuery(sql);
             Queue<House> ranking = new LinkedList<>();
 

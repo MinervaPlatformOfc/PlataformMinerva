@@ -32,7 +32,7 @@ public class StudentDAO {
     }
 
     public List<Student> getAllStudents(){
-        String sql = "select * from student order by id";
+        String sql = "select id, school_year, legal_guardian_name, residence_address, wand, allergies, blood, basic_kit, guardian_permission, registation from student order by id";
 
         List<Student> students = new ArrayList<>();
 
@@ -240,7 +240,7 @@ public class StudentDAO {
     }
 
     public Student findById(int id){
-        String sql = "select * from teacher";
+        String sql = "select id, school_year, legal_guardian_name, residence_address, wand, pet, allergies, blood, basic_kit, guardian_permission, registration, flight_fitness from student";
 
         try(Statement stmt = conn.createStatement()){
             ResultSet rs = stmt.executeQuery(sql);
