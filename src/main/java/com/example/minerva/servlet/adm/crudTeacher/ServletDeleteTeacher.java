@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/RemoveTeacher", asyncSupported = true)
+@WebServlet(urlPatterns = "/admin/RemoveTeacher")
 public class ServletDeleteTeacher extends HttpServlet{
 
     @Override
@@ -18,18 +18,16 @@ public class ServletDeleteTeacher extends HttpServlet{
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        boolean delete = (boolean) request.getAttribute("action");
+        boolean delete = Boolean.parseBoolean(request.getParameter("action"));
 
-        int id = (int) request.getAttribute("id");
+        int id = Integer.parseInt(request.getParameter("id"));
 
         TeacherDAO teacherRepository = new TeacherDAO();
 
         if(delete){
-            teacherRepository.delete(id);
-            request.setAttribute("msg", "Professor removido com sucesso");
-            request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
-        }else{
-            request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
+            request.setAttribute("msg", teacherRepository.delete(id) ? "Professor removido com sucesso": "Erro ao remover professor!");
         }
+
+        response.sendRedirect("/admin/ViewTeachers");
     }
 }

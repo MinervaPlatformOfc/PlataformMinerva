@@ -1,6 +1,7 @@
 package com.example.minerva.dao;
 
 import com.example.minerva.dto.AdminDTO;
+import com.example.minerva.dto.UserAnalysisDTO;
 import com.example.minerva.model.User;
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.utils.criptografia.HashSenha;
@@ -15,7 +16,7 @@ public class UserDAO {
     private final Conexao conexao = new Conexao();
 
     public boolean saveAdmin(User user){
-        String sql = "call create_admin(?, ?, ?)";
+        String sql = "call create_admin(?, ?, ?, ?)";
 
         Connection conn = conexao.getConnection();
 
@@ -25,6 +26,7 @@ public class UserDAO {
             stmt.setString(1, user.getEmail());
             stmt.setString(2, String.valueOf(new HashSenha(user.getPassword())));
             stmt.setString(3, user.getName());
+            stmt.setString(4, user.getImageUrl());
 
             lines = stmt.executeUpdate();
 
@@ -120,9 +122,38 @@ public class UserDAO {
         return null;
     }
 
+    public UserAnalysisDTO getUserAnalysis(){
+        String sql = "select (select count(id) from users) as \"total_users\",\n" +
+                "(select count(id) from users where role = 'admin') as \"total_admins\",\n" +
+                "(select count(id) from users where role = 'teacher') as \"total_teachers\",\n" +
+                "(select count(id) from users where role = 'student') as \"total_students\";";
+
+        Connection conn = conexao.getConnection();
+
+        try(Statement stmt = conn.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if(rs.next()){
+                return new UserAnalysisDTO(
+                        rs.getInt("total_users"),
+                        rs.getInt("total_admins"),
+                        rs.getInt("total_students"),
+                        rs.getInt("total_teachers")
+                );
+            }else{
+                return null;
+            }
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return null;
+        }finally {
+            conexao.closeConnection(conn);
+        }
+    }
+
 
     public List<AdminDTO> getAllAdmins(){
-        String sql = "SELECT id, email, password,name FROM users where role = \'admin\'";
+        String sql = "SELECT id, email, password, name, profile_image_url FROM users where role = \'admin\'";
 
         Connection conn = conexao.getConnection();
 
@@ -136,8 +167,9 @@ public class UserDAO {
                         rs.getInt("id"),
                         rs.getString("email"),
                         rs.getString("password"),
-                        rs.getString("name")
-                );
+                        rs.getString("name"),
+                        rs.getString("profile_image_url")
+                        );
                 users.add(temp);
             }
             return users;
@@ -149,54 +181,35 @@ public class UserDAO {
         }
     }
 
-
-    public int update(int id, User newUser) {
-
-        String sqlEmail = "update users set email = ? where id = ?";
-        String sqlPassword = "update users set password = ? where id = ?";
+    public List<User> getNotAdmins(){
+        String sql = "SELECT id, role, email, password, name, profile_image_url FROM users where role != 'admin'";
 
         Connection conn = conexao.getConnection();
 
-        if (conn == null) {
-            System.out.println("Erro de conexão (PostgreSQL)");
-            return 0;
-        }
+        List<User> users = new ArrayList<>();
 
-        int lines = 0;
+        try(Statement stmt = conn.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
 
-        User user = findById(id);
-        if (user == null) return 0;
-
-        String newHashedPassword = String.valueOf(new HashSenha(newUser.getPassword()));
-
-        try (
-                PreparedStatement pstmtEmail = conn.prepareStatement(sqlEmail);
-                PreparedStatement pstmtPassword = conn.prepareStatement(sqlPassword)
-        ) {
-
-
-            if (!newUser.getEmail().equals(user.getEmail())) {
-                pstmtEmail.setString(1, newUser.getEmail());
-                pstmtEmail.setInt(2, id);
-                lines += pstmtEmail.executeUpdate();
+            while(rs.next()){
+                User temp = new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("role"),
+                        rs.getString("profile_image_url")
+                );
+                users.add(temp);
             }
-
-            if (!newHashedPassword.equals(user.getPassword())) {
-                pstmtPassword.setString(1, newHashedPassword);
-                pstmtPassword.setInt(2, id);
-                lines += pstmtPassword.executeUpdate();
-            }
-
-            return lines;
-
-        } catch (SQLException sqle) {
+            return users;
+        }catch (SQLException sqle){
             sqle.printStackTrace();
-            return 0;
-        } finally {
+            return new ArrayList<>();
+        }finally {
             conexao.closeConnection(conn);
         }
     }
-
 
     public boolean delete(int id){
         String sql = "delete from users where id = ?";
@@ -223,5 +236,87 @@ public class UserDAO {
         }
     }
 
+    public  boolean update(int id, User user) {
 
+        String sql = "UPDATE users SET name = ?, email = ?, password = ?, profile_image_url = ? WHERE id = ?";
+
+        try (Connection conn = conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setString(4, user.getImageUrl());
+            stmt.setInt(5, id);
+
+            return stmt.executeUpdate()>0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public  boolean updateAdmin(int id, User user) {
+
+        String sql = "UPDATE users SET name = ?, email = ?, profile_image_url = ? WHERE id = ?";
+
+        try (Connection conn = conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getImageUrl());
+            stmt.setInt(4, id);
+
+            return stmt.executeUpdate()>0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public  boolean updatePassword(String email, String password) {
+
+        String sql = "UPDATE users SET password = ? WHERE email = ?";
+
+        try (Connection conn = conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, password);
+            stmt.setString(2, email);
+
+            return stmt.executeUpdate()>0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public double[] getUserStatistics() {
+        String sql = "SELECT total_users, pct_admins, pct_teachers, pct_students FROM user_statistics";
+
+        try (Connection conn = conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                double totalUsers = rs.getDouble("total_users");
+                double pctAdmins = rs.getDouble("pct_admins");
+                double pctTeachers = rs.getDouble("pct_teachers");
+                double pctStudents = rs.getDouble("pct_students");
+
+                return new double[]{totalUsers, pctAdmins, pctTeachers, pctStudents};
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Retorna zeros em tds valores caso dê algum problema
+        return new double[]{0, 0, 0, 0};
+    }
 }

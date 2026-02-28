@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/removeAdmin", asyncSupported = true)
+@WebServlet(urlPatterns = "/admin/removeAdmin")
 public class ServletDeleteAdmin extends HttpServlet {
 
     @Override
@@ -21,31 +21,25 @@ public class ServletDeleteAdmin extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        boolean delete = (boolean) request.getAttribute("action");
+        boolean delete = Boolean.parseBoolean(request.getParameter("action"));
 
-        int id = (int) request.getAttribute("id");
+        int id = Integer.parseInt(request.getParameter("id"));
 
         UserDAO userRepository = new UserDAO();
 
         HttpSession session = request.getSession();
-
 
         User currentUser = (User) session.getAttribute("user");
 
 
 
         if(delete){
-           if(currentUser.getEmail().equals(userRepository.findById(id).getEmail())){
-               request.setAttribute("msg", "Não é possível se auto deletar");
-               request.getRequestDispatcher("/admin/ViewAdmins");
-           }else{
-               userRepository.delete(id);
-               request.setAttribute("msg", "Admin removido com sucesso");
-               request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
-           }
-        }else{
-            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
+           request.setAttribute("msg",
+                   currentUser.getEmail().equals(userRepository.findById(id).getEmail())?"Não é possível se auto deletar":
+                           userRepository.delete(id)?"Administrador removido com sucesso":
+                                   "Falha ao remover administrador");
         }
+        response.sendRedirect("/admin/ViewAdmins");
 
 
     }

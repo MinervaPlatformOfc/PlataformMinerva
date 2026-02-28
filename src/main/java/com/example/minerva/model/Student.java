@@ -46,6 +46,21 @@ public class Student {
         this.registration = registration;
     }
 
+    public Student(int id, Integer schoolYear, String legalGuardianName, String residenceAdress, String wand, String pet, String allergies, String blood, boolean basicKit, boolean guardianPermission, String registration, boolean flightFitness){
+        this.id = id;
+        this.schoolYear = schoolYear;
+        this.legalGuardianName = legalGuardianName;
+        this.residenceAddress = residenceAdress;
+        this.wand = wand;
+        this.petType = pet;
+        this.allergies = allergies;
+        this.blood = blood;
+        this.basicKit = basicKit;
+        this.guardianPermission = guardianPermission;
+        this.registration = registration;
+        this.flightFitness = flightFitness;
+    }
+
     public int getId() {
         return id;
     }
@@ -101,4 +116,6 @@ public class Student {
     public boolean getGuardianPermission() {
         return guardianPermission;
     }
+
+    public boolean getFlightFitness(){return this.flightFitness;}
 }

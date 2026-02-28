@@ -1,6 +1,5 @@
 package com.example.minerva.dto;
 
-import javax.xml.stream.events.Comment;
 import java.util.ArrayList;
 
 public class SubjectDTO {
