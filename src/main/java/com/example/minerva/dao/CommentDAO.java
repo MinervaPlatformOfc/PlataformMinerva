@@ -8,22 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentDAO {
-    private Conexao conexao;
-
-    public CommentDAO() {
-        this.conexao = new Conexao(); // usa a classe de conexão
-    }
+    private final Connection conn = Conexao.getConnection();
 
     public ArrayList<CommentDTO> getCommentsBySubjectAndUser(int studentId, int subjectId) {
 
         ArrayList<CommentDTO> comments = new ArrayList<>();
 
         String sql = "SELECT content, score, date_time FROM comment WHERE subject_id = ? AND student_id = ? ORDER BY date_time DESC";
-        Connection conn = null;
 
         try{
-            conn = conexao.getConnection();
-
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             stmt.setInt(1, subjectId);
@@ -44,11 +37,6 @@ public class CommentDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
     }
 
@@ -60,9 +48,7 @@ public class CommentDAO {
 
         String updateHouseSQL = "UPDATE house SET points = points + ? WHERE id = (SELECT house_id FROM student s WHERE s.id = ?)";
 
-        Connection conn = null;
         try{
-            conn = conexao.getConnection();
             conn.setAutoCommit(false);
 
             PreparedStatement stmtComment = conn.prepareStatement(sql);
@@ -91,19 +77,12 @@ public class CommentDAO {
         } catch (SQLException e){
             e.printStackTrace();
             return false;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
     }
 
     public List<CommentDTO> listAllByTeacher(int id){
         String sql = "select * from commentView " +
                 "where id_teacher = ?;";
-
-        Connection conn = conexao.getConnection();
 
         List<CommentDTO> comments = new ArrayList<>();
 
@@ -125,15 +104,11 @@ public class CommentDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return new ArrayList<>();
-        }finally {
-            conexao.closeConnection(conn);
         }
     }
 
     public boolean delete(int id){
         String sql = "delete from comment where id = ?";
-
-        Connection conn = conexao.getConnection();
 
         if(conn == null){
             System.out.println("Erro de conexão (PostgreSQL)");
@@ -150,8 +125,6 @@ public class CommentDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
-        }finally{
-            conexao.closeConnection(conn);
         }
     }
 
@@ -163,10 +136,8 @@ public class CommentDAO {
                 "ORDER BY id";
 
         List<CommentDTO> comments = new ArrayList<>();
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection();
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return comments;
@@ -186,8 +157,6 @@ public class CommentDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (conn != null) conexao.closeConnection(conn);
         }
 
         return comments;

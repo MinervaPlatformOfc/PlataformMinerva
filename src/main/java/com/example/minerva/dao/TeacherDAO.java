@@ -15,13 +15,12 @@ import java.util.List;
 
 public class TeacherDAO {
 
-    private final Conexao conexao = new Conexao();
+    private final Connection conn = Conexao.getConnection();
 
     //Metodo de listagem de todos os professores
     public boolean save(Teacher teacher, User user){
         String sql = "call create_teacher(?,?,?,?,?,?,?,?,?)";
 
-        Connection conn = conexao.getConnection();
 
         int lines = 0;
         if(conn == null){
@@ -43,8 +42,6 @@ public class TeacherDAO {
         }catch(SQLException sqle){
             sqle.printStackTrace();
             return false;
-        }finally {
-            conexao.closeConnection(conn);
         }
     }
 
@@ -54,8 +51,6 @@ public class TeacherDAO {
                         "join users u on t.user_id = u.id " +
                         "join house h on t.house_id = h.id " +
                         "order by u.id";
-
-                Connection conn = conexao.getConnection();
 
                 List<TeacherDTO> teachers = new ArrayList<>();
 
@@ -87,8 +82,6 @@ public class TeacherDAO {
                 }catch(SQLException sqle){
                         sqle.printStackTrace();
                         return new ArrayList<TeacherDTO>();
-                }finally {
-                        conexao.closeConnection(conn);
                 }
         }
 
@@ -99,8 +92,6 @@ public class TeacherDAO {
                         "join house h on t.house_id = h.id\n" +
                         "where t.id = ?\n" +
                         "order by u.id;";
-
-                Connection conn = conexao.getConnection();
 
                 CommentDAO commentRepository = new CommentDAO();
 
@@ -131,15 +122,11 @@ public class TeacherDAO {
                 }catch (SQLException sqle) {
                         sqle.printStackTrace();
                         return null;
-                }finally {
-                        conexao.closeConnection(conn);
                 }
         }
 
         public Integer getUserIdById(int id){
             String sql= "select user_id from teacher where id = ?";
-
-            Connection conn = conexao.getConnection();
 
             try(PreparedStatement pstmt = conn.prepareStatement(sql)){
                 pstmt.setInt(1, id);
@@ -154,8 +141,6 @@ public class TeacherDAO {
             }catch (SQLException sqle){
                 sqle.printStackTrace();
                 return null;
-            }finally {
-                conexao.closeConnection(conn);
             }
         }
 
@@ -164,7 +149,6 @@ public class TeacherDAO {
                 String sqlPastExperiences = "update teacher set past_experiences = ? where id = ?";
                 String sqlWizardTitle = "update teacher set wizard_title = ? where id = ?";
 
-                Connection conn = conexao.getConnection();
 
                 if (conn == null) {
                         System.out.println("Erro de conexão (PostgreSQL)");
@@ -205,8 +189,6 @@ public class TeacherDAO {
                 } catch (SQLException sqle) {
                         sqle.printStackTrace();
                         return 0;
-                } finally {
-                        conexao.closeConnection(conn);
                 }
         }
 
@@ -214,7 +196,6 @@ public class TeacherDAO {
                 String sql = "delete from teacher where id = ?";
                 String sqlFindUserId = "select user_id from teacher where id = ?";
 
-                Connection conn = conexao.getConnection();
 
                 if(conn == null){
                         System.out.println("Erro de conexão (PostgreSQL)");
@@ -240,8 +221,6 @@ public class TeacherDAO {
                 }catch (SQLException sqle){
                         sqle.printStackTrace();
                         return false;
-                }finally{
-                        conexao.closeConnection(conn);
                 }
         }
 
@@ -252,9 +231,7 @@ public class TeacherDAO {
                         "WHERE teacher_name = (SELECT name FROM users WHERE email = ?) " +
                         "ORDER BY student_name";
 
-                Connection conn = null;
                 try {
-                        conn = conexao.getConnection();
                         if (conn == null) {
                                 System.out.println("Erro ao conectar ao banco!");
                                 return null;
@@ -291,10 +268,6 @@ public class TeacherDAO {
                 } catch (SQLException e) {
                         e.printStackTrace();
                         return null;
-                } finally {
-                        if (conn != null) {
-                                conexao.closeConnection(conn);
-                        }
                 }
         }
 
@@ -311,9 +284,8 @@ public class TeacherDAO {
                         "JOIN subject_teacher st ON sub.id = st.subject_id " +
                         "WHERE st.teacher_id = ?";
 
-                Connection conn = null;
                 try {
-                        conn = conexao.getConnection();
+
                         if (conn == null) {
                                 System.out.println("Erro ao conectar ao banco!");
                                 return null;
@@ -362,8 +334,6 @@ public class TeacherDAO {
 
                 } catch (SQLException e) {
                         e.printStackTrace();
-                } finally {
-                        if (conn != null) conexao.closeConnection(conn);
                 }
                 return null;
         }
@@ -375,9 +345,7 @@ public class TeacherDAO {
                         "WHERE teacher_id = ? " +
                         "ORDER BY student_name";
 
-                Connection conn = null;
                 try {
-                        conn = conexao.getConnection();
                         if (conn == null) {
                                 System.out.println("Erro ao conectar ao banco!");
                                 return null;
@@ -413,10 +381,6 @@ public class TeacherDAO {
                 } catch (SQLException e) {
                         e.printStackTrace();
                         return null;
-                } finally {
-                        if (conn != null) {
-                                conexao.closeConnection(conn);
-                        }
                 }
         }
 
@@ -426,11 +390,9 @@ public class TeacherDAO {
                         "WHERE teacher_id = ? " +
                         "ORDER BY school_year, subject_name";
 
-                Connection conn = null;
                 List<String> result = new ArrayList<>();
 
                 try {
-                        conn = conexao.getConnection();
                         if (conn == null) {
                                 System.out.println("Erro ao conectar ao banco!");
                                 return null;
@@ -452,10 +414,6 @@ public class TeacherDAO {
 
                 } catch (SQLException e) {
                         e.printStackTrace();
-                } finally {
-                        if (conn != null) {
-                                conexao.closeConnection(conn);
-                        }
                 }
 
                 return result;
@@ -466,11 +424,10 @@ public class TeacherDAO {
                         "WHERE teacher_id = ? AND school_year = ? AND subject_name = ? " +
                         "ORDER BY student_name";
 
-                Connection conn = null;
                 List<StudentGradeDTO> students = new ArrayList<>();
 
                 try {
-                        conn = conexao.getConnection();
+
                         if (conn == null) {
                                 System.out.println("Erro ao conectar ao banco!");
                                 return null;
@@ -494,10 +451,6 @@ public class TeacherDAO {
 
                 } catch (SQLException e) {
                         e.printStackTrace();
-                } finally {
-                        if (conn != null) {
-                                conexao.closeConnection(conn);
-                        }
                 }
 
                 return students;
@@ -505,10 +458,9 @@ public class TeacherDAO {
 
     public boolean findByRegistration(String registration){
         String sql = "select 1 from teacher where teacher_registration_code = ?";
-        Connection conn = null;
+
 
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return false;
@@ -520,11 +472,6 @@ public class TeacherDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
     }
 }

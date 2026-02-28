@@ -9,17 +9,11 @@ import java.util.Queue;
 
 public class HouseDAO {
 
-    private Conexao conexao;
-
-    public HouseDAO() {
-        this.conexao = new Conexao(); // usa a classe de conexão
-    }
+    private final Connection conn = Conexao.getConnection();
 
     public Queue<House> viewRanking() {
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return null;
@@ -39,18 +33,12 @@ public class HouseDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
     }
 
     public boolean delete(int id){
         String sql = "delete from house where id = ?";
 
-        Connection conn = conexao.getConnection();
 
         if(conn == null){
             System.out.println("Erro de conexão (PostgreSQL)");
@@ -67,8 +55,6 @@ public class HouseDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
-        }finally{
-            conexao.closeConnection(conn);
         }
     }
 }

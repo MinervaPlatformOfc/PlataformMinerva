@@ -13,7 +13,7 @@ public class Conexao {
 
     private static Connection conn;
 
-    public Connection getConnection(){
+    public static Connection getConnection(){
         try{
             if(conn == null || conn.isClosed()){
                 PostgresqlConfig postgresql = new PostgresqlConfig();
@@ -24,10 +24,10 @@ public class Conexao {
             sqle.printStackTrace();
             throw new FailedConnectionException("Erro na conexão! (PostgreSQL)");
         }
-        return this.conn;
+        return conn;
     }
 
-    public void closeConnection(){
+    public static void closeConnection(){
         try{
             if(!(conn == null || conn.isClosed())){
                 PostgresqlConfig postgresql = new PostgresqlConfig();

@@ -12,11 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GradeDAO {
-    private Conexao conexao;
-
-    public GradeDAO() {
-        this.conexao = new Conexao(); // usa a classe de conexão
-    }
+    private final Connection conn = Conexao.getConnection();
 
     public List<StudentGradeDTO> getStudentGrades(int studentId){
         String sql = "SELECT sub.name AS subject_name, ss.n1, ss.n2 " +
@@ -25,10 +21,8 @@ public class GradeDAO {
                 "WHERE ss.student_id = ?";
 
         List<StudentGradeDTO> grades = new ArrayList<>();
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return null;
@@ -53,11 +47,6 @@ public class GradeDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
 
     }
@@ -69,10 +58,8 @@ public class GradeDAO {
                 "WHERE ss.student_id = ?";
 
         List<SubjectDTO> subjects = new ArrayList<>();
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return null;
@@ -95,21 +82,13 @@ public class GradeDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
 
     }
 
     public boolean updateGrades(int subjectId, int studentId, String n1Str, String n2Str) {
         String sql = "UPDATE subject_student SET n1 = ?, n2 = ? WHERE subject_id = ? AND student_id = ?";
-        Connection conn = null;
-
         try {
-            conn = conexao.getConnection();
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return false;
@@ -132,17 +111,13 @@ public class GradeDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            if (conn != null) conexao.closeConnection(conn);
         }
     }
 
     public Integer getSubjectId(String subject) {
         String sql = "select id from subject where name = ?";
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection();
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return null;
@@ -158,8 +133,6 @@ public class GradeDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        } finally {
-            if (conn != null) conexao.closeConnection(conn);
         }
     }
 }
