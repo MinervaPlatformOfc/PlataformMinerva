@@ -70,6 +70,7 @@ public class TeacherDAO {
 
                         while(rs.next()){
                                 TeacherDTO temp = new TeacherDTO(
+                                        rs.getInt("teacher_id"),
                                         rs.getString("email"),
                                         rs.getString("password"),
                                         rs.getString("user"),
@@ -135,6 +136,29 @@ public class TeacherDAO {
                 }
         }
 
+        public Integer getUserIdById(int id){
+            String sql= "select user_id from teacher where id = ?";
+
+            Connection conn = conexao.getConnection();
+
+            try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+                pstmt.setInt(1, id);
+
+                ResultSet rs = pstmt.executeQuery();
+
+                if(rs.next()){
+                    return rs.getInt("user_id");
+                }else{
+                    return null;
+                }
+            }catch (SQLException sqle){
+                sqle.printStackTrace();
+                return null;
+            }finally {
+                conexao.closeConnection(conn);
+            }
+        }
+
         public int update(int id, Teacher newTeacher){
                 String sqlWand = "update teacher set wand = ? where id = ?";
                 String sqlPastExperiences = "update teacher set past_experiences = ? where id = ?";
@@ -188,6 +212,7 @@ public class TeacherDAO {
 
         public boolean delete(int id){
                 String sql = "delete from teacher where id = ?";
+                String sqlFindUserId = "select user_id from teacher where id = ?";
 
                 Connection conn = conexao.getConnection();
 
@@ -197,12 +222,21 @@ public class TeacherDAO {
                 }
                 int lines = 0;
 
-                try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+                try(PreparedStatement pstmt = conn.prepareStatement(sql); PreparedStatement stmt = conn.prepareStatement(sqlFindUserId)){
                         pstmt.setInt(1, id);
+                        stmt.setInt(1, id);
+
+                        UserDAO userRepository = new UserDAO();
+
+                        ResultSet rs = stmt.executeQuery();
+                        boolean userDeleted = userRepository.delete(rs.getInt("user_id"));
+
+                        rs.next();
 
                         lines = pstmt.executeUpdate();
 
-                        return lines > 0;
+                        return lines > 0 && userDeleted;
+
                 }catch (SQLException sqle){
                         sqle.printStackTrace();
                         return false;

@@ -1,6 +1,7 @@
 package com.example.minerva.dao;
 
 import com.example.minerva.dto.AdminDTO;
+import com.example.minerva.dto.UserAnalysisDTO;
 import com.example.minerva.model.User;
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.utils.criptografia.HashSenha;
@@ -120,6 +121,35 @@ public class UserDAO {
         return null;
     }
 
+    public UserAnalysisDTO getUserAnalysis(){
+        String sql = "select (select count(id) from users) as \"total_users\",\n" +
+                "(select count(id) from users where role = 'admin') as \"total_admins\",\n" +
+                "(select count(id) from users where role = 'teacher') as \"total_teachers\",\n" +
+                "(select count(id) from users where role = 'student') as \"total_students\";";
+
+        Connection conn = conexao.getConnection();
+
+        try(Statement stmt = conn.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if(rs.next()){
+                return new UserAnalysisDTO(
+                        rs.getInt("total_users"),
+                        rs.getInt("total_admins"),
+                        rs.getInt("total_students"),
+                        rs.getInt("total_teachers")
+                );
+            }else{
+                return null;
+            }
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return null;
+        }finally {
+            conexao.closeConnection(conn);
+        }
+    }
+
 
     public List<AdminDTO> getAllAdmins(){
         String sql = "SELECT id, email, password,name FROM users where role = \'admin\'";
@@ -152,7 +182,6 @@ public class UserDAO {
 
     public int update(int id, User newUser) {
 
-        String sqlName = "update users set name = ? where id = ?";
         String sqlEmail = "update users set email = ? where id = ?";
         String sqlPassword = "update users set password = ? where id = ?";
 
@@ -171,16 +200,10 @@ public class UserDAO {
         String newHashedPassword = String.valueOf(new HashSenha(newUser.getPassword()));
 
         try (
-                PreparedStatement pstmtName = conn.prepareStatement(sqlName);
                 PreparedStatement pstmtEmail = conn.prepareStatement(sqlEmail);
                 PreparedStatement pstmtPassword = conn.prepareStatement(sqlPassword)
         ) {
 
-            if (!newUser.getName().equals(user.getName())) {
-                pstmtName.setString(1, newUser.getName());
-                pstmtName.setInt(2, id);
-                lines += pstmtName.executeUpdate();
-            }
 
             if (!newUser.getEmail().equals(user.getEmail())) {
                 pstmtEmail.setString(1, newUser.getEmail());

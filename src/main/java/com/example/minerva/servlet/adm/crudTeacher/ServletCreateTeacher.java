@@ -1,26 +1,32 @@
-package com.example.minerva.servlet.adm.crudAdmins;
+package com.example.minerva.servlet.adm.crudTeacher;
 
 import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
+import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dao.UserDAO;
+import com.example.minerva.model.Teacher;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
 import com.example.minerva.utils.validacao.ValidacaoSenha;
-import jakarta.servlet.*;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/admin/createAdmin", asyncSupported = true)
-public class ServletCreateAdmin extends HttpServlet {
+import com.example.minerva.utils.matricula.Matricula;
+import jakarta.servlet.http.Part;
+
+@WebServlet(urlPatterns = "/admin/CreateTeacher", asyncSupported = true)
+public class ServletCreateTeacher extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
@@ -29,13 +35,14 @@ public class ServletCreateAdmin extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        UserDAO userRepository = new UserDAO();
+        Matricula matricula = new Matricula();
+        UserDAO userDAO = new UserDAO();
+        TeacherDAO teacherRepository = new TeacherDAO();
 
         String email = request.getParameter("emailInput");
         String password = request.getParameter("passwordInput");
-        String name = request.getParameter("nameInput");
 
-        if (userRepository.findByEmail(email) != null) {
+        if (userDAO.findByEmail(email) != null) {
             response.sendRedirect(request.getContextPath() + "/register.jsp?error=email_exists");
             return;
         } if (!ValidacaoEmail.validarEmail(email)){
@@ -45,6 +52,7 @@ public class ServletCreateAdmin extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/register.jsp?error=password_invalid");
             return;
         }
+        String name = (String)  request.getAttribute("nameInput");
 
         Part filePart = request.getPart("image");
         if (filePart == null) {
@@ -86,10 +94,20 @@ public class ServletCreateAdmin extends HttpServlet {
         Map uploadResult = cloudinary.uploader().upload(imageBytes, params);
         String imageUrl = (String) uploadResult.get("secure_url");
 
-        User newUser = new User(name, email, new HashSenha(password).getHashSenha(), "ADMIN", imageUrl);
+        User newUser = new User(name, email, new HashSenha(password).getHashSenha(), "TEACHER", imageUrl);
 
-        request.setAttribute("msg", userRepository.saveAdmin(newUser) ? "Administrador inserido!": "Erro ao inserir administrador");
+        Integer houseId = Integer.parseInt(request.getParameter("houseIdInput"));
+        String wand = request.getParameter("wandInput");
+        Boolean headHouse = Boolean.parseBoolean(request.getParameter("headHouseInput"));
+        String pastExperiences = request.getParameter("pastExperiencesInput");
+        String wizardTitle = request.getParameter("wizardTitleInput");
+        String teacherRegistrationCode = matricula.generateAndSave("TEACHER", (String) request.getAttribute("email"));
 
-        request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
+        Teacher newTeacher = new Teacher(houseId, wand, headHouse, pastExperiences, wizardTitle, teacherRegistrationCode);
+
+        request.setAttribute("msg", teacherRepository.save(newTeacher, newUser) ? "Professor inserido com sucesso!": "Erro ao inserir professor!");
+
+        request.getRequestDispatcher("/admin/ViewTeachers").forward(request,response);
     }
+
 }

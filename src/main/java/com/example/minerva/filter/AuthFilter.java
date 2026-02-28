@@ -6,7 +6,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.*;
 
-@WebFilter("/*")
+@WebFilter(value = "/*", asyncSupported = true)
 public class AuthFilter implements Filter {
 
     @Override
@@ -24,6 +24,11 @@ public class AuthFilter implements Filter {
 
         HttpSession session = req.getSession(false);
         uri = req.getRequestURI();
+
+        if (req.getDispatcherType() == DispatcherType.ASYNC) {
+            chain.doFilter(request, response);
+            return;
+        }
 
         // permitir login e resgistro sem session
         if(uri.contains("login") || uri.contains("register") || uri.endsWith(".js") || uri.endsWith(".css") || uri.endsWith(".png") || uri.endsWith(".jpg")) {

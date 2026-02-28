@@ -8,9 +8,11 @@ import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.Student;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
+import com.example.minerva.utils.email.Email;
 import com.example.minerva.utils.matricula.Matricula;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
 import com.example.minerva.utils.validacao.ValidacaoSenha;
+import jakarta.servlet.AsyncContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@WebServlet("/register")
+@WebServlet(urlPatterns = "/register", asyncSupported = true)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024, // 1MB
         maxFileSize = 1024 * 1024 * 5,   // 5MB
@@ -37,6 +39,8 @@ public class ServletRegister extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
+        AsyncContext async = request.startAsync();
+
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -74,26 +78,13 @@ public class ServletRegister extends HttpServlet {
             return;
         }
 
-//        System.out.println("✅ Arquivo OK:");
-//        System.out.println("   - Nome: " + filePart.getSubmittedFileName());
-//        System.out.println("   - Tamanho: " + filePart.getSize() + " bytes");
-//        System.out.println("   - Content-Type: " + filePart.getContentType());
-
-// Validação da matrícula
-//        System.out.println("=== VALIDAÇÃO DA MATRÍCULA ===");
-//        System.out.println("Email para validação: " + email);
-//        System.out.println("Registration para validação: " + registration);
 
         Matricula matricula = new Matricula();
+        Email emailUtils = new Email();
+
         boolean matriculaValida = matricula.validate(email, registration);
-//        System.out.println("Resultado da validação: " + (matriculaValida ? "✅ VÁLIDA" : "❌ INVÁLIDA"));
 
         if (!matriculaValida) {
-//            System.out.println("❌ REDIRECIONANDO: matrícula inválida");
-//            System.out.println("   Possíveis causas:");
-//            System.out.println("   - Matrícula não encontrada no Redis para este email");
-//            System.out.println("   - Matrícula expirou (TTL de 4 dias)");
-//            System.out.println("   - Matrícula não corresponde ao email");
             response.sendRedirect(request.getContextPath() + "/register.jsp?error=invalid_registration");
             return;
         }
