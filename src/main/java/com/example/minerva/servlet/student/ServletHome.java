@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.student;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.HouseDAO;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dto.StudentHomeDTO;
@@ -30,5 +31,10 @@ public class ServletHome extends HttpServlet {
         request.setAttribute("ranking", houseDao.viewRanking());
         request.setAttribute("homeDto", homeDto);
         request.getRequestDispatcher("/aluno/home.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

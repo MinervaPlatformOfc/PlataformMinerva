@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.teacher;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dto.ProfileDTO;
 import jakarta.servlet.ServletException;
@@ -24,5 +25,10 @@ public class ServletStudentProfile extends HttpServlet {
         ProfileDTO profile = dao.getStudentProfile(id);
         request.setAttribute("profile", profile);
         request.getRequestDispatcher("/professor/studentProfile.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

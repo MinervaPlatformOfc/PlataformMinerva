@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm.crudAdmins;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.User;
 import jakarta.servlet.ServletException;
@@ -42,5 +43,10 @@ public class ServletDeleteAdmin extends HttpServlet {
         response.sendRedirect("/admin/ViewAdmins");
 
 
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

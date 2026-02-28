@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.teacher;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.GradeDAO;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dto.StudentGradeDTO;
@@ -38,6 +39,11 @@ public class ServletInsertGrade extends HttpServlet {
         request.setAttribute("subject", subject);
 
         request.getRequestDispatcher("/teacher/students").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm.crudStudent;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dao.UserDAO;
@@ -58,5 +59,10 @@ public class ServletUpdateStudent extends HttpServlet{
         response.sendRedirect("/admin/ViewStudents");
         return;
 
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

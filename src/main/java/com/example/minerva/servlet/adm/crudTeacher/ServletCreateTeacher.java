@@ -2,6 +2,7 @@ package com.example.minerva.servlet.adm.crudTeacher;
 
 import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.Teacher;
@@ -108,6 +109,11 @@ public class ServletCreateTeacher extends HttpServlet {
         request.setAttribute("msg", teacherRepository.save(newTeacher, newUser) ? "Professor inserido com sucesso!": "Erro ao inserir professor!");
 
         request.getRequestDispatcher("/admin/ViewTeachers").forward(request,response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 
 }

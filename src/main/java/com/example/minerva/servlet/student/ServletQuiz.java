@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.student;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.HouseDAO;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dao.UserDAO;
@@ -26,5 +27,10 @@ public class ServletQuiz extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("user", userDAO.findByEmail(email));
         req.getRequestDispatcher("/aluno/home").forward(req, resp);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

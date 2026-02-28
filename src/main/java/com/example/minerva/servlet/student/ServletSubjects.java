@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.student;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.GradeDAO;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dto.ProfileDTO;
@@ -26,5 +27,10 @@ public class ServletSubjects extends HttpServlet {
         List<SubjectDTO> subjects = dao.getSubjects(id);
         request.setAttribute("subjects", subjects);
         request.getRequestDispatcher("/aluno/subjects.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

@@ -1,4 +1,5 @@
 package com.example.minerva.servlet.teacher;
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.CommentDAO;
 import com.example.minerva.dao.GradeDAO;
 import com.example.minerva.dao.StudentDAO;
@@ -51,5 +52,10 @@ public class ServletListComments extends HttpServlet {
         request.setAttribute("listComments", listComments);
 
         request.getRequestDispatcher("/professor/comment.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

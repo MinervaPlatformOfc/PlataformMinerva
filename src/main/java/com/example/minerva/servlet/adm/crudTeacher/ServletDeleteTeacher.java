@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm.crudTeacher;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.TeacherDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -29,5 +30,10 @@ public class ServletDeleteTeacher extends HttpServlet{
         }
 
         response.sendRedirect("/admin/ViewTeachers");
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

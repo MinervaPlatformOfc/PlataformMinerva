@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.teacher;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dto.StudentGradeDTO;
 import jakarta.servlet.ServletException;
@@ -48,5 +49,10 @@ public class ServletStudents extends HttpServlet {
         request.setAttribute("year", year);
         request.setAttribute("subject", subject);
         request.getRequestDispatcher("/professor/students.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

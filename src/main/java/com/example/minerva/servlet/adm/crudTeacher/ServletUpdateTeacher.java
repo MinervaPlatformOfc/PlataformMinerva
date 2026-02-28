@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm.crudTeacher;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.Teacher;
@@ -47,5 +48,10 @@ public class ServletUpdateTeacher extends HttpServlet{
         }else{
             request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
         }
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

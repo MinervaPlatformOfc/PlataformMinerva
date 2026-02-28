@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.utils.email.Email;
 import com.example.minerva.utils.matricula.Matricula;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
@@ -50,5 +51,10 @@ public class ServletRegistration extends HttpServlet {
             req.setAttribute("msg", "Email enviado com matrícula");
             req.getRequestDispatcher("/admin/home.jsp").forward(req, resp);
         }
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

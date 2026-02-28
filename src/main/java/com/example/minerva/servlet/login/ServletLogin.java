@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.login;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.*;
 import com.example.minerva.dto.StudentHomeDTO;
 import com.example.minerva.model.User;
@@ -63,5 +64,10 @@ public class ServletLogin extends HttpServlet {
 //            System.out.println("LOGIN INVALIDO");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

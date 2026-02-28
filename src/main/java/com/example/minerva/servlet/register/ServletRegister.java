@@ -3,6 +3,7 @@ package com.example.minerva.servlet.register;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.minerva.conexao.CloudinaryConfig;
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.Student;
@@ -179,5 +180,10 @@ public class ServletRegister extends HttpServlet {
 
         request.setAttribute("email", email);
         request.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm.crudStudent;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.model.Student;
 import jakarta.servlet.ServletException;
@@ -24,6 +25,11 @@ public class ServletListStudents extends HttpServlet {
         request.getRequestDispatcher("/admin/CRUD/Student.jsp");
 
 
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 
 }

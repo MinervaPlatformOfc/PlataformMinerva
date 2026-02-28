@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm.crudAdmins;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.dto.AdminDTO;
 import jakarta.servlet.ServletException;
@@ -20,5 +21,10 @@ public class ServletListAdmins extends HttpServlet {
         List<AdminDTO> admins = userRepository.getAllAdmins();
         request.setAttribute("adminList", admins);
         request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

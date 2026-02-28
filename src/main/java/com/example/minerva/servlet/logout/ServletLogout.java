@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.logout;
 
+import com.example.minerva.conexao.Conexao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,5 +17,10 @@ public class ServletLogout extends HttpServlet {
         HttpSession session = req.getSession();
         session.removeAttribute("user");
         req.getRequestDispatcher("/login.jsp").forward(req, resp);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }
