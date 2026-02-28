@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/teacher/studentProfile")
+@WebServlet(urlPatterns = "/teacher/studentProfile", loadOnStartup = 1)
 public class ServletStudentProfile extends HttpServlet {
 
     @Override

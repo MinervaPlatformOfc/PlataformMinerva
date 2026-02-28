@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/aluno/quiz")
+@WebServlet(urlPatterns = "/aluno/quiz", loadOnStartup = 1)
 public class ServletQuiz extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

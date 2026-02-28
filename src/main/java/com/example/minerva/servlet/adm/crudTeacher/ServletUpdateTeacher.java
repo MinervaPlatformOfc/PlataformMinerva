@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/UpdateTeacher")
+@WebServlet(urlPatterns = "/admin/UpdateTeacher", loadOnStartup = 1)
 public class ServletUpdateTeacher extends HttpServlet{
 
     @Override

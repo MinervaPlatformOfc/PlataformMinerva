@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/aluno/grades")
+@WebServlet(urlPatterns = "/aluno/grades", loadOnStartup = 1)
 public class ServletGrades extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

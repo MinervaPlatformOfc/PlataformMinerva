@@ -26,7 +26,7 @@ import java.util.Map;
 import com.example.minerva.utils.matricula.Matricula;
 import jakarta.servlet.http.Part;
 
-@WebServlet(urlPatterns = "/admin/CreateTeacher", asyncSupported = true)
+@WebServlet(urlPatterns = "/admin/CreateTeacher", loadOnStartup = 1)
 public class ServletCreateTeacher extends HttpServlet {
 
     @Override

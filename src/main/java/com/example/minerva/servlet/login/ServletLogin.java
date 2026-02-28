@@ -12,7 +12,7 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-@WebServlet("/login")
+@WebServlet(urlPatterns = "/login", loadOnStartup = 1)
 public class ServletLogin extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

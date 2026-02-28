@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/teacher/studentComments")
+@WebServlet(urlPatterns = "/teacher/studentComments", loadOnStartup = 1)
 public class ServletListComments extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

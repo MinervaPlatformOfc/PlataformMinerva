@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/teacher/profile")
+@WebServlet(urlPatterns = "/teacher/profile", loadOnStartup = 1)
 public class ServletProfile extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

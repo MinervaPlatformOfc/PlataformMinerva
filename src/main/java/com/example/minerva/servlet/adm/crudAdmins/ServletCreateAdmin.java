@@ -21,7 +21,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/admin/createAdmin", asyncSupported = true)
+@WebServlet(urlPatterns = "/admin/createAdmin", loadOnStartup = 1)
 public class ServletCreateAdmin extends HttpServlet {
 
     @Override

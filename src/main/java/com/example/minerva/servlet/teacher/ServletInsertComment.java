@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/teacher/insertComment")
+@WebServlet(urlPatterns = "/teacher/insertComment", loadOnStartup = 1)
 public class ServletInsertComment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

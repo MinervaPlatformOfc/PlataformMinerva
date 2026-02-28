@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/removeAdmin")
+@WebServlet(urlPatterns = "/admin/removeAdmin", loadOnStartup = 1)
 public class ServletDeleteAdmin extends HttpServlet {
 
     @Override
