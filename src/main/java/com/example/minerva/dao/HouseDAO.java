@@ -1,11 +1,11 @@
 package com.example.minerva.dao;
 
 import com.example.minerva.conexao.Conexao;
+import com.example.minerva.dto.SubjectDTO;
 import com.example.minerva.model.House;
 
 import java.sql.*;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class HouseDAO {
 
@@ -69,6 +69,36 @@ public class HouseDAO {
             return false;
         }finally{
             conexao.closeConnection(conn);
+        }
+    }
+
+    public HashMap<String, Integer> getAllHouses() {
+        String sql = "SELECT id, name FROM house";
+        Connection conn = null;
+
+        try {
+            conn = conexao.getConnection();
+            if (conn == null) {
+                System.out.println("Erro ao conectar ao banco!");
+                return null;
+            }
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            HashMap<String, Integer> houseMap = new HashMap<>();
+
+            while (rs.next()) {
+                houseMap.put(rs.getString("name"), rs.getInt("id"));
+            }
+
+            return houseMap;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (conn != null) conexao.closeConnection(conn);
         }
     }
 }

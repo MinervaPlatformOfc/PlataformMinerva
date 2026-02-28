@@ -4,6 +4,7 @@ package com.example.minerva.model;
 import java.util.Date;
 
 public class User {
+    private int id;
     private String name;
     private String password;
     private String email;
@@ -22,6 +23,16 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public User(int id, String name, String password, String email, String role, String imageUrl){
+        this.name = name;
+        this. password = password;
+        this.email = email;
+        this.role = role;
+        this.imageUrl = imageUrl;
+        this.firstAcess = true;
+        this.id = id;
+    }
+
     public User(String name, String password, String email, String role, String imageUrl){
         this.name = name;
         this. password = password;
@@ -31,9 +42,9 @@ public class User {
         this.firstAcess = true;
     }
 
-    public User(String name, String password, String email){
+    public User(String name, String email, String imageUrl){
         this.name = name;
-        this. password = password;
+        this.imageUrl = imageUrl;
         this.email = email;
     }
 
@@ -59,5 +70,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public int getId() {
+        return id;
     }
 }

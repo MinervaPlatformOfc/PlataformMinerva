@@ -9,22 +9,27 @@ import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
 import com.example.minerva.utils.validacao.ValidacaoSenha;
-import jakarta.servlet.AsyncContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.HashMap;
 import java.util.Map;
+
 
 import com.example.minerva.utils.matricula.Matricula;
 import jakarta.servlet.http.Part;
 
+
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 10
+)
 @WebServlet(urlPatterns = "/admin/CreateTeacher", asyncSupported = true)
 public class ServletCreateTeacher extends HttpServlet {
 

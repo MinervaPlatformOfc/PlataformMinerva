@@ -11,18 +11,20 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="${pageContext.request.contextPath}/admin/generateRegistration" method="post">
-        <div> <label>Email:</label> <input type="email" name="email" required> </div>
-        <input name="role" type="hidden" value="STUDENT">
-        <br>
-        <button type="submit">Enviar Código de Matrícula</button>
-    </form>
     <form action="${pageContext.request.contextPath}/admin/ViewAdmins" method="get">
         <button type="submit">CRUD Admins</button>
     </form>
 
     <form action="${pageContext.request.contextPath}/admin/ViewTeachers" method="post">
         <button type="submit">CRUD Teachers</button>
+    </form>
+
+    <form action="${pageContext.request.contextPath}/admin/ViewSubjects" method="post">
+        <button type="submit">CRUD Subjects</button>
+    </form>
+
+    <form action="${pageContext.request.contextPath}/logout" method="post">
+        <button type="submit">Sair</button>
     </form>
 </body>
 </html>
