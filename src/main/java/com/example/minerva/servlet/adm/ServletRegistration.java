@@ -14,15 +14,16 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@WebServlet(urlPatterns = "/admin/generateRegistration")
+@WebServlet(urlPatterns = "/admin/generateRegistration", asyncSupported = true)
 public class ServletRegistration extends HttpServlet {
 
-    private static final ExecutorService executor =
-            Executors.newFixedThreadPool(2);
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        AsyncContext async = req.startAsync();
+
 
         String email = req.getParameter("email");
         String role = req.getParameter("role");
@@ -35,13 +36,16 @@ public class ServletRegistration extends HttpServlet {
             String registration =
                     matriculaService.generateAndSave(role, email);
 
-            executor.submit(() -> {
+            async.start(() -> {
                 try {
                     emailService.sendRegistration(email, registration);
                 } catch (Exception e) {
                     e.printStackTrace();
+                }finally {
+                    async.complete();
                 }
             });
+
 
             req.setAttribute("msg", "Email enviado com matrícula");
             req.getRequestDispatcher("/admin/home.jsp").forward(req, resp);
