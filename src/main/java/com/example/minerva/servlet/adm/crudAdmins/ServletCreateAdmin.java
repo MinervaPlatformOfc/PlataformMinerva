@@ -2,13 +2,14 @@ package com.example.minerva.servlet.adm.crudAdmins;
 
 import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
-import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.User;
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.utils.criptografia.HashSenha;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
 import com.example.minerva.utils.validacao.ValidacaoSenha;
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet(urlPatterns = "/admin/createAdmin", loadOnStartup = 1)
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 10
+)
 public class ServletCreateAdmin extends HttpServlet {
 
     @Override

@@ -11,6 +11,11 @@
     <title>Title</title>
 </head>
 <body>
-
+<h1>Enviar matrícula no gmail para registrar usuário!</h1>
+<form action="${pageContext.request.contextPath}/admin/generateRegistration" method="post">
+    <div> <label>Email:</label> <input type="email" name="email" required> </div>
+    <br>
+    <button type="submit">Enviar Código de Matrícula</button>
+</form>
 </body>
 </html>

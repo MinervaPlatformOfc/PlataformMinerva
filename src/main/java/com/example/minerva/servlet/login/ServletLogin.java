@@ -52,7 +52,9 @@ public class ServletLogin extends HttpServlet {
                     break;
 
                 case "admin":
-                    response.sendRedirect(request.getContextPath() + "/admin/home.jsp");
+                    request.setAttribute("email", email);
+                    request.getRequestDispatcher("/admin/users")
+                            .forward(request, response);
                     break;
 
                 default:
@@ -61,7 +63,6 @@ public class ServletLogin extends HttpServlet {
             }
 
         } else {
-//            System.out.println("LOGIN INVALIDO");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
     }

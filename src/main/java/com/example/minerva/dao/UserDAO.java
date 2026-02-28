@@ -16,7 +16,7 @@ public class UserDAO {
     private final Connection conn = Conexao.getConnection();
 
     public boolean saveAdmin(User user){
-        String sql = "call create_admin(?, ?, ?)";
+        String sql = "call create_admin(?, ?, ?, ?)";
 
         int lines = 0;
 
@@ -24,6 +24,7 @@ public class UserDAO {
             stmt.setString(1, user.getEmail());
             stmt.setString(2, String.valueOf(new HashSenha(user.getPassword())));
             stmt.setString(3, user.getName());
+            stmt.setString(4, user.getImageUrl());
 
             lines = stmt.executeUpdate();
 
@@ -132,7 +133,7 @@ public class UserDAO {
 
 
     public List<AdminDTO> getAllAdmins(){
-        String sql = "SELECT id, email, password,name FROM users where role = \'admin\'";
+        String sql = "SELECT id, email, password, name, profile_image_url FROM users where role = \'admin\'";
 
 
         List<AdminDTO> users = new ArrayList<>();
@@ -145,7 +146,34 @@ public class UserDAO {
                         rs.getInt("id"),
                         rs.getString("email"),
                         rs.getString("password"),
-                        rs.getString("name")
+                        rs.getString("name"),
+                        rs.getString("profile_image_url")
+                        );
+                users.add(temp);
+            }
+            return users;
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public List<User> getNotAdmins(){
+        String sql = "SELECT id, role, email, password, name, profile_image_url FROM users where role != 'admin'";
+
+        List<User> users = new ArrayList<>();
+
+        try(Statement stmt = conn.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while(rs.next()){
+                User temp = new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("email"),
+                        rs.getString("role"),
+                        rs.getString("profile_image_url")
                 );
                 users.add(temp);
             }
@@ -157,54 +185,8 @@ public class UserDAO {
     }
 
 
-    public int update(int id, User newUser) {
-
-        String sqlEmail = "update users set email = ? where id = ?";
-        String sqlPassword = "update users set password = ? where id = ?";
-
-
-        if (conn == null) {
-            System.out.println("Erro de conexão (PostgreSQL)");
-            return 0;
-        }
-
-        int lines = 0;
-
-        User user = findById(id);
-        if (user == null) return 0;
-
-        String newHashedPassword = String.valueOf(new HashSenha(newUser.getPassword()));
-
-        try (
-                PreparedStatement pstmtEmail = conn.prepareStatement(sqlEmail);
-                PreparedStatement pstmtPassword = conn.prepareStatement(sqlPassword)
-        ) {
-
-
-            if (!newUser.getEmail().equals(user.getEmail())) {
-                pstmtEmail.setString(1, newUser.getEmail());
-                pstmtEmail.setInt(2, id);
-                lines += pstmtEmail.executeUpdate();
-            }
-
-            if (!newHashedPassword.equals(user.getPassword())) {
-                pstmtPassword.setString(1, newHashedPassword);
-                pstmtPassword.setInt(2, id);
-                lines += pstmtPassword.executeUpdate();
-            }
-
-            return lines;
-
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-            return 0;
-        }
-    }
-
-
     public boolean delete(int id){
         String sql = "delete from users where id = ?";
-
 
         if(conn == null){
             System.out.println("Erro de conexão (PostgreSQL)");
@@ -224,5 +206,83 @@ public class UserDAO {
         }
     }
 
+    public  boolean update(int id, User user) {
 
+        String sql = "UPDATE users SET name = ?, email = ?, password = ?, profile_image_url = ? WHERE id = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setString(4, user.getImageUrl());
+            stmt.setInt(5, id);
+
+            return stmt.executeUpdate()>0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public  boolean updateAdmin(int id, User user) {
+
+        String sql = "UPDATE users SET name = ?, email = ?, profile_image_url = ? WHERE id = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getImageUrl());
+            stmt.setInt(4, id);
+
+            return stmt.executeUpdate()>0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public  boolean updatePassword(String email, String password) {
+
+        String sql = "UPDATE users SET password = ? WHERE email = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, password);
+            stmt.setString(2, email);
+
+            return stmt.executeUpdate()>0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public double[] getUserStatistics() {
+        String sql = "SELECT total_users, pct_admins, pct_teachers, pct_students FROM user_statistics";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                double totalUsers = rs.getDouble("total_users");
+                double pctAdmins = rs.getDouble("pct_admins");
+                double pctTeachers = rs.getDouble("pct_teachers");
+                double pctStudents = rs.getDouble("pct_students");
+
+                return new double[]{totalUsers, pctAdmins, pctTeachers, pctStudents};
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Retorna zeros em tds valores caso dê algum problema
+        return new double[]{0, 0, 0, 0};
+    }
 }
