@@ -10,7 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/admin/ViewTeachers")
+@WebServlet(urlPatterns = "/admin/ViewTeachers", loadOnStartup = 1)
+
 public class ServletListTeachers extends HttpServlet {
 
     @Override
