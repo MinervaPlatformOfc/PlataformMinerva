@@ -1,6 +1,7 @@
 package com.example.minerva.dao;
 
 import com.example.minerva.dto.AdminDTO;
+import com.example.minerva.dto.UserAnalysisDTO;
 import com.example.minerva.model.User;
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.utils.criptografia.HashSenha;
@@ -119,6 +120,35 @@ public class UserDAO {
 
         // Retorna null se não encontrar
         return null;
+    }
+
+    public UserAnalysisDTO getUserAnalysis(){
+        String sql = "select (select count(id) from users) as \"total_users\",\n" +
+                "(select count(id) from users where role = 'admin') as \"total_admins\",\n" +
+                "(select count(id) from users where role = 'teacher') as \"total_teachers\",\n" +
+                "(select count(id) from users where role = 'student') as \"total_students\";";
+
+        Connection conn = conexao.getConnection();
+
+        try(Statement stmt = conn.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if(rs.next()){
+                return new UserAnalysisDTO(
+                        rs.getInt("total_users"),
+                        rs.getInt("total_admins"),
+                        rs.getInt("total_students"),
+                        rs.getInt("total_teachers")
+                );
+            }else{
+                return null;
+            }
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+            return null;
+        }finally {
+            conexao.closeConnection(conn);
+        }
     }
 
 

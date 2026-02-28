@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/admin/UpdateTeacher", asyncSupported = true)
+@WebServlet(urlPatterns = "/admin/UpdateTeacher")
 public class ServletUpdateTeacher extends HttpServlet{
 
     @Override
@@ -21,17 +21,18 @@ public class ServletUpdateTeacher extends HttpServlet{
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        boolean update = (boolean) request.getAttribute("action");
+        boolean update = Boolean.parseBoolean(request.getParameter("action"));
 
-        int id = (int) request.getAttribute("id");
+        int id = Integer.parseInt(request.getParameter("id"));
 
         TeacherDAO teacherRepository = new TeacherDAO();
 
         if(update){
-            String wand = (String) request.getAttribute("wandInput");
-            boolean headHouse = (boolean) request.getAttribute("headHouseInput");
-            String pastExperiences = (String) request.getAttribute("pastExperiencesInput");
-            String wizardTitle = (String) request.getAttribute("wizardTitleInput");
+
+            String wand = request.getParameter("wandInput");
+            boolean headHouse = Boolean.parseBoolean(request.getParameter("headHouseInput"));
+            String pastExperiences = request.getParameter("pastExperiencesInput");
+            String wizardTitle = request.getParameter("wizardTitleInput");
 
             Teacher currentTeacher = new Teacher(wand, headHouse, pastExperiences, wizardTitle);
 
@@ -75,7 +76,6 @@ public class ServletUpdateTeacher extends HttpServlet{
                 request.setAttribute("msg", "Erro ao atualizar professor");
                 request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
             }
-
         }else{
             request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
         }

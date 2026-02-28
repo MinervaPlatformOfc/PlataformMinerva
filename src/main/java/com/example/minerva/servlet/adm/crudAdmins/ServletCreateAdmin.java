@@ -5,6 +5,8 @@ import com.example.minerva.conexao.CloudinaryConfig;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
+import com.example.minerva.utils.validacao.ValidacaoEmail;
+import com.example.minerva.utils.validacao.ValidacaoSenha;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -35,54 +37,64 @@ public class ServletCreateAdmin extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         UserDAO userRepository = new UserDAO();
 
-        String email = (String) request.getAttribute("emailInput");
-        String password = String.valueOf(new HashSenha((String) request.getAttribute("passwordInput")));
-        String name = (String)  request.getAttribute("nameInput");
+        String email = request.getParameter("emailInput");
+        String password = request.getParameter("passwordInput");
+        String name = request.getParameter("nameInput");
 
-        // ====== TRATAR IMAGEM ======
-        Part filePart = request.getPart("imageInput");
-        String imageUrl;
-
-        if (filePart == null || filePart.getSize() == 0) {
-            response.sendRedirect(request.getContextPath() + "/admin/CRUD/Admin.jsp?error=validation_image_failed");
+        if (userRepository.findByEmail(email) != null) {
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=email_exists");
             return;
-        } else {
-
-            byte[] imageBytes;
-            try (InputStream input = filePart.getInputStream()) {
-                imageBytes = input.readAllBytes();
-            }
-
-            if (imageBytes.length < 4) {
-                throw new ServletException("Arquivo muito pequeno");
-            }
-
-            Cloudinary cloudinary = CloudinaryConfig.getInstance();
-
-            Map<String, Object> params = new HashMap<>();
-            params.put("folder", "profile_images");
-            params.put("public_id", "user_" + System.currentTimeMillis());
-            params.put("overwrite", true);
-            params.put("resource_type", "image");
-            params.put("type", "upload");
-
-            Map uploadResult = cloudinary.uploader().upload(imageBytes, params);
-
-            imageUrl = (String) uploadResult.get("secure_url");
+        } if (!ValidacaoEmail.validarEmail(email)){
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=email_invalid");
+            return;
+        } if (!ValidacaoSenha.validarSenha(password)){
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=password_invalid");
+            return;
         }
 
-        User newUser = new User(name, password, email, "ADMIN", imageUrl);
+        Part filePart = request.getPart("image");
+        if (filePart == null) {
+//            System.out.println("❌ ERRO: filePart é NULL");
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_null");
+            return;
+        }
 
-        AsyncContext async = request.startAsync();
+        if (filePart.getSize() == 0) {
+//            System.out.println("❌ ERRO: filePart está VAZIO (tamanho 0)");
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_empty");
+            return;
+        }
 
-        async.start(() -> {
-            userRepository.saveAdmin(newUser);
-            async.complete();
-        });
+        // CONVERTER PARA BYTE
+        byte[] imageBytes;
+        try (InputStream input = filePart.getInputStream()) {
+            imageBytes = input.readAllBytes();
+        }
 
-        userRepository.saveAdmin(newUser);
+//        System.out.println("Bytes lidos: " + imageBytes.length);
 
-        request.setAttribute("msg", "Administrador inserido com sucesso!");
+        // Verificar se é uma imagem válida (magic numbers)
+        if (imageBytes.length < 4) {
+            throw new ServletException("Arquivo muito pequeno");
+        }
+
+        // Upload para Cloudinary com parâmetros explícitos
+        Cloudinary cloudinary = CloudinaryConfig.getInstance();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("folder", "profile_images");
+        params.put("public_id", "user_" + System.currentTimeMillis());
+        params.put("overwrite", true);
+        params.put("resource_type", "image");
+        params.put("type", "upload");
+
+        // uso do byte array diretamente
+        Map uploadResult = cloudinary.uploader().upload(imageBytes, params);
+        String imageUrl = (String) uploadResult.get("secure_url");
+
+        User newUser = new User(name, email, new HashSenha(password).getHashSenha(), "ADMIN", imageUrl);
+
+        request.setAttribute("msg", userRepository.saveAdmin(newUser) ? "Administrador inserido!": "Erro ao inserir administrador");
 
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
     }

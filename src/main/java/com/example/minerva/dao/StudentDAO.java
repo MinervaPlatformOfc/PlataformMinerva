@@ -3,9 +3,13 @@ package com.example.minerva.dao;
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dto.ProfileDTO;
 import com.example.minerva.dto.StudentHomeDTO;
+import com.example.minerva.dto.UpdateStudentDTO;
 import com.example.minerva.model.Student;
 import com.example.minerva.model.User;
+import jakarta.el.LambdaExpression;
+import org.apache.http.annotation.Obsolete;
 
+import java.beans.JavaBean;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -260,6 +264,7 @@ public class StudentDAO {
         return null;
     }
 
+
     public boolean updateHouseIdByEmail(String email, String houseName) {
 
         String sqlStudent = " UPDATE student s SET house_id = (SELECT h.id FROM house h WHERE h.name = ?) FROM users u WHERE s.user_id = u.id AND u.email = ?";
@@ -288,6 +293,106 @@ public class StudentDAO {
                 conexao.closeConnection(conn);
             }
         }
+    }
+
+    public Student findById(int id){
+        String sql = "select * from teacher";
+
+        Connection conn = conexao.getConnection();
+
+        try(Statement stmt = conn.createStatement()){
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if(rs.next()){
+                return new Student(
+                        rs.getInt("id"),
+                        rs.getInt("school_year"),
+                        rs.getString("legal_guardian_name"),
+                        rs.getString("residence_address"),
+                        rs.getString("wand"),
+                        rs.getString("pet"),
+                        rs.getString("allergies"),
+                        rs.getString("blood"),
+                        rs.getBoolean("basic_kit"),
+                        rs.getBoolean("guardian_permission"),
+                        rs.getString("registration"),
+                        rs.getBoolean("flight_fitness")
+                );
+            }
+        }catch(SQLException sqle){
+            sqle.printStackTrace();
+        }finally{
+            conexao.closeConnection(conn);
+        }
+        return null;
+    }
+
+
+    public int update(int id, UpdateStudentDTO newStudent){
+        String sqlResidenceAddress = "update from student set residence_address = ? where id = ?";
+        String sqlPetType = "update from student set pet_type = ? where id = ?";
+        String sqlBasicKit = "update from student set basic_type = ? where id = ?";
+        String sqlAllergies = "update from student set allergies = ? where id = ?";
+        String sqlSchoolYear = "update from student set school_year = ? where id = ?";
+        String sqlFlightFitness = "update from student set flight_fitness = ? where id = ?";
+
+        Student currentStudent = findById(id);
+
+        Connection conn = conexao.getConnection();
+
+        int lines = 0;
+
+        try(
+                PreparedStatement pstmtResidenceAddress = conn.prepareStatement(sqlResidenceAddress);
+                PreparedStatement pstmtPetType = conn.prepareStatement(sqlPetType);
+                PreparedStatement pstmtBasicKit = conn.prepareStatement(sqlBasicKit);
+                PreparedStatement pstmtAllergies = conn.prepareStatement(sqlAllergies);
+                PreparedStatement pstmtSchoolYear = conn.prepareStatement(sqlSchoolYear);
+                PreparedStatement pstmtFlightFitness = conn.prepareStatement(sqlFlightFitness);
+                ){
+
+            if(!newStudent.getResidenceAddress().equals(currentStudent.getResidenceAddress())){
+                pstmtResidenceAddress.setString(1, newStudent.getResidenceAddress());
+                pstmtResidenceAddress.setInt(2, id);
+                lines += pstmtResidenceAddress.executeUpdate();
+            }
+
+            if(!newStudent.getPetType().equals(currentStudent.getPetType())){
+                pstmtPetType.setString(1, newStudent.getPetType());
+                pstmtPetType.setInt(2, id);
+                lines += pstmtPetType.executeUpdate();
+            }
+
+            if(!(newStudent.getBasicKit() == currentStudent.getBasicKit())){
+                pstmtBasicKit.setBoolean(1, newStudent.getBasicKit());
+                pstmtBasicKit.setInt(2, id);
+                lines += pstmtBasicKit.executeUpdate();
+            }
+
+            if(!newStudent.getAllergies().equals(currentStudent.getAllergies())){
+                pstmtAllergies.setString(1, newStudent.getAllergies());
+                pstmtAllergies.setInt(2, id);
+                lines += pstmtAllergies.executeUpdate();
+            }
+
+            if(!(newStudent.getSchoolYear() == currentStudent.getSchoolYear())){
+                pstmtSchoolYear.setInt(1, newStudent.getSchoolYear());
+                pstmtSchoolYear.setInt(2, id);
+                lines += pstmtSchoolYear.executeUpdate();
+            }
+
+            if(!(newStudent.getFlightFitness() == currentStudent.getFlightFitness())){
+                pstmtFlightFitness.setBoolean(1, newStudent.getFlightFitness());
+                pstmtFlightFitness.setInt(2, id);
+                lines += pstmtFlightFitness.executeUpdate();
+            }
+
+        }catch (SQLException sqle){
+            sqle.printStackTrace();
+        }finally {
+            conexao.closeConnection(conn);
+        }
+        return lines;
     }
 
     public boolean delete(int id){

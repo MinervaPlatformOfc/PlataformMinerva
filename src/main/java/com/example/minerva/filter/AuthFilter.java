@@ -25,6 +25,11 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession(false);
         uri = req.getRequestURI();
 
+        if (req.getDispatcherType() == DispatcherType.ASYNC) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         // permitir login e resgistro sem session, tbm trocar a senha
         if(uri.contains("login") || uri.contains("register") || uri.endsWith(".js") || uri.endsWith(".css") || uri.endsWith(".png") || uri.endsWith(".jpg") || uri.contains("recoverPassword")) {
             chain.doFilter(request, response);
