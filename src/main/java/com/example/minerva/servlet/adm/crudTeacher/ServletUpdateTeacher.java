@@ -23,13 +23,10 @@ public class ServletUpdateTeacher extends HttpServlet{
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        boolean update = Boolean.parseBoolean(request.getParameter("action"));
-
         int id = Integer.parseInt(request.getParameter("id"));
 
         TeacherDAO teacherRepository = new TeacherDAO();
 
-        if(update){
 
             String wand = request.getParameter("wandInput");
             boolean headHouse = Boolean.parseBoolean(request.getParameter("headHouseInput"));
@@ -76,11 +73,11 @@ public class ServletUpdateTeacher extends HttpServlet{
             }else{
                 request.setAttribute("msg", "Erro ao atualizar professor");
             }
-        }
-        RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForTeacher();
-        request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
+        
+          RechargeListener rechargeListener = new RechargeListener();
+          rechargeListener.rechargeForTeacher();
 
+          request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
     }
 
     @Override

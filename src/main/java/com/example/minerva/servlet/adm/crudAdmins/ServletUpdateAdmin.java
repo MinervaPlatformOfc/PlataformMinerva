@@ -30,8 +30,10 @@ public class ServletUpdateAdmin extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-
         UserDAO userDAO = new UserDAO();
+
+        String admName = request.getParameter("name");
+        boolean currentAdm = userDAO.findByName(admName).getId() == id;
 
 // ====== PEGAR DADOS ======
         String nameInput = request.getParameter("nameInput");
@@ -65,7 +67,9 @@ public class ServletUpdateAdmin extends HttpServlet {
             }
 
             if (imageBytes.length < 4) {
-                throw new ServletException("Arquivo muito pequeno");
+                request.setAttribute("msg", "Arquivo inválido.");
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                return;
             }
 
             Cloudinary cloudinary = CloudinaryConfig.getInstance();
@@ -94,14 +98,13 @@ public class ServletUpdateAdmin extends HttpServlet {
             request.setAttribute("msg", "Erro ao atualizar usuário");
         }
 
-        String name = request.getParameter("name");
-        String url = request.getParameter("url");
-        request.setAttribute("name", name);
-        request.setAttribute("url", url);
-
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForAdmin();
 
+        if (currentAdm){
+            request.setAttribute("name", nameInput);
+            request.setAttribute("url", imageUrl);
+        }
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
     }
 }

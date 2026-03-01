@@ -103,11 +103,6 @@ public class ServletUpdateUsers extends HttpServlet {
             request.setAttribute("msg", "Erro ao atualizar usuário");
         }
 
-        String name = request.getParameter("name");
-        String url = request.getParameter("url");
-        request.setAttribute("name", name);
-        request.setAttribute("url", url);
-
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForUser();
 

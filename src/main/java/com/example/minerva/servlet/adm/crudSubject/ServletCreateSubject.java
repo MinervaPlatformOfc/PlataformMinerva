@@ -14,13 +14,9 @@ import java.io.IOException;
 public class ServletCreateSubject extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        String url = req.getParameter("url");
         String subjectName = req.getParameter("subjectName");
         boolean addStudents = Boolean.parseBoolean(req.getParameter("addStudents"));
 
-        req.setAttribute("name", name);
-        req.setAttribute("url", url);
         GradeDAO dao = new GradeDAO();
 
         dao.save(subjectName, addStudents);
@@ -28,6 +24,6 @@ public class ServletCreateSubject extends HttpServlet {
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForSubject();
 
-        req.getRequestDispatcher("/admin/ViewSubjects");
+        req.getRequestDispatcher("/admin/ViewSubjects").forward(req, resp);
     }
 }

@@ -25,13 +25,10 @@ public class ServletUpdateStudent extends HttpServlet{
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        boolean update = Boolean.parseBoolean(request.getParameter("action"));
-
         int id = Integer.parseInt(request.getParameter("id"));
 
         StudentDAO studentRepository = new StudentDAO();
 
-        if(update){
             String residenceAddress = request.getParameter("residenceAddressInput");
             String petType = request.getParameter("petTypeInput");
             String allergies = request.getParameter("allergiesInput");
@@ -55,14 +52,7 @@ public class ServletUpdateStudent extends HttpServlet{
             RechargeListener rechargeListener = new RechargeListener();
             rechargeListener.rechargeForStudent();
 
-            response.sendRedirect("/admin/ViewStudents");
-
-            return;
-        }
-
-        response.sendRedirect("/admin/ViewStudents");
-        return;
-
+            request.getRequestDispatcher("/admin/ViewStudents").forward(request,response);
     }
 
     @Override

@@ -19,6 +19,21 @@ public class ServletListAdmins extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         List<AdminDTO> admins = (List<AdminDTO>) getServletContext().getAttribute("adminList");
         request.setAttribute("adminList", admins);
+        String admName = request.getParameter("name");
+        String url = request.getParameter("url");
+
+        if (admName == null) {
+            Object attr = request.getAttribute("name");
+            if (attr != null) admName = attr.toString();
+        }
+        if (admName != null) request.setAttribute("name", admName);
+
+        if (url == null) {
+            Object attr = request.getAttribute("url");
+            if (attr != null) url = attr.toString();
+        }
+        if (url != null) request.setAttribute("url", url);
+
         request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
     }
 
