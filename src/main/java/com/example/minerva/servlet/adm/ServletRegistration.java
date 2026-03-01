@@ -27,7 +27,6 @@ public class ServletRegistration extends HttpServlet {
 
 
         String email = req.getParameter("email");
-        String role = req.getParameter("role");
 
         if (ValidacaoEmail.validarEmail(email)) {
 
@@ -35,7 +34,7 @@ public class ServletRegistration extends HttpServlet {
             Email emailService = new Email();
 
             String registration =
-                    matriculaService.generateAndSave(role, email);
+                    matriculaService.generateAndSave("STUDENT", email);
 
             async.start(() -> {
                 try {
@@ -49,7 +48,7 @@ public class ServletRegistration extends HttpServlet {
 
 
             req.setAttribute("msg", "Email enviado com matrícula");
-            req.getRequestDispatcher("/admin/home.jsp").forward(req, resp);
+            req.getRequestDispatcher("/admin/CRUD/Student.jsp").forward(req, resp);
         }
     }
 
