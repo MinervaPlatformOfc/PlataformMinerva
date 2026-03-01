@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.teacher;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.CommentDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/teacher/insertComment")
+@WebServlet(urlPatterns = "/teacher/insertComment", loadOnStartup = 1)
 public class ServletInsertComment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -36,5 +37,10 @@ public class ServletInsertComment extends HttpServlet {
         commentDAO.insertComment(content,score,teacherId,subjectId,studentId);
 
         request.getRequestDispatcher("/teacher/studentComments").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm.crudAdmins;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.User;
 import jakarta.servlet.ServletException;
@@ -11,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/removeAdmin")
+@WebServlet(urlPatterns = "/admin/removeAdmin", loadOnStartup = 1)
 public class ServletDeleteAdmin extends HttpServlet {
 
     @Override
@@ -42,5 +43,10 @@ public class ServletDeleteAdmin extends HttpServlet {
         response.sendRedirect("/admin/ViewAdmins");
 
 
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

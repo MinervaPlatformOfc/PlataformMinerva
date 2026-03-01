@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/admin/updateSubject")
+@WebServlet(urlPatterns = "/admin/updateSubject", loadOnStartup = 1)
 public class ServletUpdateSubject extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

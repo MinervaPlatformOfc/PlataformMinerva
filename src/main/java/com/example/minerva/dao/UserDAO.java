@@ -13,12 +13,10 @@ import java.util.List;
 
 public class UserDAO {
 
-    private final Conexao conexao = new Conexao();
+    private final Connection conn = Conexao.getConnection();
 
     public boolean saveAdmin(User user){
         String sql = "call create_admin(?, ?, ?, ?)";
-
-        Connection conn = conexao.getConnection();
 
         int lines = 0;
 
@@ -34,8 +32,6 @@ public class UserDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
-        }finally{
-            conexao.closeConnection(conn);
         }
     }
 
@@ -43,10 +39,8 @@ public class UserDAO {
     public User findByEmail(String email) {
 
         String sql = "SELECT name, password, email, role, first_access, created_at FROM users WHERE email = ?";
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return null;
@@ -69,11 +63,6 @@ public class UserDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
 
         // Retorna null se não encontrar
@@ -84,10 +73,9 @@ public class UserDAO {
     public User findById(int id) {
 
         String sql = "SELECT name, password, email, role, first_access, created_at FROM users WHERE id = ?";
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
+
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return null;
@@ -111,11 +99,6 @@ public class UserDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
 
         // Retorna null se não encontrar
@@ -128,7 +111,6 @@ public class UserDAO {
                 "(select count(id) from users where role = 'teacher') as \"total_teachers\",\n" +
                 "(select count(id) from users where role = 'student') as \"total_students\";";
 
-        Connection conn = conexao.getConnection();
 
         try(Statement stmt = conn.createStatement()){
             ResultSet rs = stmt.executeQuery(sql);
@@ -146,8 +128,6 @@ public class UserDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return null;
-        }finally {
-            conexao.closeConnection(conn);
         }
     }
 
@@ -155,7 +135,6 @@ public class UserDAO {
     public List<AdminDTO> getAllAdmins(){
         String sql = "SELECT id, email, password, name, profile_image_url FROM users where role = \'admin\'";
 
-        Connection conn = conexao.getConnection();
 
         List<AdminDTO> users = new ArrayList<>();
 
@@ -176,15 +155,11 @@ public class UserDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return new ArrayList<>();
-        }finally {
-            conexao.closeConnection(conn);
         }
     }
 
     public List<User> getNotAdmins(){
         String sql = "SELECT id, role, email, password, name, profile_image_url FROM users where role != 'admin'";
-
-        Connection conn = conexao.getConnection();
 
         List<User> users = new ArrayList<>();
 
@@ -206,15 +181,12 @@ public class UserDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return new ArrayList<>();
-        }finally {
-            conexao.closeConnection(conn);
         }
     }
 
+
     public boolean delete(int id){
         String sql = "delete from users where id = ?";
-
-        Connection conn = conexao.getConnection();
 
         if(conn == null){
             System.out.println("Erro de conexão (PostgreSQL)");
@@ -231,8 +203,6 @@ public class UserDAO {
         }catch(SQLException sqle){
             sqle.printStackTrace();
             return false;
-        }finally {
-            conexao.closeConnection(conn);
         }
     }
 
@@ -240,8 +210,7 @@ public class UserDAO {
 
         String sql = "UPDATE users SET name = ?, email = ?, password = ?, profile_image_url = ? WHERE id = ?";
 
-        try (Connection conn = conexao.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getEmail());
@@ -261,8 +230,7 @@ public class UserDAO {
 
         String sql = "UPDATE users SET name = ?, email = ?, profile_image_url = ? WHERE id = ?";
 
-        try (Connection conn = conexao.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getEmail());
@@ -281,8 +249,7 @@ public class UserDAO {
 
         String sql = "UPDATE users SET password = ? WHERE email = ?";
 
-        try (Connection conn = conexao.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, password);
             stmt.setString(2, email);
@@ -299,8 +266,7 @@ public class UserDAO {
     public double[] getUserStatistics() {
         String sql = "SELECT total_users, pct_admins, pct_teachers, pct_students FROM user_statistics";
 
-        try (Connection conn = conexao.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {

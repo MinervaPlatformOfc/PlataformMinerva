@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm.crudStudent;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.model.Student;
 import jakarta.servlet.ServletException;
@@ -15,15 +16,18 @@ public class ServletListStudents extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        StudentDAO studentRepository = new StudentDAO();
-
-        List<Student> students = studentRepository.getAllStudents();
+        List<Student> students = (List<Student>) getServletContext().getAttribute("studentList");
 
         request.setAttribute("studentList", students);
 
         request.getRequestDispatcher("/admin/CRUD/Student.jsp");
 
 
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.minerva.servlet.adm.crudTeacher;
 
 import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.Teacher;
@@ -20,17 +21,15 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import com.example.minerva.utils.matricula.Matricula;
 import jakarta.servlet.http.Part;
 
-
+@WebServlet(urlPatterns = "/admin/CreateTeacher", loadOnStartup = 1)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
         maxRequestSize = 1024 * 1024 * 10
 )
-@WebServlet(urlPatterns = "/admin/CreateTeacher", asyncSupported = true)
 public class ServletCreateTeacher extends HttpServlet {
 
     @Override
@@ -113,6 +112,11 @@ public class ServletCreateTeacher extends HttpServlet {
         request.setAttribute("msg", teacherRepository.save(newTeacher, newUser) ? "Professor inserido com sucesso!": "Erro ao inserir professor!");
 
         request.getRequestDispatcher("/admin/ViewTeachers").forward(request,response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 
 }

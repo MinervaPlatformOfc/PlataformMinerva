@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet("/admin/UpdateUser")
+@WebServlet(urlPatterns = "/admin/UpdateUser", loadOnStartup = 1)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -34,14 +34,12 @@ public class ServletUpdateUsers extends HttpServlet {
 
         UserDAO userDAO = new UserDAO();
 
-        // ====== PEGAR DADOS ======
         String nameInput = request.getParameter("nameInput");
         String role = request.getParameter("role");
         String email = request.getParameter("emailInput");
         String passwordRaw = request.getParameter("passwordInput");
 
 
-        // ====== VALIDAÇÕES ======
         if (userDAO.findByEmail(email) != null) {
             request.setAttribute("msg", "Email já existente");
             request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
@@ -60,10 +58,8 @@ public class ServletUpdateUsers extends HttpServlet {
             return;
         }
 
-        // ====== HASH DA SENHA ======
         String passwordHash = new HashSenha(passwordRaw).getHashSenha();
 
-        // ====== TRATAR IMAGEM ======
         Part filePart = request.getPart("imageInput");
         String imageUrl;
 
@@ -95,10 +91,9 @@ public class ServletUpdateUsers extends HttpServlet {
             imageUrl = (String) uploadResult.get("secure_url");
         }
 
-        // ====== CRIAR OBJETO ======
         User user = new User(nameInput, passwordHash, email, role, imageUrl);
 
-        // ====== ATUALIZAR ======
+
         boolean userUpdated = userDAO.update(id, user);
 
         if (userUpdated) {
