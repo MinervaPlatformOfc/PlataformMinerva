@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.student;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.HouseDAO;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dao.UserDAO;
@@ -13,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/aluno/quiz")
+@WebServlet(urlPatterns = "/aluno/quiz", loadOnStartup = 1)
 public class ServletQuiz extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,5 +27,10 @@ public class ServletQuiz extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("user", userDAO.findByEmail(email));
         req.getRequestDispatcher("/aluno/home").forward(req, resp);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

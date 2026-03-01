@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.login;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.*;
 import com.example.minerva.dto.StudentHomeDTO;
 import com.example.minerva.model.User;
@@ -11,7 +12,7 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-@WebServlet("/login")
+@WebServlet(urlPatterns = "/login", loadOnStartup = 1)
 public class ServletLogin extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -62,8 +63,12 @@ public class ServletLogin extends HttpServlet {
             }
 
         } else {
-//            System.out.println("LOGIN INVALIDO");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

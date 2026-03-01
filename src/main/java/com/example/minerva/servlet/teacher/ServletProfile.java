@@ -1,4 +1,5 @@
 package com.example.minerva.servlet.teacher;
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dto.TeacherProfileDTO;
 import jakarta.servlet.ServletException;
@@ -9,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/teacher/profile")
+@WebServlet(urlPatterns = "/teacher/profile", loadOnStartup = 1)
 public class ServletProfile extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,5 +24,10 @@ public class ServletProfile extends HttpServlet {
 
         request.setAttribute("profile", profile);
         request.getRequestDispatcher("/professor/profile.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

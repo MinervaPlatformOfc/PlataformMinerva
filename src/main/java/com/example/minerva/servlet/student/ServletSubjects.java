@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.student;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.GradeDAO;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dto.ProfileDTO;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/aluno/subjects")
+@WebServlet(urlPatterns = "/aluno/subjects", loadOnStartup = 1)
 public class ServletSubjects extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
@@ -26,5 +27,10 @@ public class ServletSubjects extends HttpServlet {
         List<SubjectDTO> subjects = dao.getSubjects(id);
         request.setAttribute("subjects", subjects);
         request.getRequestDispatcher("/aluno/subjects.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

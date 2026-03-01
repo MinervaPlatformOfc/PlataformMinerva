@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/admin/deleteSubject")
+@WebServlet(urlPatterns = "/admin/deleteSubject", loadOnStartup = 1)
 public class ServletDeleteSubject extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
