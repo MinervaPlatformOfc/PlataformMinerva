@@ -63,6 +63,6 @@ public class RechargeListener extends HttpServlet {
             rechargeForUser();
         }
 
-        response.sendRedirect(endPoint);
+        request.getRequestDispatcher(endPoint).forward(request, response);
     }
 }
