@@ -15,7 +15,7 @@
         <button type="submit">CRUD Admins</button>
     </form>
 
-    <form action="${pageContext.request.contextPath}/admin/ViewTeachers" method="post">
+    <form action="${pageContext.request.contextPath}/admin/ViewTeachers" method="get">
         <button type="submit">CRUD Teachers</button>
     </form>
 

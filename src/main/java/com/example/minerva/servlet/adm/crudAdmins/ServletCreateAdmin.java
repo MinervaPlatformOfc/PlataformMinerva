@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.User;
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.utils.criptografia.HashSenha;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
 import com.example.minerva.utils.validacao.ValidacaoSenha;
@@ -17,10 +18,11 @@ import jakarta.servlet.http.Part;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/admin/createAdmin", asyncSupported = true)
+@WebServlet(urlPatterns = "/admin/createAdmin", loadOnStartup = 1)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -97,5 +99,10 @@ public class ServletCreateAdmin extends HttpServlet {
         request.setAttribute("msg", userRepository.saveAdmin(newUser) ? "Administrador inserido!": "Erro ao inserir administrador");
 
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

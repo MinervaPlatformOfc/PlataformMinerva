@@ -6,27 +6,17 @@ import com.example.minerva.dto.StudentHomeDTO;
 import com.example.minerva.dto.UpdateStudentDTO;
 import com.example.minerva.model.Student;
 import com.example.minerva.model.User;
-import jakarta.el.LambdaExpression;
-import org.apache.http.annotation.Obsolete;
-
-import java.beans.JavaBean;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO {
-    private Conexao conexao;
-
-    public StudentDAO() {
-        this.conexao = new Conexao(); // usa a classe de conexão
-    }
+    private final Connection conn = Conexao.getConnection();
 
     public boolean findByRegistration(String registration){
         String sql = "select 1 from student where registration = ?";
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return false;
@@ -38,18 +28,11 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
     }
 
     public List<Student> getAllStudents(){
-        String sql = "select * from student order by id";
-
-        Connection conn = conexao.getConnection();
+        String sql = "select id, school_year, legal_guardian_name, residence_address, wand, pet_type, allergies, blood, basic_kit, guardian_permission, registration from student order by id";
 
         List<Student> students = new ArrayList<>();
 
@@ -63,7 +46,7 @@ public class StudentDAO {
                         rs.getString("legal_guardian_name"),
                         rs.getString("residence_address"),
                         rs.getString("wand"),
-                        rs.getString("pet"),
+                        rs.getString("pet_type"),
                         rs.getString("allergies"),
                         rs.getString("blood"),
                         rs.getBoolean("basic_kit"),
@@ -76,18 +59,14 @@ public class StudentDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return new ArrayList<>();
-        }finally {
-            conexao.closeConnection(conn);
         }
 
     }
 
     public boolean save(Student student, User user){
         String sql = "call create_student(?, ?, ?, ?, ?, ?, ?::blood_status, ?, ?, ?, ?, ?, ?, ?, ?)";
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return false;
@@ -114,11 +93,6 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
     }
 
@@ -129,10 +103,7 @@ public class StudentDAO {
                 "LEFT JOIN house h ON s.house_id = h.id " +
                 "WHERE u.email = ?";
 
-        Connection conn = null;
-
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return null;
@@ -153,11 +124,6 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
     }
 
@@ -168,10 +134,7 @@ public class StudentDAO {
                 "LEFT JOIN house h ON s.house_id = h.id " +
                 "WHERE s.id = ?";
 
-        Connection conn = null;
-
         try {
-            conn = conexao.getConnection(); // pega conexão da classe Conexao
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return null;
@@ -191,11 +154,6 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
     }
 
@@ -206,10 +164,7 @@ public class StudentDAO {
                 "LEFT JOIN house h ON s.house_id = h.id " +
                 "WHERE s.id = ?";
 
-        Connection conn = null;
-
         try {
-            conn = conexao.getConnection();
             if (conn == null) {
                 System.out.println("Erro ao conectar ao banco!");
                 return null;
@@ -256,10 +211,6 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
 
-        } finally {
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
         return null;
     }
@@ -269,10 +220,8 @@ public class StudentDAO {
 
         String sqlStudent = " UPDATE student s SET house_id = (SELECT h.id FROM house h WHERE h.name = ?) FROM users u WHERE s.user_id = u.id AND u.email = ?";
         String sqlUser = "UPDATE users SET first_access = false WHERE email = ?";
-        Connection conn = null;
 
         try {
-            conn = conexao.getConnection();
             PreparedStatement stmtStudent = conn.prepareStatement(sqlStudent);
 
             stmtStudent.setString(1, houseName);
@@ -287,18 +236,11 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            // fecha conexão
-            if (conn != null) {
-                conexao.closeConnection(conn);
-            }
         }
     }
 
     public Student findById(int id){
-        String sql = "select * from teacher";
-
-        Connection conn = conexao.getConnection();
+        String sql = "select id, school_year, legal_guardian_name, residence_address, wand, pet, allergies, blood, basic_kit, guardian_permission, registration, flight_fitness from student";
 
         try(Statement stmt = conn.createStatement()){
             ResultSet rs = stmt.executeQuery(sql);
@@ -321,8 +263,6 @@ public class StudentDAO {
             }
         }catch(SQLException sqle){
             sqle.printStackTrace();
-        }finally{
-            conexao.closeConnection(conn);
         }
         return null;
     }
@@ -337,8 +277,6 @@ public class StudentDAO {
         String sqlFlightFitness = "update from student set flight_fitness = ? where id = ?";
 
         Student currentStudent = findById(id);
-
-        Connection conn = conexao.getConnection();
 
         int lines = 0;
 
@@ -389,16 +327,12 @@ public class StudentDAO {
 
         }catch (SQLException sqle){
             sqle.printStackTrace();
-        }finally {
-            conexao.closeConnection(conn);
         }
         return lines;
     }
 
     public boolean delete(int id){
         String sql = "delete from student where id = ?";
-
-        Connection conn = conexao.getConnection();
 
         if(conn == null){
             System.out.println("Erro de conexão (PostgreSQL)");
@@ -415,8 +349,6 @@ public class StudentDAO {
         }catch (SQLException sqle){
             sqle.printStackTrace();
             return false;
-        }finally{
-            conexao.closeConnection(conn);
         }
     }
 }

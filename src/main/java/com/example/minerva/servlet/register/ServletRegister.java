@@ -3,6 +3,7 @@ package com.example.minerva.servlet.register;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.minerva.conexao.CloudinaryConfig;
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.model.Student;
@@ -29,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@WebServlet(urlPatterns = "/register", asyncSupported = true)
+@WebServlet(urlPatterns = "/register", loadOnStartup = 1)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024, // 1MB
         maxFileSize = 1024 * 1024 * 5,   // 5MB
@@ -39,7 +40,6 @@ public class ServletRegister extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        AsyncContext async = request.startAsync();
 
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -179,5 +179,10 @@ public class ServletRegister extends HttpServlet {
 
         request.setAttribute("email", email);
         request.getRequestDispatcher("/aluno/quiz/quiz.jsp").forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }

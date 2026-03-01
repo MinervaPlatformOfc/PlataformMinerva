@@ -9,8 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/admin/users")
+@WebServlet(urlPatterns = "/admin/users", loadOnStartup = 1)
 public class ServletListUsers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -20,7 +21,7 @@ public class ServletListUsers extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDAO dao = new UserDAO();
-        double[] stats = dao.getUserStatistics();
+        double[] stats = (double[]) getServletContext().getAttribute("userStatistics");
         req.setAttribute("stats", stats);
 
         String email = req.getParameter("email");
@@ -31,7 +32,7 @@ public class ServletListUsers extends HttpServlet {
             req.setAttribute("url", user.getImageUrl());
         }
 
-        req.setAttribute("users", dao.getNotAdmins());
-        req.getRequestDispatcher("/admin/home.jsp");
+        req.setAttribute("users", (List<User>) getServletContext().getAttribute("userNotAdminList"));
+        req.getRequestDispatcher("/admin/home.jsp").forward(req, resp);
     }
 }

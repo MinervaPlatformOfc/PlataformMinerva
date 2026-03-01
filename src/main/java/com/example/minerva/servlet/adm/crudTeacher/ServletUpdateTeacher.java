@@ -1,5 +1,6 @@
 package com.example.minerva.servlet.adm.crudTeacher;
 
+import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.model.Teacher;
 import jakarta.servlet.ServletException;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/admin/UpdateTeacher")
+@WebServlet(urlPatterns = "/admin/UpdateTeacher", loadOnStartup = 1)
 public class ServletUpdateTeacher extends HttpServlet{
 
     @Override
@@ -79,5 +80,10 @@ public class ServletUpdateTeacher extends HttpServlet{
         }else{
             request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
         }
+    }
+
+    @Override
+    public void destroy() {
+        Conexao.closeConnection();
     }
 }
