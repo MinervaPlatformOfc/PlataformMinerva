@@ -3,6 +3,7 @@ package com.example.minerva.servlet.adm.crudAdmins;
 import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
 import com.example.minerva.dao.UserDAO;
+import com.example.minerva.loader.RechargeListener;
 import com.example.minerva.model.User;
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.utils.criptografia.HashSenha;
@@ -97,6 +98,9 @@ public class ServletCreateAdmin extends HttpServlet {
         User newUser = new User(name, email, new HashSenha(password).getHashSenha(), "ADMIN", imageUrl);
 
         request.setAttribute("msg", userRepository.saveAdmin(newUser) ? "Administrador inserido!": "Erro ao inserir administrador");
+
+        RechargeListener rechargeListener = new RechargeListener();
+        rechargeListener.rechargeForAdmin();
 
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
     }

@@ -1,6 +1,7 @@
 package com.example.minerva.servlet.adm.crudSubject;
 
 import com.example.minerva.dao.GradeDAO;
+import com.example.minerva.loader.RechargeListener;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,6 +24,10 @@ public class ServletCreateSubject extends HttpServlet {
         GradeDAO dao = new GradeDAO();
 
         dao.save(subjectName, addStudents);
+
+        RechargeListener rechargeListener = new RechargeListener();
+        rechargeListener.rechargeForSubject();
+
         req.getRequestDispatcher("/admin/ViewSubjects");
     }
 }

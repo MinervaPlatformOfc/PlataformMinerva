@@ -5,6 +5,7 @@ import com.example.minerva.dao.StudentDAO;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.dto.UpdateStudentDTO;
+import com.example.minerva.loader.RechargeListener;
 import com.example.minerva.model.Student;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -50,6 +51,9 @@ public class ServletUpdateStudent extends HttpServlet{
             request.setAttribute("msg", studentRepository.update(id, student) > 0 ?
                     "Estudante atualizado com sucesso!" :
                     "Erro ao atualizar estudante!");
+
+            RechargeListener rechargeListener = new RechargeListener();
+            rechargeListener.rechargeForStudent();
 
             response.sendRedirect("/admin/ViewStudents");
 

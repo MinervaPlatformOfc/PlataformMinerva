@@ -2,6 +2,7 @@ package com.example.minerva.servlet.adm.crudTeacher;
 
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.TeacherDAO;
+import com.example.minerva.loader.RechargeListener;
 import com.example.minerva.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -72,14 +73,14 @@ public class ServletUpdateTeacher extends HttpServlet{
 
             if(teacherRepository.update(id, currentTeacher) > 0){
                 request.setAttribute("msg", "Professor atualizado com sucesso");
-                request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
             }else{
                 request.setAttribute("msg", "Erro ao atualizar professor");
-                request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
             }
-        }else{
-            request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
         }
+        RechargeListener rechargeListener = new RechargeListener();
+        rechargeListener.rechargeForTeacher();
+        request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
+
     }
 
     @Override

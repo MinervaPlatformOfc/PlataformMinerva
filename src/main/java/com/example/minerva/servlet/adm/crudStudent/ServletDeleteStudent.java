@@ -2,6 +2,7 @@ package com.example.minerva.servlet.adm.crudStudent;
 
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.StudentDAO;
+import com.example.minerva.loader.RechargeListener;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,6 +30,8 @@ public class ServletDeleteStudent extends HttpServlet {
         if(delete){
             request.setAttribute("msg", studentRepository.delete(id) ? "Estudante removido com sucesso":"Falha ao remover estudante");
         }
+        RechargeListener rechargeListener = new RechargeListener();
+        rechargeListener.rechargeForStudent();
         response.sendRedirect("/admin/ViewStudents");
     }
 

@@ -2,6 +2,7 @@ package com.example.minerva.servlet.adm.crudAdmins;
 
 import com.example.minerva.conexao.Conexao;
 import com.example.minerva.dao.UserDAO;
+import com.example.minerva.loader.RechargeListener;
 import com.example.minerva.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -40,6 +41,8 @@ public class ServletDeleteAdmin extends HttpServlet {
                            userRepository.delete(id)?"Administrador removido com sucesso":
                                    "Falha ao remover administrador");
         }
+        RechargeListener rechargeListener = new RechargeListener();
+        rechargeListener.rechargeForAdmin();
         response.sendRedirect("/admin/ViewAdmins");
 
 
