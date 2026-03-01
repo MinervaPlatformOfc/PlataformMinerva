@@ -3,6 +3,7 @@ package com.example.minerva.servlet.adm.crudAdmins;
 import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
 import com.example.minerva.dao.UserDAO;
+import com.example.minerva.loader.RechargeListener;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
 import jakarta.servlet.ServletException;
@@ -96,6 +97,9 @@ public class ServletUpdateAdmin extends HttpServlet {
         } else {
             request.setAttribute("msg", "Erro ao atualizar usuário");
         }
+
+        RechargeListener rechargeListener = new RechargeListener();
+        rechargeListener.rechargeForAdmin();
 
         if (currentAdm){
             request.setAttribute("name", nameInput);

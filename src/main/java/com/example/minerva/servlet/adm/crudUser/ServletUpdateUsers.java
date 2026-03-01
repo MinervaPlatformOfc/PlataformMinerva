@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dao.UserDAO;
+import com.example.minerva.loader.RechargeListener;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
@@ -101,6 +102,9 @@ public class ServletUpdateUsers extends HttpServlet {
         } else {
             request.setAttribute("msg", "Erro ao atualizar usuário");
         }
+
+        RechargeListener rechargeListener = new RechargeListener();
+        rechargeListener.rechargeForUser();
 
         request.getRequestDispatcher("/admin/users").forward(request, response);
     }

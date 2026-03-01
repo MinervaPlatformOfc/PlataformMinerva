@@ -3,8 +3,11 @@ package com.example.minerva.servlet.adm.crudTeacher;
 import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
 import com.example.minerva.conexao.Conexao;
+import com.example.minerva.dao.GradeDAO;
+import com.example.minerva.dao.HouseDAO;
 import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dao.UserDAO;
+import com.example.minerva.loader.RechargeListener;
 import com.example.minerva.model.Teacher;
 import com.example.minerva.model.User;
 import com.example.minerva.utils.criptografia.HashSenha;
@@ -43,6 +46,8 @@ public class ServletCreateTeacher extends HttpServlet {
         Matricula matricula = new Matricula();
         UserDAO userDAO = new UserDAO();
         TeacherDAO teacherRepository = new TeacherDAO();
+        HouseDAO houseRepository = new HouseDAO();
+        GradeDAO gradeRepository = new GradeDAO();
 
         String email = request.getParameter("emailInput");
         String password = request.getParameter("passwordInput");
@@ -119,6 +124,9 @@ public class ServletCreateTeacher extends HttpServlet {
         Teacher newTeacher = new Teacher(houseId, wand, headHouse, pastExperiences, wizardTitle, teacherRegistrationCode);
 
         request.setAttribute("msg", teacherRepository.save(newTeacher, newUser) ? "Professor inserido com sucesso!": "Erro ao inserir professor!");
+
+        RechargeListener rechargeListener = new RechargeListener();
+        rechargeListener.rechargeForTeacher();
 
         request.getRequestDispatcher("/admin/ViewTeachers").forward(request,response);
     }
