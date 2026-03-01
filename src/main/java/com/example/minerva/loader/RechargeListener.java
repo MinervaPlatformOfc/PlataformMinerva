@@ -1,8 +1,15 @@
 package com.example.minerva.loader;
 
 import com.example.minerva.dao.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+
+@WebServlet("/recharge")
 public class RechargeListener extends HttpServlet {
 
     HouseDAO houseRepository = new HouseDAO();
@@ -35,4 +42,27 @@ public class RechargeListener extends HttpServlet {
     }
 
 
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        doPost(request, response);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        String endPoint = request.getParameter("endpoint");
+
+        if(endPoint == "/admin/ViewAdmins"){
+            rechargeForAdmin();
+        } else if (endPoint == "/admin/ViewStudents") {
+            rechargeForStudent();
+        } else if (endPoint == "/admin/ViewSubjects"){
+            rechargeForSubject();
+        } else if (endPoint == "/admin/ViewTeachers") {
+            rechargeForTeacher();
+        } else if (endPoint == "/admin/users") {
+            rechargeForUser();
+        }
+
+        response.sendRedirect(endPoint);
+    }
 }
