@@ -20,16 +20,12 @@ public class ServletDeleteStudent extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        boolean delete = Boolean.parseBoolean(request.getParameter("action"));
-
         int id = Integer.parseInt(request.getParameter("id"));
 
         StudentDAO studentRepository = new StudentDAO();
 
-        if(delete){
             request.setAttribute("msg", studentRepository.delete(id) ? "Estudante removido com sucesso":"Falha ao remover estudante");
-        }
-        response.sendRedirect("/admin/ViewStudents");
+        request.getRequestDispatcher("/admin/ViewStudents").forward(request,response);
     }
 
     @Override

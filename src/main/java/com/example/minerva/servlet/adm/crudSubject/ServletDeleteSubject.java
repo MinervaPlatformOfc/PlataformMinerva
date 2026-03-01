@@ -13,15 +13,11 @@ import java.io.IOException;
 public class ServletDeleteSubject extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        String url = req.getParameter("url");
         int id = Integer.parseInt(req.getParameter("id"));
 
-        req.setAttribute("name", name);
-        req.setAttribute("url", url);
         GradeDAO dao = new GradeDAO();
 
         dao.delete(id);
-        req.getRequestDispatcher("/admin/ViewSubjects");
+        req.getRequestDispatcher("/admin/ViewSubjects").forward(req, resp);
     }
 }

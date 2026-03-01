@@ -46,7 +46,6 @@ public class ServletRegistration extends HttpServlet {
                 }
             });
 
-
             req.setAttribute("msg", "Email enviado com matrícula");
             req.getRequestDispatcher("/admin/CRUD/Student.jsp").forward(req, resp);
         }

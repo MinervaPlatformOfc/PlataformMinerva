@@ -22,8 +22,12 @@ public class ServletListSubjects extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         String url = req.getParameter("url");
-        req.setAttribute("name", name);
-        req.setAttribute("url", url);
+        if (name != null) {
+            req.setAttribute("name", name);
+        }
+        if (url != null) {
+            req.setAttribute("url", url);
+        }
         req.setAttribute("subjects", (List<SubjectDTO>) getServletContext().getAttribute("subjectList"));
         req.getRequestDispatcher("/admin/CRUD/Subjects.jsp").forward(req, resp);
     }
