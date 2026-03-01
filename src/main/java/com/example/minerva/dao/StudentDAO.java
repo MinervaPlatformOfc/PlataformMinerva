@@ -32,7 +32,7 @@ public class StudentDAO {
     }
 
     public List<Student> getAllStudents(){
-        String sql = "select id, school_year, legal_guardian_name, residence_address, wand, allergies, blood, basic_kit, guardian_permission, registation from student order by id";
+        String sql = "select id, school_year, legal_guardian_name, residence_address, wand, pet_type, allergies, blood, basic_kit, guardian_permission, registration from student order by id";
 
         List<Student> students = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class StudentDAO {
                         rs.getString("legal_guardian_name"),
                         rs.getString("residence_address"),
                         rs.getString("wand"),
-                        rs.getString("pet"),
+                        rs.getString("pet_type"),
                         rs.getString("allergies"),
                         rs.getString("blood"),
                         rs.getBoolean("basic_kit"),

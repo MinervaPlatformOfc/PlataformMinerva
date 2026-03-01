@@ -44,7 +44,7 @@ public class TeacherDAO {
     }
 
         public List<TeacherDTO> getAllTeachers(){
-                String sql = "select t.id as \"teacher_id\",u.email, u.password, u.name, u.profile_image_url as \"user\", h.name as \"house\", t.wand, t.past_experiences, t.wizard_title " +
+                String sql = "select t.id as \"teacher_id\",u.email, u.password, u.name as \"name\", u.profile_image_url as \"user_img\", h.name as \"house\", t.wand, t.past_experiences, t.wizard_title " +
                         "from teacher t " +
                         "join users u on t.user_id = u.id " +
                         "join house h on t.house_id = h.id " +
@@ -53,7 +53,6 @@ public class TeacherDAO {
                 List<TeacherDTO> teachers = new ArrayList<>();
 
                 CommentDAO commentRepository = new CommentDAO();
-                GradeDAO subjectRepository = new GradeDAO();
 
                 if(conn == null){
                         System.out.println("Erro de conexão (PostgreSQL)");
@@ -68,12 +67,12 @@ public class TeacherDAO {
                                         rs.getInt("teacher_id"),
                                         rs.getString("email"),
                                         rs.getString("password"),
-                                        rs.getString("user"),
+                                        rs.getString("name"),
                                         rs.getString("house"),
                                         rs.getString("wand"),
                                         rs.getString("past_experiences"),
                                         rs.getString("wizard_title"),
-                                        rs.getString("profile_image_url"),
+                                        rs.getString("user_img"),
                                         commentRepository.listAllByTeacher(teacherId),
                                         getYearsAndSubjectsByTeacherId(teacherId)
                                 );
@@ -478,7 +477,6 @@ public class TeacherDAO {
 
     public boolean removeSubjectFromTeacher(int teacherId, int subjectId) {
         String sql = "DELETE FROM subject_teacher WHERE teacher_id = ? AND subject_id = ?";
-        Connection conn = conexao.getConnection();
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, teacherId);
@@ -490,13 +488,11 @@ public class TeacherDAO {
             sqle.printStackTrace();
             return false;
         } finally {
-            conexao.closeConnection(conn);
         }
     }
 
     public boolean addSubjectToTeacher(int teacherId, int subjectId) {
         String sql = "INSERT INTO subject_teacher (teacher_id, subject_id) VALUES (?, ?)";
-        Connection conn = conexao.getConnection();
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, teacherId);
@@ -507,8 +503,6 @@ public class TeacherDAO {
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             return false;
-        } finally {
-            conexao.closeConnection(conn);
         }
     }
 }

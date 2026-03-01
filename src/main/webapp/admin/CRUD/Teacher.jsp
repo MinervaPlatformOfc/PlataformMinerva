@@ -14,6 +14,7 @@
             <th>Wand</th>
             <th>Past Experiences</th>
             <th>Wizard Title</th>
+            <th> Photo </th>
         </tr>
         <c:forEach var="teacher" items="${teacherList}">
             <tr>
@@ -24,6 +25,7 @@
                 <td>${teacher.getWand()}</td>
                 <td>${teacher.getPastExperiences()}</td>
                 <td>${teacher.getWizardTitle()}</td>
+                <td><img src="${teacher.getImageUrl()}"></td>
                 <td>
                     <c:forEach var="comment" items="${teacher.comments}">
                         <p style="display: none">${comment.getContent()}</p><br>
