@@ -17,8 +17,7 @@ public class ServletListAdmins extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        UserDAO userRepository = new UserDAO();
-        List<AdminDTO> admins = userRepository.getAllAdmins();
+        List<AdminDTO> admins = (List<AdminDTO>) getServletContext().getAttribute("adminList");
         request.setAttribute("adminList", admins);
         request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
     }

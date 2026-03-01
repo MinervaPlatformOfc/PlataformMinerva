@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/admin/ViewTeachers", loadOnStartup = 1)
@@ -20,14 +21,11 @@ public class ServletListTeachers extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        TeacherDAO teacherRepository = new TeacherDAO();
-        GradeDAO subjectRepository = new GradeDAO();
-
-        List<TeacherDTO> teachers = teacherRepository.getAllTeachers();
-        List<SubjectDTO> subjects = subjectRepository.getAllSubjects();
+        List<TeacherDTO> teachers = (List<TeacherDTO>) getServletContext().getAttribute("teacherList");
+        List<SubjectDTO> subjects = (List<SubjectDTO>) getServletContext().getAttribute("subjectList");
         HouseDAO houseDAO = new HouseDAO();
 
-        request.setAttribute("house", houseDAO.getAllHouses());
+        request.setAttribute("house", (HashMap<String, Integer>) getServletContext().getAttribute("houseList"));
         request.setAttribute("teacherList", teachers);
         request.setAttribute("subjects", subjects);
 

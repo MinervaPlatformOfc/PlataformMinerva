@@ -16,9 +16,7 @@ public class ServletListStudents extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        StudentDAO studentRepository = new StudentDAO();
-
-        List<Student> students = studentRepository.getAllStudents();
+        List<Student> students = (List<Student>) getServletContext().getAttribute("studentList");
 
         request.setAttribute("studentList", students);
 
