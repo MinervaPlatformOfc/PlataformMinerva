@@ -69,6 +69,38 @@ public class UserDAO {
         return null;
     }
 
+    public User findByName(String name) {
+
+        String sql = "SELECT password, email, role, first_access, created_at FROM users WHERE name = ?";
+
+        try {
+            if (conn == null) {
+                System.out.println("Erro ao conectar ao banco!");
+                return null;
+            }
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String role = rs.getString("role");
+                boolean firstAccess = rs.getBoolean("first_access");
+                Date createdAt = rs.getTimestamp("created_at");
+
+                return new User(name, password, email, role, firstAccess, createdAt);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Retorna null se não encontrar
+        return null;
+    }
 
     public User findById(int id) {
 

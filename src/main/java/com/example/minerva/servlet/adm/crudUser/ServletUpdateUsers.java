@@ -102,10 +102,6 @@ public class ServletUpdateUsers extends HttpServlet {
             request.setAttribute("msg", "Erro ao atualizar usuário");
         }
 
-        String name = request.getParameter("name");
-        String url = request.getParameter("url");
-        request.setAttribute("name", name);
-        request.setAttribute("url", url);
         request.getRequestDispatcher("/admin/users").forward(request, response);
     }
 }

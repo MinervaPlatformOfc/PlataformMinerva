@@ -18,11 +18,17 @@ public class ServletListStudents extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Student> students = (List<Student>) getServletContext().getAttribute("studentList");
 
+        String admName = request.getParameter("name");
+        String url = request.getParameter("url");
+        if (admName != null) {
+            request.setAttribute("name", admName);
+        }
+        if (url != null) {
+            request.setAttribute("url", url);
+        }
         request.setAttribute("studentList", students);
 
-        request.getRequestDispatcher("/admin/CRUD/Student.jsp");
-
-
+        request.getRequestDispatcher("/admin/CRUD/Student.jsp").forward(request, response);
     }
 
     @Override

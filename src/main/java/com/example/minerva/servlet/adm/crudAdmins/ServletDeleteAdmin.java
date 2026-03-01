@@ -22,7 +22,6 @@ public class ServletDeleteAdmin extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        boolean delete = Boolean.parseBoolean(request.getParameter("action"));
 
         int id = Integer.parseInt(request.getParameter("id"));
 
@@ -32,17 +31,11 @@ public class ServletDeleteAdmin extends HttpServlet {
 
         User currentUser = (User) session.getAttribute("user");
 
-
-
-        if(delete){
            request.setAttribute("msg",
                    currentUser.getEmail().equals(userRepository.findById(id).getEmail())?"Não é possível se auto deletar":
                            userRepository.delete(id)?"Administrador removido com sucesso":
                                    "Falha ao remover administrador");
-        }
-        response.sendRedirect("/admin/ViewAdmins");
-
-
+        request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
     }
 
     @Override

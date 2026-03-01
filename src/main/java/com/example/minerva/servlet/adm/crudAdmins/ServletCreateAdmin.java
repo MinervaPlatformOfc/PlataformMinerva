@@ -44,26 +44,31 @@ public class ServletCreateAdmin extends HttpServlet {
         String name = request.getParameter("nameInput");
 
         if (userRepository.findByEmail(email) != null) {
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=email_exists");
+            request.setAttribute("msg", "E-mail já cadastrado.");
+            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
             return;
-        } if (!ValidacaoEmail.validarEmail(email)){
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=email_invalid");
+        }
+        if (!ValidacaoEmail.validarEmail(email)) {
+            request.setAttribute("msg", "E-mail inválido.");
+            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
             return;
-        } if (!ValidacaoSenha.validarSenha(password)){
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=password_invalid");
+        }
+        if (!ValidacaoSenha.validarSenha(password)) {
+            request.setAttribute("msg", "Senha inválida.");
+            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
             return;
         }
 
         Part filePart = request.getPart("image");
         if (filePart == null) {
-//            System.out.println("❌ ERRO: filePart é NULL");
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_null");
+            request.setAttribute("msg", "Imagem não enviada.");
+            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
             return;
         }
 
         if (filePart.getSize() == 0) {
-//            System.out.println("❌ ERRO: filePart está VAZIO (tamanho 0)");
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_empty");
+            request.setAttribute("msg", "Arquivo de imagem vazio.");
+            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
             return;
         }
 
@@ -77,7 +82,9 @@ public class ServletCreateAdmin extends HttpServlet {
 
         // Verificar se é uma imagem válida (magic numbers)
         if (imageBytes.length < 4) {
-            throw new ServletException("Arquivo muito pequeno");
+            request.setAttribute("msg", "Arquivo inválido.");
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            return;
         }
 
         // Upload para Cloudinary com parâmetros explícitos
