@@ -37,6 +37,13 @@ public class ServletListAdmins extends HttpServlet {
         request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
     }
 
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        doGet(request, response);
+    }
+
+
     @Override
     public void destroy() {
         Conexao.closeConnection();
