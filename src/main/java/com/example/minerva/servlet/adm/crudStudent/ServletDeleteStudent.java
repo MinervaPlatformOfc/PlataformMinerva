@@ -25,8 +25,8 @@ public class ServletDeleteStudent extends HttpServlet {
 
         StudentDAO studentRepository = new StudentDAO();
 
-            request.setAttribute("msg", studentRepository.delete(id) ? "Estudante removido com sucesso":"Falha ao remover estudante");
-        }
+        request.setAttribute("msg", studentRepository.delete(id) ? "Estudante removido com sucesso":"Falha ao remover estudante");
+
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForStudent();
         request.getRequestDispatcher("/admin/ViewStudents").forward(request,response);
