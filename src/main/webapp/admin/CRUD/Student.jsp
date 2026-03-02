@@ -45,6 +45,7 @@
     </form>
 
     <form action="${pageContext.request.contextPath}/recharge" method="post">
+        <input type="hidden" name="endpoint" value="/admin/ViewStudents">
         <button type="submit">Atualizar dados</button>
     </form>
 
