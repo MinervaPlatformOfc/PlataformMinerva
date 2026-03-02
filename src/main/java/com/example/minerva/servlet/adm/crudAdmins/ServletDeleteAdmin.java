@@ -36,7 +36,6 @@ public class ServletDeleteAdmin extends HttpServlet {
                    currentUser.getEmail().equals(userRepository.findById(id).getEmail())?"Não é possível se auto deletar":
                            userRepository.delete(id)?"Administrador removido com sucesso":
                                    "Falha ao remover administrador");
-        }
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForAdmin();
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
