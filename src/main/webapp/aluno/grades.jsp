@@ -25,7 +25,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/grades.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/students/grades.css">
 
 </head>
 

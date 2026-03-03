@@ -9,11 +9,43 @@
 <html>
 <head>
     <title>Title</title>
-</head>
-<body>
-<form action="${pageContext.request.contextPath}/recoverPassword" method="post">
-  <label>Qual o seu email? <input type="email" name="email" placeholder="AAAAAAAAAA"></label>
-  <button type="submit">Enviar</button>
-</form>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recoverPassword/generic.css">
+    <link href="https://fonts.googleapis.com/css2?family=Almendra&display=swap" rel="stylesheet">
+</head><body>
+
+<div class="page">
+
+    <img class="logo" src="" alt="IMAGEM JOAOOOO">
+
+    <div class="title-container">
+
+        <img class="ornamento-esq" src="../assets/ornamento-esq.png">
+
+        <h1 class="title">ESQUECI MINHA SENHA</h1>
+
+        <img class="ornamento-dir" src="../assets/ornamento-esq.png">
+
+    </div>
+
+    <div class="info-box">
+        Para redefinir sua senha, informe seu e-mail cadastrado na sua conta e lhe enviaremos um código.
+    </div>
+
+    <form action="${pageContext.request.contextPath}/recoverPassword" method="post">
+
+        <div class="input-group">
+            <label class="label">Email</label>
+            <input class="input" type="email" name="email" placeholder="Digite seu email">
+        </div>
+
+        <div class="buttons">
+            <button class="button" type="submit">Enviar email</button>
+            <button class="button" type="button">Voltar</button>
+        </div>
+
+    </form>
+
+</div>
+
 </body>
 </html>

@@ -1,0 +1,156 @@
+body{
+    margin:0;
+    height:115vh;
+    width:100%;
+
+    background-image: url("../../assets/castelo.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    font-family: 'Almendra', serif;
+    color:white;
+
+    letter-spacing: 0.5px;
+}
+
+/* CONTAINER DA PAGINA */
+.page{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding-top:60px;
+}
+
+/* IMAGEM / LOGO */
+.logo{
+    width:50px;
+    margin-bottom:5px;
+}
+
+/* TITULO */
+.title{
+    color: #070707;
+    font-size:34px;
+    margin-bottom:25px;
+    text-align:center;
+
+    letter-spacing: 1px;
+}
+
+.ornamento-esq{
+    height:30px;
+}
+
+.ornamento-dir{
+    height:30px;
+    transform: scaleX(-1);
+}
+
+.title-container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+}
+
+/* CAIXA DO TEXTO
+.info-box{
+    background:#2b2f46;
+    border:2px solid #c8a24c;
+    padding:18px 22px;
+    width:380px;
+    text-align:center;
+    color:white;
+    margin-bottom:25px;
+
+    line-height:1.5;
+    text-shadow: 1px 1px 2px #000;
+} */
+
+.info-box {
+    background: #2b2f46;
+    border: 2px solid #c8a24c;
+    padding: 25px 30px;
+    width: 330px;
+    text-align: center;
+    color: white;
+    margin-bottom: 25px;
+    line-height: 1.5;
+    text-shadow: 1px 1px 2px #000;
+    font-size: 20px;
+}
+
+/* GRUPO DO INPUT */
+.input-group{
+    width:395px;
+    margin-bottom:25px;
+}
+
+/* LABEL
+.label{
+    display:block;
+    color:white;
+    font-size:18px;
+    margin-bottom:6px;
+
+    text-shadow: 1px 1px 2px #000;
+}*/
+.label {
+    display: block;
+    color: white;
+    font-size: 20px;
+    margin-bottom: 6px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* INPUT */
+.input{
+    width:100%;
+    padding:10px;
+    background:#2b2f46;
+    border:2px solid #c8a24c;
+    color:white;
+    font-family:inherit;
+    outline:none;
+
+    font-size:16px;
+}
+
+/* BOTOES */
+.buttons{
+    display:flex;
+    gap:20px;
+}
+
+/* BOTAO */
+/*.button{
+    padding:10px 22px;
+    border:2px solid #c8a24c;
+    background:#2b2f46;
+    color:white;
+    border-radius:20px;
+    cursor:pointer;
+    font-family:inherit;
+
+    font-size:16px;
+    text-shadow: 1px 1px 2px #000;
+}*/
+
+.button {
+    padding: 18px 30px;
+    border: 2px solid #c8a24c;
+    background: #2b2f46;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 20px;
+    text-shadow: 1px 1px 2px #000;
+    margin-left: 20px;
+}
+
+.button:hover{
+    background:#3a3f5c;
+}

@@ -22,7 +22,7 @@
 
     <title>Perfil do Aluno</title>
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/profile.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/students/profile.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Hermeneus+One&display=swap" rel="stylesheet">
 
