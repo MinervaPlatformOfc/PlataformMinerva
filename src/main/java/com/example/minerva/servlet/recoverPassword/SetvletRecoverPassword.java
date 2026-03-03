@@ -1,6 +1,7 @@
 package com.example.minerva.servlet.recoverPassword;
 
 import com.example.minerva.dao.UserDAO;
+import com.example.minerva.exception.AsyncRunException;
 import com.example.minerva.utils.email.Email;
 import com.example.minerva.utils.otp.Otp;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
@@ -30,6 +31,7 @@ public class SetvletRecoverPassword extends HttpServlet {
                     emailService.sendRegistration(email, registration);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    throw new AsyncRunException("Erro ao enviar emails");
                 }finally {
                     async.complete();
                 }
