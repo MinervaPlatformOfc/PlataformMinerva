@@ -56,6 +56,15 @@ body{
     gap:20px;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #2f3655 inset !important;
+    -webkit-text-fill-color: white !important;
+    border: 2px solid #d4af37 !important;
+}
+
 /* CAIXA DO TEXTO
 .info-box{
     background:#2b2f46;
@@ -120,6 +129,13 @@ body{
     outline: none;
     font-size: 25px;
     text-align: center;
+}
+
+input:focus {
+    outline: none;
+    background-color: #2f3655;
+    color: white;
+    border: 2px solid #d4af37;
 }
 
 /* BOTOES */
