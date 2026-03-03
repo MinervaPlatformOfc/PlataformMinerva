@@ -27,6 +27,7 @@ public class ServletUpdatePassword extends HttpServlet {
 
         UserDAO dao = new UserDAO();
         dao.updatePassword(email, hash.getHashSenha());
+        req.setAttribute("msg", "Senha atualizada com sucesso!");
         resp.sendRedirect(req.getContextPath() + "/login.jsp");
     }
 }

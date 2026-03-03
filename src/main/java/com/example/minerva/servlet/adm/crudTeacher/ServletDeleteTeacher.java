@@ -24,7 +24,9 @@ public class ServletDeleteTeacher extends HttpServlet{
 
         TeacherDAO teacherRepository = new TeacherDAO();
 
-        request.setAttribute("msg", teacherRepository.delete(id) ? "Professor removido com sucesso": "Erro ao remover professor!");
+        request.setAttribute("msg", teacherRepository.delete(id)
+                ? "Professor removido com sucesso":
+                "Erro ao remover professor!");
 
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForTeacher();

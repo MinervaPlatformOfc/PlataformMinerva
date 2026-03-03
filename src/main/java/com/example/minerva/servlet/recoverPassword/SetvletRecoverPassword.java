@@ -38,6 +38,7 @@ public class SetvletRecoverPassword extends HttpServlet {
             });
         }
         else {
+            req.setAttribute("msg", "Usuário não existente!");
             req.getRequestDispatcher("/recoverPassword/reciveEmail.jsp?error=user_not_exists").forward(req, resp);
             return;
         }

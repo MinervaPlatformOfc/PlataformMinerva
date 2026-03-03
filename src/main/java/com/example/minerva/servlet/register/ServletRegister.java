@@ -67,13 +67,13 @@ public class ServletRegister extends HttpServlet {
 
         Part filePart = request.getPart("image");
         if (filePart == null) {
-//            System.out.println("❌ ERRO: filePart é NULL");
+            request.setAttribute("msg", "Imagem vazia!");
             response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_null");
             return;
         }
 
         if (filePart.getSize() == 0) {
-//            System.out.println("❌ ERRO: filePart está VAZIO (tamanho 0)");
+            request.setAttribute("msg", "Imagem vazia!");
             response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_empty");
             return;
         }
@@ -85,6 +85,7 @@ public class ServletRegister extends HttpServlet {
         boolean matriculaValida = matricula.validate(email, registration);
 
         if (!matriculaValida) {
+            request.setAttribute("msg", "Matricula inválida!");
             response.sendRedirect(request.getContextPath() + "/register.jsp?error=invalid_registration");
             return;
         }
@@ -116,12 +117,7 @@ public class ServletRegister extends HttpServlet {
 //        System.out.println("Data de nascimento não é futura: " + (dataNascimentoValida ? "✅ SIM" : "❌ NÃO"));
 
         if (!senhaValida || usuarioExistente != null || !idadeValida || !dataNascimentoValida) {
-//            System.out.println("❌ REDIRECIONANDO: validações de usuário falharam");
-//            System.out.println("   Resumo das falhas:");
-//            if (!senhaValida) System.out.println("   - Senha inválida");
-//            if (usuarioExistente != null) System.out.println("   - Email já cadastrado");
-//            if (!idadeValida) System.out.println("   - Idade fora do permitido");
-//            if (!dataNascimentoValida) System.out.println("   - Data de nascimento inválida");
+            request.setAttribute("msg", "Campos inválidoss!");
             response.sendRedirect(request.getContextPath() + "/register.jsp?error=validation_failed");
             return;
         }
@@ -147,7 +143,8 @@ public class ServletRegister extends HttpServlet {
 
         // Verificar se é uma imagem válida (magic numbers)
         if (imageBytes.length < 4) {
-            throw new ServletException("Arquivo muito pequeno");
+            request.setAttribute("msg", "Imagem inválida!");
+            response.sendRedirect("/register.jsp?error=invalid_img");
         }
 
         // Upload para Cloudinary com parâmetros explícitos

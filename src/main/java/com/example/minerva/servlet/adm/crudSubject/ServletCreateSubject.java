@@ -19,10 +19,16 @@ public class ServletCreateSubject extends HttpServlet {
 
         GradeDAO dao = new GradeDAO();
 
-        dao.save(subjectName, addStudents);
+
+
+        req.setAttribute("msg", dao.save(subjectName, addStudents)?
+                "Disciplina inserida com sucesso!":
+                "Erro ao inserir disciplina!");
 
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForSubject();
+
+
 
         req.getRequestDispatcher("/admin/ViewSubjects").forward(req, resp);
     }

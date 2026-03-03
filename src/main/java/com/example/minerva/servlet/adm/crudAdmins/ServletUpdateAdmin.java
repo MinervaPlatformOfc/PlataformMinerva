@@ -42,13 +42,13 @@ public class ServletUpdateAdmin extends HttpServlet {
 // ====== VALIDAÇÕES ======
         if (userDAO.findByEmail(email) != null) {
             request.setAttribute("msg", "Email já existente");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 
         if (!ValidacaoEmail.validarEmail(email)) {
             request.setAttribute("msg", "Email inválido");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 
@@ -68,7 +68,7 @@ public class ServletUpdateAdmin extends HttpServlet {
 
             if (imageBytes.length < 4) {
                 request.setAttribute("msg", "Arquivo inválido.");
-                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
                 return;
             }
 
