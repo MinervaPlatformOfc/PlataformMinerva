@@ -4,6 +4,7 @@ body{
     width:100%;
 
     background-image: url("../../assets/castelo.png");
+    background-color: #0F0A0E;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -103,7 +104,7 @@ body{
 .label {
     display: block;
     color: white;
-    font-size: 20px;
+    font-size: 25px;
     margin-bottom: 6px;
     text-shadow: 1px 1px 2px #000;
 }
@@ -156,4 +157,8 @@ body{
 
 .button:hover{
     background:#3a3f5c;
+}
+.a{
+    text-decoration: none;
+    color: white; /* ou qualquer cor que quiser */
 }

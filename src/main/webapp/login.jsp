@@ -2,39 +2,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recoverPassword/generic.css">
+    <link href="https://fonts.googleapis.com/css2?family=Almendra&display=swap" rel="stylesheet">
+
+    <title>JSP - </title>
 </head>
 <body>
 
-<h1>Hello World!</h1>
+<div class="page">
 
-<br/>
+    <img class="logo" src="" alt="IMAGEM JOAOOOO">
+
+    <div class="title-container">
+
+        <img class="ornamento-esq" src="${pageContext.request.contextPath}/assets/ornamento-esq.png">
+
+        <h1 class="title">ENTRAR</h1>
+
+        <img class="ornamento-dir" src="${pageContext.request.contextPath}/assets/ornamento-esq.png">
+
+    </div>
 
 <!-- FORM LOGIN -->
 <form action="login" method="POST">
     <div>
-        <label>Email:</label>
-        <input type="email" name="email" required>
+        <label CLASS="label">Email:</label>
+        <input class="input" type="email" name="email" placeholder="Digite seu email" required>
     </div>
-
-    <br>
-
     <div>
-        <label>Senha:</label>
-        <input type="password" name="senha" required>
+        <label class="label">Senha:</label>
+        <input class="input" type="password" name="senha" placeholder="Digite sua senha" required>
     </div>
 
     <br>
 
-    <button type="submit">Entrar</button>
+    <div class="buttons">
+        <button class="button" type="submit">Entrar</button>
+        <a class="a" href="${pageContext.request.contextPath}/register.jsp">
+            <button class="button" type="button">Cadastre-se</button>
+        </a>    </div>
 </form>
-
-<hr>
-
-<br><br><br>
-
-<a href="register.jsp">Cadastre-se</a>
-<br><br><br>
-<a href="recoverPassword/reciveEmail.jsp">Esqueci minha senha</a>
+    <br>
+<a class="a" href="recoverPassword/reciveEmail.jsp">Esqueci minha senha</a>
+</div>
 </body>
 </html>
