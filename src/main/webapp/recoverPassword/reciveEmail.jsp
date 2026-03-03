@@ -33,8 +33,8 @@
 
     <form action="${pageContext.request.contextPath}/recoverPassword" method="post">
 
+        <label class="label">Email</label>
         <div class="input-group">
-            <label class="label">Email</label>
             <input class="input" type="email" name="email" placeholder="Digite seu email">
         </div>
 

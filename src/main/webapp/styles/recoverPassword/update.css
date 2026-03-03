@@ -1,0 +1,29 @@
+/* ===== INFO BOX ===== */
+
+.info {
+    background: #2b2f46;
+    border: 2px solid #c8a24c;
+    padding: 30px;
+    width: 360px;
+    text-align: center;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.info-title {
+    color: goldenrod;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.password-rules {
+    list-style-type: disc;   /* bolinha */
+    text-align: left;
+    margin-top: 10px;
+    padding-left: 25px;
+    font-size: 18px;
+}
+
+.password-rules li {
+    margin-bottom: 8px;
+}
