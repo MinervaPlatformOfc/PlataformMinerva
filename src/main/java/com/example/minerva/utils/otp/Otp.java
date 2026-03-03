@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class Otp {
 
-    private static final Duration TTL = Duration.ofMinutes(10); //Duração de 4 dias
+    private static final Duration TTL = Duration.ofMinutes(10); //Duração de ten min
     private static final Dotenv dotenv = Dotenv.configure()
             .ignoreIfMissing()
             .load();

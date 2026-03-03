@@ -6,6 +6,7 @@
 <%
     ProfileDTO profile = (ProfileDTO) request.getAttribute("profile");
     List<SubjectDTO> grades = profile.getGrades();
+    String name = profile.getName();
 %>
 <!DOCTYPE html>
 <html>
@@ -29,11 +30,13 @@
         <button type="submit">Home</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/grades" method="post" >
+        <input type="hidden" name="name" value="<%=name%>">
         <input type="hidden"  name="id" value="<%=id%>">
         <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Boletim</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
+        <input type="hidden" name="name" value="<%=name%>">
         <input type="hidden"  name="id" value="<%=id%>">
         <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Matérias</button>
@@ -44,7 +47,7 @@
         <button type="submit">Perfil</button>
     </form>
 </header>
-<h1>Perfil do Aluno: <%= profile.getName() %></h1>
+<h1>Perfil do Aluno: <%= name %></h1>
 <img src="<%= profile.getImageUrl() %>"  style="max-width: 150px; max-height: 150px;">
 
 

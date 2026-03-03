@@ -20,7 +20,8 @@
     <br>
     <small>A senha deve conter:<br>No mínimo 8 caracteres, 1 maiúscula, 1 minúscula e 1 especial.</small>
     <br><br><button type="submit">Alterar</button>
-</form>
 
+</form>
+<a href="${pageContext.request.contextPath}/recoverPassword/reciveEmail.jsp">Voltar</a>
 </body>
 </html>
