@@ -155,7 +155,7 @@
     <input type="text" name="registration"><br><br>
 
     <button type="submit">Registrar</button>
-
+    <a href="${pageContext.request.contextPath}/login.jsp">Voltar</a>
 </form>
 </body>
 </html>

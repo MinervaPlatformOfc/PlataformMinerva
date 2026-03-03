@@ -21,8 +21,12 @@ public class ServletGrades extends HttpServlet {
         request.setAttribute("id", id);
         String houseName = request.getParameter("houseName");
         request.setAttribute("houseName", houseName);
+        String name = request.getParameter("name");
+        request.setAttribute("name", name);
+
         GradeDAO dao = new GradeDAO();
         List<StudentGradeDTO> grades = dao.getStudentGrades(id);
+
         request.setAttribute("grades", grades);
         request.getRequestDispatcher("/aluno/grades.jsp").forward(request, response);
     }

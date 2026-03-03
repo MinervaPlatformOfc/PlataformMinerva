@@ -23,6 +23,8 @@ public class ServletSubject extends HttpServlet {
         request.setAttribute("houseName", houseName);
         int subjectId = Integer.parseInt(request.getParameter("subjectId"));
         String subjectName = request.getParameter("subjectName");
+        String name = request.getParameter("name");
+        request.setAttribute("name", name);
 
         CommentDAO dao = new CommentDAO();
         SubjectDTO subject = new SubjectDTO(subjectId, subjectName, dao.getCommentsBySubjectAndUser(id, subjectId));

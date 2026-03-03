@@ -14,6 +14,7 @@
 <form action="${pageContext.request.contextPath}/recoverPassword" method="post">
   <label>Qual o seu email? <input type="email" name="email" placeholder="AAAAAAAAAA"></label>
   <button type="submit">Enviar</button>
+    <a href="${pageContext.request.contextPath}/login.jsp">Voltar</a>
 </form>
 </body>
 </html>

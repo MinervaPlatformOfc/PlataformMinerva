@@ -21,17 +21,20 @@
 <header style="display: flex;justify-content: space-around">
     <%int id = (int) request.getAttribute("id");%>
     <%String houseName = (String) request.getAttribute("houseName");%>
+    <%String name = (String) request.getAttribute("name");%>
 
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
         <button type="submit">Home</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/grades" method="post" >
+        <input type="hidden" name="name" value="<%=name%>">
         <input type="hidden"  name="id" value="<%=id%>">
         <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Boletim</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
+        <input type="hidden" name="name" value="<%=name%>">
         <input type="hidden"  name="id" value="<%=id%>">
         <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Matérias</button>
@@ -52,6 +55,7 @@
     %>
     <li>
         <form action="${pageContext.request.contextPath}/aluno/subject" method="post" style="margin:0; padding:0;">
+            <input type="hidden" name="name" value="<%=name%>">
             <input type="hidden" name="id" value="<%= id %>">
             <input type="hidden" name="subjectId" value="<%= subject.getSubjectId() %>">
             <input type="hidden" name="subjectName" value="<%= subject.getSubjectName() %>">

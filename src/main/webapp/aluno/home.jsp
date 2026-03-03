@@ -20,6 +20,8 @@
 <body>
 <header style="display: flex;justify-content: space-around">
     <%int id = ((StudentHomeDTO)request.getAttribute("homeDto")).getId();%>
+    <%String name = ((StudentHomeDTO)request.getAttribute("homeDto")).getName();%>
+
     <%String houseNameRaw = ((StudentHomeDTO)request.getAttribute("homeDto")).getHouseName();
 
     String houseName = houseNameRaw.equals("Grifinória") ? "grifinoria" :
@@ -31,11 +33,13 @@
         <button type="submit">Home</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/grades" method="post" >
+        <input type="hidden" name="name" value="<%=name%>">
         <input type="hidden"  name="id" value="<%=id%>">
         <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Boletim</button>
     </form>
     <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
+        <input type="hidden" name="name" value="<%=name%>">
         <input type="hidden"  name="id" value="<%=id%>">
         <input type="hidden"  name="houseName" value="<%=houseName%>">
         <button type="submit">Matérias</button>
@@ -47,7 +51,7 @@
     </form>
 </header>
 <div class="home-wrapper">
-    <h1>Bem-vindo, <%= ((StudentHomeDTO)request.getAttribute("homeDto")).getName() %></h1>
+    <h1>Bem-vindo, <%=name%></h1>
     <p>Casa: <%= houseNameRaw %></p>
 
     <h2>Ranking das Casas</h2>

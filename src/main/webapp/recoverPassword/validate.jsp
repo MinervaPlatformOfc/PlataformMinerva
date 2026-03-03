@@ -18,6 +18,7 @@
     <input type="hidden" value="<%=email%>" name="email">
     <label>Código enviado no seu email:<input type="text" name="otp" maxlength="6" placeholder="Digite o código enviado no seu email"></label>
     <button type="submit">Enviar</button>
+    <a href="${pageContext.request.contextPath}/recoverPassword/reciveEmail.jsp">Voltar</a>
 </form>
 </body>
 </html>
