@@ -61,8 +61,8 @@
         <th>Casa</th>
         <th>Aluno</th>
         <th>Matéria</th>
-        <th>Nota 1</th>
-        <th>Nota 2</th>
+        <th>Points Perdidos</th>
+        <th>Pontos Ganhos</th>
     </tr>
     </thead>
     <tbody>
@@ -89,8 +89,8 @@
         </form>
     </td>
         <td><%= student.getSubjectName() %></td>
-        <td><%= student.getN1() != null ? student.getN1() : "-" %></td>
-        <td><%= student.getN2() != null ? student.getN2() : "-" %></td>
+        <td style="color: red"><%= student.getN1() != 0 ?  student.getN1().intValue() : "-" %></td>
+        <td style="color: green"><%= student.getN2() != 0 ? student.getN2().intValue() : "-" %></td>
 
 
     </tr>
