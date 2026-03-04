@@ -225,11 +225,34 @@ public class TeacherDAO {
         }
 
         public TeacherHomeDTO getTeacherWithStudentsByEmail(String email) {
-                String sql = "SELECT teacher_id, teacher_name, teacher_house_name, " +
-                        "student_id, student_name, student_house_name, n1, n2, subject_name " +
-                        "FROM teacher_students " +
-                        "WHERE teacher_name = (SELECT name FROM users WHERE email = ?) " +
-                        "ORDER BY student_name";
+                String sql = "SELECT \n" +
+                        "    ts.teacher_id, \n" +
+                        "    ts.teacher_name, \n" +
+                        "    ts.teacher_house_name, \n" +
+                        "    ts.student_id, \n" +
+                        "    ts.student_name, \n" +
+                        "    ts.student_house_name, \n" +
+                        "    ts.subject_name,\n" +
+                        "    COALESCE(SUM(CASE WHEN c.score > 0 THEN c.score ELSE 0 END), 0) AS points_gained,\n" +
+                        "    COALESCE(SUM(CASE WHEN c.score < 0 THEN c.score ELSE 0 END), 0) AS points_lost\n" +
+                        "FROM teacher_students ts\n" +
+                        "LEFT JOIN comment c \n" +
+                        "    ON c.student_id = ts.student_id\n" +
+                        "    AND c.teacher_id = ts.teacher_id\n" +
+                        "WHERE ts.teacher_name = (\n" +
+                        "    SELECT name \n" +
+                        "    FROM users \n" +
+                        "    WHERE email = ?\n" +
+                        ")\n" +
+                        "GROUP BY \n" +
+                        "    ts.teacher_id, \n" +
+                        "    ts.teacher_name, \n" +
+                        "    ts.teacher_house_name,\n" +
+                        "    ts.student_id, \n" +
+                        "    ts.student_name, \n" +
+                        "    ts.student_house_name, \n" +
+                        "    ts.subject_name\n" +
+                        "ORDER BY ts.student_name;";
 
                 try {
                         if (conn == null) {
@@ -254,10 +277,11 @@ public class TeacherDAO {
                                 }
 
                                 // adiciona cada aluno no array
-                                Integer studentId = rs.getObject("student_id") != null ? rs.getInt("student_id") : null;                String studentName = rs.getString("student_name");
+                                Integer studentId = rs.getObject("student_id") != null ? rs.getInt("student_id") : null;
+                                String studentName = rs.getString("student_name");
                                 String studentHouse = rs.getString("student_house_name");
-                                Double n1 = rs.getObject("n1") != null ? rs.getDouble("n1") : null;
-                                Double n2 =rs.getObject("n2") != null ? rs.getDouble("n2") : null;
+                                Double n1 = rs.getObject("points_lost") != null ? rs.getDouble("points_lost") : null;
+                                Double n2 =rs.getObject("points_gained") != null ? rs.getDouble("points_gained") : null;
                                 String subjectName = rs.getString("subject_name");
 
                                 if (studentId != null ) students.add(new StudentGradeDTO(studentId, studentName, studentHouse, n1, n2, subjectName));
