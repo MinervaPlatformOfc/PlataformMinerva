@@ -3,6 +3,7 @@ package com.example.minerva.model;
 import java.time.LocalDate;
 
 public class Student {
+    private String name;
     private int id;
     private int userId;
     private int houseId;
@@ -32,8 +33,9 @@ public class Student {
         this.guardianPermission = guardianPermission;
         this.registration = registration;
     }
-    public Student(int id, Integer schoolYear, String legalGuardianName, String residenceAdress, String wand, String pet, String allergies, String blood, boolean basicKit, boolean guardianPermission, String registration){
+    public Student(String name, int id, Integer schoolYear, String legalGuardianName, String residenceAdress, String wand, String pet, String allergies, String blood, boolean basicKit, boolean guardianPermission, String registration){
         this.id = id;
+        this.name = name;
         this.schoolYear = schoolYear;
         this.legalGuardianName = legalGuardianName;
         this.residenceAddress = residenceAdress;
@@ -118,4 +120,8 @@ public class Student {
     }
 
     public boolean getFlightFitness(){return this.flightFitness;}
+
+    public String getName() {
+        return name;
+    }
 }
