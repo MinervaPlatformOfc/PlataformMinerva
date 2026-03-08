@@ -38,7 +38,7 @@ body{
 }
 
 
-#resposta img{
+#resposta .img{
     border-radius: 50%;
     width: 200px;
     height: auto;
@@ -71,6 +71,7 @@ legend {
     gap: 30px;
 }
 
+/*
 #botoesResultado button {
     background-color: darkslateblue;
     color: orange;
@@ -81,11 +82,10 @@ legend {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     cursor: pointer;
     transition: 0.2s ease;
-}
+}*/
 
 #botoesResultado button:hover {
-    background-color: orange;
-    color: black;
+    background:#3a3f5c;
     transform: scale(1.05);
 }
 .escondido{
@@ -132,4 +132,16 @@ legend {
     min-height:120px;
     display:flex;
     justify-content: center;
+}
+
+.resultado-container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:60px;
+    margin-top:20px;
+}
+#resposta .info-box{
+    width:600px;
+    text-align:left;
 }

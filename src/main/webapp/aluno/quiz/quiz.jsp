@@ -79,31 +79,31 @@
 <section id="resposta" class="page escondido">
 
     <div class="title-container">
-        <img src="${pageContext.request.contextPath}/assets/ornamento.png" class="ornamento-esq">
+        <img src="${pageContext.request.contextPath}/assets/ornamento-esq.png" class="ornamento-esq">
         <h1 class="title">Resultado</h1>
-        <img src="${pageContext.request.contextPath}/assets/ornamento.png" class="ornamento-dir">
+        <img src="${pageContext.request.contextPath}/assets/ornamento-esq.png" class="ornamento-dir">
     </div>
 
-    <div class="info-box">
+    <div class="resultado-container">
 
-        <h2 id="casaResultado"></h2>
+        <img class="img" id="imgCasa" src="">
 
-        <img id="imgCasa" src="" style="width:180px; margin:15px 0;">
-
-        <p id="textoResultado"></p>
+        <div class="info-box">
+            <h2 id="casaResultado"></h2>
+            <p class="p" id="textoResultado"></p>
+        </div>
 
     </div>
-
 </section>
 
 
-    <div id="botoesResultado" class="escondido">
+    <div id="botoesResultado" class="escondido buttons">
         <form action="${pageContext.request.contextPath}/aluno/quiz" method="post">
             <input type="hidden" name="houseName" id="houseName" value="">
             <input type="hidden" id="emailUsuario" name="email" value="<%= (String) request.getAttribute("email")%>">
-            <button id="aprovarResultado" type="submit">Aprovar resultado</button>
+            <button class="button" id="aprovarResultado" type="submit">Aprovar resultado</button>
         </form>
-        <button id="recomecarQuiz">Recomeçar</button>
+        <button class="button" id="recomecarQuiz">Recomeçar</button>
     </div>
     <script src="${pageContext.request.contextPath}/aluno/quiz/quiz.js"></script>
     <script>
