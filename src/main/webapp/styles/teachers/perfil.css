@@ -1,0 +1,247 @@
+/* reset font e variaeis  */
+
+body {
+    font-family: 'Almendra', serif;
+    color: #fff;
+    min-height: 100vh;
+    margin: 0;
+    background-color: black;
+    background-attachment: fixed;
+}
+button{
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* header */
+/* Header */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 90px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+header a, .nav-button {
+    background: none;
+    text-decoration: none;
+    color: gray;
+    font-size: 1.1rem;
+    margin-right: 35px;
+    transition: 0.3s;
+    text-shadow: 1px 1px 2px #000;
+}
+header #atual{
+    color: white;
+}
+
+header a:hover, .nav-button:hover {
+    color: #fff;
+    text-shadow: 0 10px 15px #ffc402;
+}
+
+header img[alt="logo-Minerva"] {
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 0 5px #d4af37);
+}
+
+#perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid #d4af37;
+    padding: 5px 15px;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+#perfil p {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+#perfil svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+/* Materias (Lado esquerdo) */
+
+main {
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.conteudo-principal {
+    display: flex;
+    flex-direction: row;
+    max-width: 1200px;
+    width: 100%;
+    align-items: flex-start;
+    gap:100px
+}
+
+main > div.barra {
+    height: 70px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: 2px solid #d4af37;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 2px #000;
+    position: relative;
+    overflow: hidden;
+}
+
+main > div.barra svg, path {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+main > p{
+    grid-column:2;
+    font-size:1.1rem;
+    color:#ccc;
+    padding:4px 0;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+main > p::after{
+    content:"";
+    float:right;
+    color:#fff;
+}
+aside{
+    width: 700px;
+    padding:40px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+aside img{
+    width:100%;
+    border:2px solid #d4af37;
+    margin-bottom:10px;
+}
+
+aside h1{
+    text-align:center;
+    font-size:1.6rem;
+    color:white;
+    margin-bottom:10px;
+}
+
+aside .barra{
+    height:50px;
+    border:1px solid #d4af37;
+    background:var(--cor-barra);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 10px;
+    font-size:1rem;
+    transform: scale(1);
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+    will-change: transform;
+    cursor: pointer;
+}
+
+aside .barra svg{
+    width:24px;
+    height:24px;
+}
+
+aside .barra span{
+    color:#fff;
+}
+aside form{
+    width: 100%;
+}
+
+#button-sair{
+    width: 100%;
+    text-align: center;
+    margin-top:15px;
+    font-weight: 400;
+    font-size: 1.2rem;
+    background:rgb(92, 5, 5);
+    border:1px solid #d4af37;
+    color:#d4af37;
+    padding:8px;
+    cursor:pointer;
+    transition:.3s;
+    font-family: 'Almendra', serif;
+}
+
+#button-sair:hover{
+    transform: scale(1.1);
+    background:rgb(41, 2, 2);
+}
+
+
+/* Informações (Lado Direito) */
+
+.separador-titulo {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0;
+    color: #e0e0e0;
+    font-size: 1.5rem;
+}
+
+.separador-titulo hr {
+    flex-grow: 1;
+    border: 1px solid #f8be00;
+    height: 1px;
+    background-image: linear-gradient(to right, transparent, #d4af37, transparent);
+    margin: 0 15px;
+}
+
+.informacoes p {
+    font-size: 1.4rem;
+    padding: 5px;
+}
+
+.curriculo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.curriculo hr{
+    flex: 0.4;
+    width: auto;
+}
+
+.texto-curriculo{
+    display: block;
+    width: 800px;
+    font-size: 1.4rem;
+}

@@ -1,0 +1,231 @@
+/* reset fontes e variaveis */
+
+body {
+    font-family: 'Almendra', serif !important;
+    color: #fff;
+    min-height: 100vh;
+    background-attachment: fixed;
+    margin: 0;
+    background-color: #000;
+}
+button{
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 90px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+header a, .nav-button {
+    background: none;
+    text-decoration: none;
+    color: gray;
+    font-size: 1.1rem;
+    margin-right: 35px;
+    transition: 0.3s;
+    text-shadow: 1px 1px 2px #000;
+}
+header #atual{
+    color: white;
+}
+
+header a:hover, .nav-button:hover {
+    color: #fff;
+    text-shadow: 0 10px 15px #ffc402;
+}
+
+header img[alt="logo-Minerva"] {
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 0 5px #d4af37);
+}
+
+#perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid #d4af37;
+    padding: 5px 15px;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+#perfil p {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+#perfil svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+/* main */
+
+main {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+    display: block;
+    text-align: left;
+}
+
+main h1:first-of-type {
+    font-size: 2rem;
+    color: #bdbdbd;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+main h2 {
+    font-size: 4rem;
+    font-weight: 400;
+    margin-bottom: 60px;
+}
+
+/* div buscar-alunos */
+#buscar-alunos {
+    background: #1c2333;
+    border: 2px solid #d4af37;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    max-height: 500px;
+    padding: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: #3c445c #232a3d;
+}
+
+
+.scroll-area {
+    max-height: 460px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+.scroll-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+    background: #2c3448;
+    border-radius: 10px;
+}
+
+.scroll-area::-webkit-scrollbar-button{
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+#buscar-alunos h1 {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 25px;
+}
+
+#searchbar {
+    width: 90%;
+    display: block;
+    margin: 0 auto 30px auto;
+    padding: 14px 18px;
+    margin-bottom: 30px;
+    background: #252B41;
+    border: 2px solid #d4af37;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-family: 'Almendra', serif;
+    outline: none;
+}
+
+#searchbar::placeholder {
+    color: rgba(127, 127, 127, 0.5);
+}
+
+#searchbar:focus {
+    box-shadow: 0 0 10px #d4af37;
+}
+
+.barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto 15px auto;
+    padding: 12px 18px;
+    border: 2px solid #d4af37;
+    margin-bottom: 15px;
+    background: #2a3144;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.barra:hover {
+    background: #323a52;
+    transform: scale(1.01);
+}
+
+.barra img {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.barra span:nth-of-type(1) {
+    flex: 1;
+    font-size: 1.2rem;
+}
+
+.barra span:nth-last-child(-n+2) {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.barra span:nth-of-type(2) {
+    color: #B80A25;
+}
+
+.barra span:nth-of-type(3) {
+    color: #1A754D;
+}
+
+
+/* Animação tremendo */
+
+@keyframes tremer {
+    0%   { transform: translate(0, 0); }
+    20%  { transform: translate(-50px, 0); }
+    40%  { transform: translate(1px, 0); }
+    60%  { transform: translate(-50px, 0); }
+    80%  { transform: translate(1px, 0); }
+    100% { transform: translate(0, 0); }
+}
+
+.tremendo {
+    animation: tremer 0.3s ease;
+}

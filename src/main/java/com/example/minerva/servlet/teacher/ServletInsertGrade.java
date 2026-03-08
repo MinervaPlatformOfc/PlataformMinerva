@@ -31,6 +31,8 @@ public class ServletInsertGrade extends HttpServlet {
 
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
         request.setAttribute("teacherId", teacherId);
+        String teacherName = request.getParameter("teacherName");
+        request.setAttribute("teacherName", teacherName);
         String houseName = request.getParameter("houseName");
         request.setAttribute("houseName", houseName);
         int year = Integer.parseInt(request.getParameter("year"));

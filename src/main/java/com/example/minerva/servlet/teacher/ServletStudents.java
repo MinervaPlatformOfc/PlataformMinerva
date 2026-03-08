@@ -25,6 +25,9 @@ public class ServletStudents extends HttpServlet {
         String houseName = request.getParameter("houseName");
         request.setAttribute("houseName", houseName);
 
+        String teacherName = request.getParameter("teacherName");
+        request.setAttribute("teacherName", teacherName);
+
         int year = Integer.parseInt(request.getParameter("year"));
         String subject = request.getParameter("subject");
 
