@@ -224,52 +224,76 @@ public class TeacherDAO {
                 }
         }
 
-        public TeacherHomeDTO getTeacherWithStudentsByEmail(String email) {
-                String sql = "SELECT teacher_id, teacher_name, teacher_house_name, " +
-                        "student_id, student_name, student_house_name, n1, n2, subject_name " +
-                        "FROM teacher_students " +
-                        "WHERE teacher_name = (SELECT name FROM users WHERE email = ?) " +
-                        "ORDER BY student_name";
+    public TeacherHomeDTO getTeacherWithStudentsByEmail(String email) {
+        String sql = "SELECT \n" +
+                "    ts.teacher_id, \n" +
+                "    ts.teacher_name, \n" +
+                "    ts.teacher_house_name, \n" +
+                "    ts.student_id, \n" +
+                "    ts.student_name, \n" +
+                "    ts.student_house_name, \n" +
+                "    ts.subject_name,\n" +
+                "    COALESCE(SUM(CASE WHEN c.score > 0 THEN c.score ELSE 0 END), 0) AS points_gained,\n" +
+                "    COALESCE(SUM(CASE WHEN c.score < 0 THEN c.score ELSE 0 END), 0) AS points_lost\n" +
+                "FROM teacher_students ts\n" +
+                "LEFT JOIN comment c \n" +
+                "    ON c.student_id = ts.student_id\n" +
+                "    AND c.teacher_id = ts.teacher_id\n" +
+                "WHERE ts.teacher_name = (\n" +
+                "    SELECT name \n" +
+                "    FROM users \n" +
+                "    WHERE email = ?\n" +
+                ")\n" +
+                "GROUP BY \n" +
+                "    ts.teacher_id, \n" +
+                "    ts.teacher_name, \n" +
+                "    ts.teacher_house_name,\n" +
+                "    ts.student_id, \n" +
+                "    ts.student_name, \n" +
+                "    ts.student_house_name, \n" +
+                "    ts.subject_name\n" +
+                "ORDER BY ts.student_name;";
 
-                try {
-                        if (conn == null) {
-                                System.out.println("Erro ao conectar ao banco!");
-                                return null;
-                        }
+        try {
+            if (conn == null) {
+                System.out.println("Erro ao conectar ao banco!");
+                return null;
+            }
 
-                        PreparedStatement stmt = conn.prepareStatement(sql);
-                        stmt.setString(1, email);
-                        ResultSet rs = stmt.executeQuery();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
 
-                        List<StudentGradeDTO> students = new ArrayList<>();
-                        TeacherHomeDTO teacherDTO = null;
+            List<StudentGradeDTO> students = new ArrayList<>();
+            TeacherHomeDTO teacherDTO = null;
 
-                        while (rs.next()) {
-                                // só cria o DTO do professor na primeira linhaaaaaaaaaaaaa
-                                if (teacherDTO == null) {
-                                        int teacherId = rs.getInt("teacher_id");
-                                        String teacherName = rs.getString("teacher_name");
-                                        String teacherHouse = rs.getString("teacher_house_name");
-                                        teacherDTO = new TeacherHomeDTO(teacherId, teacherName, teacherHouse, students);
-                                }
-
-                                // adiciona cada aluno no array
-                                Integer studentId = rs.getObject("student_id") != null ? rs.getInt("student_id") : null;                String studentName = rs.getString("student_name");
-                                String studentHouse = rs.getString("student_house_name");
-                                Double n1 = rs.getObject("n1") != null ? rs.getDouble("n1") : null;
-                                Double n2 =rs.getObject("n2") != null ? rs.getDouble("n2") : null;
-                                String subjectName = rs.getString("subject_name");
-
-                                if (studentId != null ) students.add(new StudentGradeDTO(studentId, studentName, studentHouse, n1, n2, subjectName));
-                        }
-
-                        return teacherDTO;
-
-                } catch (SQLException e) {
-                        e.printStackTrace();
-                        return null;
+            while (rs.next()) {
+                // só cria o DTO do professor na primeira linhaaaaaaaaaaaaa
+                if (teacherDTO == null) {
+                    int teacherId = rs.getInt("teacher_id");
+                    String teacherName = rs.getString("teacher_name");
+                    String teacherHouse = rs.getString("teacher_house_name");
+                    teacherDTO = new TeacherHomeDTO(teacherId, teacherName, teacherHouse, students);
                 }
+
+                // adiciona cada aluno no array
+                Integer studentId = rs.getObject("student_id") != null ? rs.getInt("student_id") : null;
+                String studentName = rs.getString("student_name");
+                String studentHouse = rs.getString("student_house_name");
+                Double n1 = rs.getObject("points_lost") != null ? rs.getDouble("points_lost") : null;
+                Double n2 =rs.getObject("points_gained") != null ? rs.getDouble("points_gained") : null;
+                String subjectName = rs.getString("subject_name");
+
+                if (studentId != null ) students.add(new StudentGradeDTO(studentId, studentName, studentHouse, n1, n2, subjectName));
+            }
+
+            return teacherDTO;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
+    }
 
         public TeacherProfileDTO getTeacherProfile(int teacherId) {
                 String sqlTeacher = "SELECT t.*, u.name AS user_name, u.profile_image_url AS image_url, " +
