@@ -23,6 +23,8 @@ public class ServletYearsSubjects extends HttpServlet {
         request.setAttribute("teacherId", teacherId);
         String houseName = request.getParameter("houseName");
         request.setAttribute("houseName", houseName);
+        String teacherName = request.getParameter("teacherName");
+        request.setAttribute("teacherName", teacherName);
 
         String showGradesParam = request.getParameter("showGrades");
         boolean showGrades = "true".equals(showGradesParam);

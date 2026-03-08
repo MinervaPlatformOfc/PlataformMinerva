@@ -22,6 +22,8 @@ public class ServletInsertComment extends HttpServlet {
 
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
         request.setAttribute("teacherId", teacherId);
+        String teacherName = request.getParameter("teacherName");
+        request.setAttribute("teacherName", teacherName);
 
         int year = Integer.parseInt(request.getParameter("year"));
         request.setAttribute("year", year);
