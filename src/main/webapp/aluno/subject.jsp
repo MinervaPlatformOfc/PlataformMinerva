@@ -1,93 +1,149 @@
 <%@ page import="com.example.minerva.dto.CommentDTO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.minerva.dto.SubjectDTO" %>
-<%@ page import="com.example.minerva.dto.StudentHomeDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%
+    int id = (int) request.getAttribute("id");
+    String houseName = (String) request.getAttribute("houseName");
+    SubjectDTO subject = (SubjectDTO) request.getAttribute("subject");
+%>
+
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes da Matéria</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 20px; }
-        h1 { color: #333; margin-bottom: 10px; }
-        h2 { color: #555; margin-top: 20px; }
-        ul { list-style-type: none; padding: 0; }
-        li { background-color: #fff; margin-bottom: 8px; padding: 10px; border: 1px solid #999; border-radius: 4px; }
-        .score { font-weight: bold; }
-        .date { font-size: 0.9em; color: #999; }
-    </style>
+    <title>Observações</title>
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/students/subject.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Hermeneus+One&display=swap" rel="stylesheet">
 </head>
-<body>
-<header style="display: flex;justify-content: space-around">
-    <%int id = (int) request.getAttribute("id");%>
-    <%String houseName = (String) request.getAttribute("houseName");%>
-    <%String name = (String) request.getAttribute("name");%>
 
-    <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
-        <input type="hidden"  name="id" value="<%=id%>">
-        <button type="submit">Home</button>
-    </form>
-    <form action="${pageContext.request.contextPath}/aluno/grades" method="post" >
-        <input type="hidden" name="name" value="<%=name%>">
-        <input type="hidden"  name="id" value="<%=id%>">
-        <input type="hidden"  name="houseName" value="<%=houseName%>">
-        <button type="submit">Boletim</button>
-    </form>
-    <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
-        <input type="hidden" name="name" value="<%=name%>">
-        <input type="hidden"  name="id" value="<%=id%>">
-        <input type="hidden"  name="houseName" value="<%=houseName%>">
-        <button type="submit">Matérias</button>
-    </form>
-    <form action="${pageContext.request.contextPath}/aluno/profile" method="post" >
-        <input type="hidden"  name="id" value="<%=id%>">
-        <input type="hidden"  name="houseName" value="<%=houseName%>">
-        <button type="submit">Perfil</button>
-    </form>
+<body class="<%=houseName.toLowerCase()%>">
+
+<header>
+
+    <div>
+        <p id="materia-nome">
+            <%= subject != null ? subject.getSubjectName() : "Matéria" %>
+        </p>
+    </div>
+
+    <img src="" alt="logo-Minerva" class="logo-central">
+
+    <div id="aluno-perfil">
+
+        <form action="${pageContext.request.contextPath}/aluno/subjects" method="post">
+            <input type="hidden" name="id" value="<%=id%>">
+            <input type="hidden" name="houseName" value="<%=houseName%>">
+
+            <button type="submit" style="all:unset; cursor:pointer;">
+                Voltar
+            </button>
+        </form>
+
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px"
+             viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+            <path d="M400-120 160-360l241-241 56 57-144 144h367v-400h80v480H313l144 143-57 57Z"/>
+        </svg>
+
+    </div>
+
 </header>
-<%
-    SubjectDTO subject = (SubjectDTO) request.getAttribute("subject");
-    if (subject != null) {
-%>
-<h1>Matéria: <%= subject.getSubjectName() %></h1>
-<h2>Comentários:</h2>
 
-<ul>
-    <%
-        ArrayList<CommentDTO> comments = subject.getComments();
-        if (comments != null && !comments.isEmpty()) {
-            for (CommentDTO comment : comments) {
-                Integer score = comment.getScore();
-                String color = "gray";
-                if (score < 0) {
-                    color = "red";
-                } else if (score > 0) {
-                    color = "green";
-                }
-    %>
-    <li>
-        <p><%= comment.getContent() %></p>
-        <p class="score" style="color:<%= color %>;">Pontuação: <%= score != null ? score : "-" %></p>
-        <p class="date">Data: <%= comment.getCreatedAt() != null ? comment.getCreatedAt() : "-" %></p>
-    </li>
-    <%
-        }
-    } else {
-    %>
-    <li>Nenhum comentário disponível</li>
-    <%
-        }
-    %>
-</ul>
-<%
-} else {
-%>
-<p>Matéria não encontrada.</p>
-<%
-    }
-%>
+
+<main>
+
+    <aside class="conteudo">
+
+        <h1>Conteúdos</h1>
+
+        <%
+            if(subject != null){
+        %>
+
+        <div class="barra">
+            <span><%=subject.getSubjectName()%></span>
+        </div>
+
+        <%
+            }
+        %>
+
+    </aside>
+
+
+    <div class="divisor"></div>
+
+
+    <aside class="observacoes">
+
+        <h1>Observações</h1>
+
+        <%
+            if(subject != null){
+
+                ArrayList<CommentDTO> comments = subject.getComments();
+
+                if(comments != null && !comments.isEmpty()){
+
+                    for(CommentDTO comment : comments){
+
+                        Integer score = comment.getScore();
+                        String color = "gray";
+
+                        if(score != null){
+                            if(score > 0){
+                                color = "green";
+                            }else if(score < 0){
+                                color = "red";
+                            }
+                        }
+        %>
+
+        <div class="barra">
+
+            <h1>Comentário</h1>
+
+            <p>
+                <%= comment.getContent() %>
+            </p>
+
+            <p class="pontos" style="color:<%=color%>">
+                <%= score != null ? score : "-" %>
+            </p>
+
+        </div>
+
+        <%
+            }
+
+        }else{
+        %>
+
+        <div class="barra">
+            <p>Nenhum comentário disponível</p>
+        </div>
+
+        <%
+            }
+
+        }else{
+        %>
+
+        <div class="barra">
+            <p>Matéria não encontrada</p>
+        </div>
+
+        <%
+            }
+        %>
+
+    </aside>
+
+</main>
+
 </body>
 </html>

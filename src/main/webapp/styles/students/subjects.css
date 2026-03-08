@@ -1,0 +1,202 @@
+/* reset fontes e variaveis */
+
+body {
+    font-family: 'Almendra', serif;
+    color: #fff;
+    min-height: 100vh;
+    margin: 0;
+}
+
+:root{
+    --cor-casa:  rgba(204, 155, 49, 1);
+    --bg-casa: #7a5c18;
+    --bg-intermediario: #3a2a05;
+    --bg-boletim:rgba(143, 112, 20, 1);
+
+    background: linear-gradient(to bottom,
+    var(--bg-casa) 0%,
+    var(--bg-intermediario) 40%,
+    #000 80%
+    );
+}
+
+body.sonserina{
+    --cor-casa: rgb(25, 197, 134);
+    --bg-casa: #133a1b;
+    --bg-intermediario: #071a0d;
+    --bg-boletim: rgba(14, 33, 19, 1);
+
+    background: linear-gradient(to bottom,
+    var(--bg-casa) 0%,
+    var(--bg-intermediario) 40%,
+    #000 80%
+    );
+}
+
+body.corvinal{
+    --cor-casa: rgb(18, 138, 223);
+    --bg-casa: #0c4a7c;
+    --bg-intermediario: #06294a;
+    --bg-boletim: rgba(1, 24, 45, 1);
+
+    background: linear-gradient(to bottom,
+    var(--bg-casa) 0%,
+    var(--bg-intermediario) 40%,
+    #000 80%
+    );
+}
+
+body.grifinoria{
+    --cor-casa: #ec1111;
+    --bg-casa: #740001;
+    --bg-intermediario: #2a0a0a;
+    --bg-boletim: rgba(85, 15, 15, 1);
+
+    background: linear-gradient(to bottom,
+    var(--bg-casa) 0%,
+    var(--bg-intermediario) 40%,
+    #000 80%
+    );
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Almendra', serif;
+    color: #ffffff;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+header form button{
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+}
+header form{
+    display: inline;
+    margin-right: 35px;
+}
+header a {
+    text-decoration: none;
+    color: gray;
+    font-size: 1.1rem;
+    margin-right: 35px;
+    transition: 0.3s;
+    text-shadow: 1px 1px 2px #000;
+}
+header #atual{
+    color: white;
+}
+
+header a:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #d4af37;
+}
+
+header img[alt="logo-Minerva"] {
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 0 5px #d4af37);
+}
+
+#aluno-perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #d4af37;
+    padding: 5px 15px;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+#aluno-perfil p {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+#aluno-perfil svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px;
+}
+
+.container-grid{
+    display: grid;
+    align-items: start;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+}
+
+.materia{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    border: 1px solid #d4af37;
+    height: auto;
+    text-align: center;
+    height: 450px;
+    transform: scale(1);
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+    will-change: transform;
+}
+
+.materia:hover{
+    transform: scale(1.1);
+}
+
+.materia img{
+    flex: 1;
+    max-width: 100%;
+    height: auto;
+    transition: 0.3;
+}
+
+
+
+.nome-Materia{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: var(--bg-boletim);
+}
+.nome-Materia img {
+    display: block;
+}
+
+.nome-Materia span{
+    font-size: 1.5rem;
+}

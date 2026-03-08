@@ -15,7 +15,13 @@ public class ServletValidateOtp extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         req.setAttribute("email", email);
-        String otp = req.getParameter("otp");
+        String number1 = req.getParameter("number1");
+        String number2 = req.getParameter("number2");
+        String number3 = req.getParameter("number3");
+        String number4 = req.getParameter("number4");
+        String number5 = req.getParameter("number5");
+        String number6 = req.getParameter("number6");
+        String otp = number1+number2+number3+number4+number5+number6;
 
         Otp otpService = new Otp();
         if (otpService.validate(email, otp)){

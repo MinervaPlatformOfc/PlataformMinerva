@@ -108,11 +108,22 @@ header a {
 .logo-central{
     height:70px;
     filter:drop-shadow(0 0 8px #d4af37);
+    cursor: pointer;
 }
 
 header p:hover {
     color: #fff;
     text-shadow: 0 0 10px #d4af37;
+}
+
+header > div:not(#aluno-perfil){
+    margin-left: 125px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+header > div:not(#aluno-perfil) > p{
+    margin-top: 10px;
 }
 
 header img[alt="logo-Minerva"] {
@@ -122,6 +133,8 @@ header img[alt="logo-Minerva"] {
     transform: translateX(-50%);
     filter: drop-shadow(0 0 5px #d4af37);
 }
+
+
 
 #aluno-perfil a:hover {
     color: #f1e9d1;
@@ -146,15 +159,15 @@ header img[alt="logo-Minerva"] {
     fill: #fff;
 }
 
-/* Materias (Lado esquerdo) */
+/* main */
 
 main{
-    display: flex;
-    flex-direction: row;
-    max-width:1200px;
-    grid-template-columns:260px 1fr;
-    align-items:flex-start;
-
+    display: grid;
+    grid-template-columns: 1fr 2px 1fr;
+    max-width: 1200px;
+    width: 100%;
+    margin: 80px auto;
+    gap: 60px;
 }
 
 main > div.barra {
@@ -196,12 +209,10 @@ main > p::after{
     color:#fff;
 }
 aside{
-    margin-left: 100px;
-    width: 700px;
-    padding:20px 15px;
+    padding: 20px 15px;
     display:flex;
     flex-direction:column;
-    gap:12px;
+    gap:20px;
 }
 
 aside img{
@@ -218,13 +229,15 @@ aside h1{
 }
 
 aside .barra{
-    height:50px;
+    height:auto;
+    width: 100%;
     border:1px solid #d4af37;
     background:var(--cor-barra);
     display:flex;
-    align-items:center;
+    text-align: justify;
+    flex-direction: column;
     gap:10px;
-    padding:0 10px;
+    padding:20px 40px;
     font-size:1rem;
     transform: scale(1);
     transition: transform 0.35s cubic-bezier(.4,0,.2,1);
@@ -232,12 +245,28 @@ aside .barra{
     cursor: pointer;
 }
 
-aside .barra:hover{
+aside .barra h1{
+    text-align: justify;
+}
+
+aside .barra p{
+    color: black;
+    font-weight: bold;
+}
+
+aside .barra .pontos{
+    position: fixed;
+    left: 440px;
+}
+
+aside:not(.observacoes) .barra:hover{
     background-color: var(--cor-casa);
     transform: scale(1.1);
 }
 
-
+aside:not(.conteudo) .barra:hover{
+    transform: scale(1.05);
+}
 
 aside .barra svg{
     width:24px;
@@ -248,50 +277,8 @@ aside .barra span{
     color:#fff;
 }
 
-aside input{
-    margin-top:15px;
-    font-weight: 400;
-    background:rgb(92, 5, 5);
-    border:1px solid #d4af37;
-    color:#d4af37;
-    padding:8px;
-    cursor:pointer;
-    transition:.3s;
-    font-family: 'Almendra', serif;
-
+.divisor {
+    background-color: #d4af37;
+    width: 2px;
+    min-height: 100%;
 }
-
-aside input:hover{
-    transform: scale(1.1);
-    background:rgb(41, 2, 2);
-}
-
-
-/* Informações (Lado Direito) */
-
-.separador-titulo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 500px;
-    margin: 20px 0;
-    color: #e0e0e0;
-    font-size: 1.5rem;
-    margin-top:40px;
-}
-
-.separador-titulo hr {
-    flex-grow: 1;
-    border: 1px solid #f8be00;
-    height: 1px;
-    background-image: linear-gradient(to right, transparent, #d4af37, transparent);
-    margin: 0 15px;
-}
-
-.informacoes p{
-    font-size: 1.4rem;
-}
-
-/*.informacoes > p:nth-of-type(9){*/
-/*    color: rgba(204, 155, 49, 1);*/
-/*}*/

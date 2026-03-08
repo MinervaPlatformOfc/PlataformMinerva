@@ -8,24 +8,41 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recoverPassword/generic.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recoverPassword/register.css">
+    <link href="https://fonts.googleapis.com/css2?family=Almendra&display=swap" rel="stylesheet">
     <title>Cadastro</title>
 </head>
 <body>
+<div class="page">
+
+    <img class="logo" src="" alt="IMAGEM JOAOOOO">
+
+    <div class="title-container">
+
+        <img class="ornamento-esq" src="${pageContext.request.contextPath}/assets/ornamento-esq.png">
+
+        <h1 class="title">CADASTRE-SE</h1>
+
+        <img class="ornamento-dir" src="${pageContext.request.contextPath}/assets/ornamento-esq.png">
+
+    </div>
 <form action="${pageContext.request.contextPath}/register" method="post" id="registerForm" enctype="multipart/form-data">
 
-    <h2>Registro em Hogwarts</h2>
 
+    <div class="form-container">
+        <h2>informações pessoais</h2>
     <!-- Nome -->
-    <label>Nome:</label><br>
-    <input type="text" name="name" required><br><br>
+    <label CLASS="label">Nome:</label><br>
+    <input class="input" type="text" name="name" required><br><br>
 
     <!-- Email -->
-    <label>Email:</label><br>
-    <input type="email" name="email" id="email" required><br><br>
+    <label CLASS="label">Email:</label><br>
+    <input class="input" type="email" name="email" id="email" required><br><br>
 
     <!-- Senha -->
-    <label>Senha:</label><br>
-    <input type="password" name="password" id="password" required minlength="8"
+    <label CLASS="label">Senha:</label><br>
+    <input class="input" type="password" name="password" id="password" required minlength="8"
            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':&quot;\\|,.<>\/?]).+$">
     <br>
     <small>
@@ -34,9 +51,48 @@
         No mínimo 8 caracteres, 1 maiúscula, 1 minúscula e 1 especial.
     </small>
     <br><br>
+        <!-- Ano escolar -->
+        <label CLASS="label">Ano escolar:</label><br>
+        <select name="schoolYear" required>
+            <option value="1">1º ano</option>
+            <option value="2">2º ano</option>
+            <option value="3">3º ano</option>
+        </select><br><br>
 
-    <!-- Pet -->
-    <label>Animal de estimação:</label><br>
+        <!-- Responsável -->
+        <label CLASS="label">Nome do responsável:</label><br>
+        <input class="input" type="text" name="legalGuardianName" required><br><br>
+
+        <!-- Endereço -->
+        <label CLASS="label">Endereço:</label><br>
+        <input class="input" type="text" name="residenceAdress" required><br><br>
+
+
+
+        <input class="input" type="file" name="image"
+               accept="image/jpeg, image/png, image/webp"
+               required>
+        <br><br>
+
+        <!-- Matrícula -->
+        <label CLASS="label">Código de Matrícula:</label><br>
+        <input class="input" type="text" name="registration"><br><br>
+        <!-- Blood status -->
+        <label CLASS="label">Status sanguíneo:</label><br>
+        <select name="blood" required>
+            <option value="Pure-blood">Pure-blood</option>
+            <option value="Half-blood">Half-blood</option>
+            <option value="Muggle-born">Muggle-born</option>
+            <option value="Squib">Squib</option>
+        </select><br><br>
+
+        <!-- Data nascimento -->
+        <label CLASS="label">Data de nascimento:</label><br>
+        <input class="input" type="date" name="birthDate" required><br><br>
+
+        <h2>Materiais</h2>
+        <!-- Pet -->
+    <label CLASS="label">Animal de estimação:</label><br>
     <select name="pet" required>
         <option value="coruja">Coruja</option>
         <option value="sapo">Sapo</option>
@@ -44,24 +100,12 @@
     </select><br><br>
 
     <!-- Alergias -->
-    <label>Alergias:</label><br>
-    <input type="text" name="allergies"><br><br>
+    <label CLASS="label">Alergias:</label><br>
+    <input class="input" type="text" name="allergies"><br><br>
 
-    <!-- Blood status -->
-    <label>Status sanguíneo:</label><br>
-    <select name="blood" required>
-        <option value="Pure-blood">Pure-blood</option>
-        <option value="Half-blood">Half-blood</option>
-        <option value="Muggle-born">Muggle-born</option>
-        <option value="Squib">Squib</option>
-    </select><br><br>
-
-    <!-- Data nascimento -->
-    <label>Data de nascimento:</label><br>
-    <input type="date" name="birthDate" required><br><br>
-
+   <h2>Varinha</h2>
     <!-- Varinha -->
-    <label>Madeira da varinha:</label><br>
+    <label CLASS="label">Madeira da varinha:</label><br>
     <select name="wood" required>
         <option>Holly</option>
         <option>Yew</option>
@@ -91,7 +135,7 @@
         <option>Blackthorn</option>
     </select><br><br>
 
-    <label>Núcleo da varinha:</label><br>
+    <label CLASS="label">Núcleo da varinha:</label><br>
     <select name="core" required>
         <option>Phoenix Feather</option>
         <option>Dragon Heartstring</option>
@@ -103,7 +147,7 @@
         <option>Kneazle Whisker</option>
     </select><br><br>
 
-    <label>Flexibilidade:</label><br>
+    <label CLASS="label">Flexibilidade:</label><br>
     <select name="flexibility" required>
         <option>Rigid</option>
         <option>Unyielding</option>
@@ -118,32 +162,16 @@
         <option>Whippy</option>
     </select><br><br>
 
-    <!-- Ano escolar -->
-    <label>Ano escolar:</label><br>
-    <select name="schoolYear" required>
-        <option value="1">1º ano</option>
-        <option value="2">2º ano</option>
-        <option value="3">3º ano</option>
-    </select><br><br>
-
-    <!-- Responsável -->
-    <label>Nome do responsável:</label><br>
-    <input type="text" name="legalGuardianName" required><br><br>
-
-    <!-- Endereço -->
-    <label>Endereço:</label><br>
-    <input type="text" name="residenceAdress" required><br><br>
-
     <!-- Permissões -->
-    <label>
-        <input type="checkbox" name="guardianPermission" value="true" >
-        Tenho Permissão do responsável
-    </label><br><br>
+    <div class="checkbox-group">
+        <input type="checkbox" name="guardianPermission" value="true">
+        <label>Tenho Permissão do responsável</label>
+    </div>
 
-    <label>
+    <div class="checkbox-group">
         <input type="checkbox" name="BasicKit" value="true">
         Tenho kit básico
-    </label><br><br>
+    </label></div><br><br>
 
     <input type="file" name="image"
            accept="image/jpeg, image/png, image/webp"
@@ -157,5 +185,6 @@
     <button type="submit">Registrar</button>
     <a href="${pageContext.request.contextPath}/login.jsp">Voltar</a>
 </form>
+</div>
 </body>
 </html>
