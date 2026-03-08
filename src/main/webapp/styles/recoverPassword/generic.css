@@ -1,8 +1,8 @@
 body{
     margin:0;
-    height:115vh;
+    height:100vh;
     width:100%;
-
+    background-attachment: fixed;
     background-image: url("../../assets/castelo.png");
     background-color: #0F0A0E;
     background-size: cover;
@@ -185,3 +185,4 @@ input:focus {
 .escondido{
     display:none;
 }
+
