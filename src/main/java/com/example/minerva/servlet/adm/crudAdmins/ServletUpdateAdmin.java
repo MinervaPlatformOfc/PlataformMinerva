@@ -74,7 +74,7 @@ public class ServletUpdateAdmin extends HttpServlet {
 
             if (imageBytes.length < 4) {
                 request.setAttribute("msg", "Arquivo inválido.");
-                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
                 return;
             }
 

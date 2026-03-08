@@ -46,30 +46,30 @@ public class ServletCreateAdmin extends HttpServlet {
 
         if (userRepository.findByEmail(email) != null) {
             request.setAttribute("msg", "E-mail já cadastrado.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
         if (!ValidacaoEmail.validarEmail(email)) {
             request.setAttribute("msg", "E-mail inválido.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
         if (!ValidacaoSenha.validarSenha(password)) {
             request.setAttribute("msg", "Senha inválida.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 
         Part filePart = request.getPart("imageInsert");
         if (filePart == null) {
             request.setAttribute("msg", "Imagem não enviada.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 
         if (filePart.getSize() == 0) {
             request.setAttribute("msg", "Arquivo de imagem vazio.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 
@@ -84,7 +84,7 @@ public class ServletCreateAdmin extends HttpServlet {
         // Verificar se é uma imagem válida (magic numbers)
         if (imageBytes.length < 4) {
             request.setAttribute("msg", "Arquivo inválido.");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 
