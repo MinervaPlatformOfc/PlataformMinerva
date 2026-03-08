@@ -9,6 +9,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recoverPassword/generic.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recoverPassword/register.css">
     <link href="https://fonts.googleapis.com/css2?family=Almendra&display=swap" rel="stylesheet">
     <title>Cadastro</title>
 </head>
@@ -149,16 +150,7 @@
     <label CLASS="label">Endereço:</label><br>
     <input class="input" type="text" name="residenceAdress" required><br><br>
 
-    <!-- Permissões -->
-    <label CLASS="label">
-        <input class="input" type="checkbox" name="guardianPermission" value="true" >
-        Tenho Permissão do responsável
-    </label><br><br>
 
-    <label CLASS="label">
-        <input class="input" type="checkbox" name="BasicKit" value="true">
-        Tenho kit básico
-    </label><br><br>
 
     <input class="input" type="file" name="image"
            accept="image/jpeg, image/png, image/webp"
@@ -169,7 +161,17 @@
     <label CLASS="label">Código de Matrícula:</label><br>
     <input class="input" type="text" name="registration"><br><br>
 
-    <button type="submit">Registrar</button>
+    <!-- Permissões -->
+    <div class="checkbox-group">
+        <input type="checkbox" name="guardianPermission" value="true">
+        <label>Tenho Permissão do responsável</label>
+    </div>
+
+    <div class="checkbox-group">
+        <input type="checkbox" name="BasicKit" value="true">
+        <label>Tenho kit básico</label>
+    </div>
+    <button class="button" type="submit">Cadastrar</button>
 
 </form>
 </div>
