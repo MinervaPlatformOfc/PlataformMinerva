@@ -34,7 +34,9 @@ public class ServletInsertComment extends HttpServlet {
         request.setAttribute("studentId", studentId);
 
         CommentDAO  commentDAO = new CommentDAO();
-        commentDAO.insertComment(content,score,teacherId,subjectId,studentId);
+        request.setAttribute("msg",commentDAO.insertComment(content,score,teacherId,subjectId,studentId)?
+                "Comentário inserido com sucesso!":
+                "Erro ao inserir comentário!");
 
         request.getRequestDispatcher("/teacher/studentComments").forward(request, response);
     }
