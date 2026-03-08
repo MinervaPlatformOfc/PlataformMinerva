@@ -27,7 +27,7 @@ import java.util.Map;
 import com.example.minerva.utils.matricula.Matricula;
 import jakarta.servlet.http.Part;
 
-@WebServlet(urlPatterns = "/admin/CreateTeacher", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/insertTeacher", loadOnStartup = 1)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,

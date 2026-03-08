@@ -160,22 +160,22 @@
             <h2>Inserir Administrador</h2>
 
             <form action="${pageContext.request.contextPath}/admin/insertAdmin" method="post" enctype="multipart/form-data">
-                <div class="foto-atual">
+                <div class="foto-atual" style="width: 100%; display: flex;flex-direction: column;justify-content: center;align-items: center">
                     <label>Foto do Perfil:</label>
                     <img src="" alt="foto-preview" id="foto-preview-insert" style="display: none;">
                 </div>
 
                 <label for="nome-insert">Nome</label>
-                <input type="text" name="nome" id="nome-insert" required>
+                <input type="text" name="nameInsert" id="nome-insert" required>
 
                 <label for="email-insert">Email</label>
-                <input type="email" name="email" id="email-insert" required>
+                <input type="email" name="emailInsert" id="email-insert" required>
 
                 <label for="senha-insert">Senha</label>
-                <input type="password" name="senha" id="senha-insert" required>
+                <input type="password" name="passwordInsert" id="senha-insert" required>
 
-                <label for="foto-insert">Foto (opcional)</label>
-                <input type="file" name="foto" id="foto-insert" accept="image/*">
+                <label for="foto-insert">Foto</label>
+                <input type="file" name="imageInsert" id="foto-insert" accept="image/*" required>
 
                 <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
                 <input type="hidden" name="url" value="<%= url != null ? url : "" %>">
@@ -196,17 +196,20 @@
                 </div>
 
                 <label for="nome-update">Nome</label>
-                <input type="text" name="nome" id="nome-update" required>
+                <input type="text" name="nameInput" id="nome-update" required>
 
                 <label for="email-update">Email</label>
-                <input type="email" name="email" id="email-update" required>
+                <input type="email" name="emailInput" id="email-update" required>
 
-                <label for="foto-update">Nova Foto (opcional)</label>
-                <input type="file" name="foto" id="foto-update" accept="image/*">
+                <label for="foto-update">Nova Foto</label>
+                <input type="file" name="imageInput" id="foto-update" accept="image/*">
 
                 <input type="hidden" name="id" id="id-update" value="">
                 <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
                 <input type="hidden" name="url" value="<%= url != null ? url : "" %>">
+
+                <input type="hidden" name="emailOriginal" id="email-original" value="">
+                <input type="hidden" name="fotoOriginal" id="foto-original" value="">
                 <input type="submit" value="Atualizar administrador">
             </form>
         </div>

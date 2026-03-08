@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Elementos do Update
     const divAtualizar = document.querySelector('.div-update');
     const idUpdateSpan = document.querySelector('.id-update span');
-    const inputNomeUpdate = divAtualizar?.querySelector('input[name="nome"]');
-    const inputEmailUpdate = divAtualizar?.querySelector('input[name="email"]');
+    const inputNomeUpdate = document.querySelector('#nome-update');
+    const inputEmailUpdate = document.querySelector('#email-update');
     const fotoPreviewUpdate = document.querySelector('#foto-preview-update');
     const inputFotoUpdate = document.querySelector('#foto-update');
     const inputUpdateId = document.querySelector('#id-update');
@@ -62,6 +62,34 @@ document.addEventListener("DOMContentLoaded", function () {
             overlay.classList.add("escondido");
             overlay.classList.remove("saindo");
         }, 300);
+    }
+
+    /* Função para remover campos hidden antigos */
+    function removerCamposHidden(form) {
+        const camposAntigos = form.querySelectorAll('.campo-original');
+        camposAntigos.forEach(campo => campo.remove());
+    }
+
+    /* Função para adicionar campos hidden com valores originais */
+    function adicionarCamposHidden(form, email, foto) {
+        removerCamposHidden(form);
+
+        // Campo hidden para email original
+        const emailOriginal = document.createElement('input');
+        emailOriginal.type = 'hidden';
+        emailOriginal.name = 'emailOriginal';
+        emailOriginal.value = email;
+        emailOriginal.classList.add('campo-original');
+
+        // Campo hidden para foto original
+        const fotoOriginal = document.createElement('input');
+        fotoOriginal.type = 'hidden';
+        fotoOriginal.name = 'fotoOriginal';
+        fotoOriginal.value = foto || '';
+        fotoOriginal.classList.add('campo-original');
+
+        form.appendChild(emailOriginal);
+        form.appendChild(fotoOriginal);
     }
 
     /* Função de ordenação da tabela */
@@ -242,6 +270,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (inputEmailUpdate) inputEmailUpdate.value = email;
                 if (fotoPreviewUpdate) fotoPreviewUpdate.src = foto;
 
+                // Adiciona campos hidden com valores originais
+                const form = divAtualizar.querySelector('form');
+                if (form) {
+                    adicionarCamposHidden(form, email, foto);
+                }
+
                 abrirModal(divAtualizar);
                 return;
             }
@@ -266,6 +300,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (botaoFecharUpdate) {
         botaoFecharUpdate.addEventListener('click', () => {
             fecharModal(divAtualizar);
+            // Limpa os campos hidden quando fecha
+            const form = divAtualizar.querySelector('form');
+            if (form) removerCamposHidden(form);
         });
     }
 
@@ -290,6 +327,10 @@ document.addEventListener("DOMContentLoaded", function () {
             fecharModal(divInsere);
             fecharModal(divAtualizar);
             fecharModal(divDelete);
+
+            // Limpa os campos hidden quando fecha pelo overlay
+            const form = divAtualizar.querySelector('form');
+            if (form) removerCamposHidden(form);
         });
     }
 });
