@@ -6,6 +6,7 @@
 <%
     int id = (int) request.getAttribute("id");
     String houseName = (String) request.getAttribute("houseName");
+    String name = (String) request.getAttribute("name");
     SubjectDTO subject = (SubjectDTO) request.getAttribute("subject");
 %>
 
@@ -22,35 +23,32 @@
 </head>
 
 <body class="<%=houseName.toLowerCase()%>">
+<header style="display: flex;justify-content: space-around">
+    <%int id = (int) request.getAttribute("id");%>
+    <%String houseName = (String) request.getAttribute("houseName");%>
+    <%String name = (String) request.getAttribute("name");%>
 
-<header>
-
-    <div>
-        <p id="materia-nome">
-            <%= subject != null ? subject.getSubjectName() : "Matéria" %>
-        </p>
-    </div>
-
-    <img src="" alt="logo-Minerva" class="logo-central">
-
-    <div id="aluno-perfil">
-
-        <form action="${pageContext.request.contextPath}/aluno/subjects" method="post">
-            <input type="hidden" name="id" value="<%=id%>">
-            <input type="hidden" name="houseName" value="<%=houseName%>">
-
-            <button type="submit" style="all:unset; cursor:pointer;">
-                Voltar
-            </button>
-        </form>
-
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px"
-             viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
-            <path d="M400-120 160-360l241-241 56 57-144 144h367v-400h80v480H313l144 143-57 57Z"/>
-        </svg>
-
-    </div>
-
+    <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
+        <input type="hidden"  name="id" value="<%=id%>">
+        <button type="submit">Home</button>
+    </form>
+    <form action="${pageContext.request.contextPath}/aluno/grades" method="post" >
+        <input type="hidden" name="name" value="<%=name%>">
+        <input type="hidden"  name="id" value="<%=id%>">
+        <input type="hidden"  name="houseName" value="<%=houseName%>">
+        <button type="submit">Boletim</button>
+    </form>
+    <form action="${pageContext.request.contextPath}/aluno/subjects" method="post" >
+        <input type="hidden" name="name" value="<%=name%>">
+        <input type="hidden"  name="id" value="<%=id%>">
+        <input type="hidden"  name="houseName" value="<%=houseName%>">
+        <button type="submit">Matérias</button>
+    </form>
+    <form action="${pageContext.request.contextPath}/aluno/profile" method="post" >
+        <input type="hidden"  name="id" value="<%=id%>">
+        <input type="hidden"  name="houseName" value="<%=houseName%>">
+        <button type="submit">Perfil</button>
+    </form>
 </header>
 
 
