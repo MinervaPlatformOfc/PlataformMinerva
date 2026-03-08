@@ -7,7 +7,7 @@
     String houseName = (String) request.getAttribute("houseName");
     List<StudentGradeDTO> grades = (List<StudentGradeDTO>) request.getAttribute("grades");
 
-    String houseClass = houseName.toLowerCase();
+    String name =  (String) request.getAttribute("name");
 %>
 
 <!DOCTYPE html>
@@ -29,7 +29,7 @@
 
 </head>
 
-<body class="<%= houseClass %>">
+<body class="<%= houseName %>">
 
 <header>
 
@@ -42,12 +42,14 @@
 
         <form action="${pageContext.request.contextPath}/aluno/grades" method="post">
             <input type="hidden" name="id" value="<%=id%>">
+                  <input type="hidden" name="name" value="<%=name%>">
             <input type="hidden" name="houseName" value="<%=houseName%>">
             <button type="submit" id="atual">Boletim</button>
         </form>
 
         <form action="${pageContext.request.contextPath}/aluno/subjects" method="post">
             <input type="hidden" name="id" value="<%=id%>">
+                  <input type="hidden" name="name" value="<%=name%>">
             <input type="hidden" name="houseName" value="<%=houseName%>">
             <button type="submit">Matérias</button>
         </form>

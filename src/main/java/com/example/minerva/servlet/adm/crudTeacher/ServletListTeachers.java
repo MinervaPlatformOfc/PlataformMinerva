@@ -20,6 +20,11 @@ import java.util.List;
 public class ServletListTeachers extends HttpServlet {
 
     @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        doGet(request, response);
+    }
+
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<TeacherDTO> teachers = (List<TeacherDTO>) getServletContext().getAttribute("teacherList");
         List<SubjectDTO> subjects = (List<SubjectDTO>) getServletContext().getAttribute("subjectList");

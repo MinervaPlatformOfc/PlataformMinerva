@@ -22,6 +22,8 @@ public class ServletInsertComment extends HttpServlet {
 
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
         request.setAttribute("teacherId", teacherId);
+        String teacherName = request.getParameter("teacherName");
+        request.setAttribute("teacherName", teacherName);
 
         int year = Integer.parseInt(request.getParameter("year"));
         request.setAttribute("year", year);
@@ -34,7 +36,9 @@ public class ServletInsertComment extends HttpServlet {
         request.setAttribute("studentId", studentId);
 
         CommentDAO  commentDAO = new CommentDAO();
-        commentDAO.insertComment(content,score,teacherId,subjectId,studentId);
+        request.setAttribute("msg",commentDAO.insertComment(content,score,teacherId,subjectId,studentId)?
+                "Comentário inserido com sucesso!":
+                "Erro ao inserir comentário!");
 
         request.getRequestDispatcher("/teacher/studentComments").forward(request, response);
     }

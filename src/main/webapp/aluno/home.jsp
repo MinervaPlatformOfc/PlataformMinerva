@@ -53,12 +53,14 @@
 
         <form action="${pageContext.request.contextPath}/aluno/grades" method="post">
             <input type="hidden" name="id" value="<%=id%>">
+                  <input type="hidden" name="name" value="<%=nome%>">
             <input type="hidden" name="houseName" value="<%=houseName%>">
             <button type="submit">Boletim</button>
         </form>
 
         <form action="${pageContext.request.contextPath}/aluno/subjects" method="post">
             <input type="hidden" name="id" value="<%=id%>">
+                  <input type="hidden" name="name" value="<%=nome%>">
             <input type="hidden" name="houseName" value="<%=houseName%>">
             <button type="submit">Matérias</button>
         </form>

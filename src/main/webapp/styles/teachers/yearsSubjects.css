@@ -1,0 +1,122 @@
+/* reset fontes e variaveis */
+
+body {
+    font-family: 'Almendra', serif;
+    color: #fff;
+    min-height: 100vh;
+    background-attachment: fixed;
+    margin: 0;
+    background-color: #000;
+}
+button{
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+/* :root{
+    --cor-casa:  rgba(204, 155, 49, 1);
+    --bg-casa: #7a5c18;
+    --bg-intermediario: #3a2a05;
+
+    background: linear-gradient(to bottom,
+        var(--bg-casa) 0%,
+        var(--bg-intermediario) 40%,
+        #000 80%
+    );
+} */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header */
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 90px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+header a, .nav-button {
+    background: none;
+    text-decoration: none;
+    color: gray;
+    font-size: 1.1rem;
+    margin-right: 35px;
+    transition: 0.3s;
+    text-shadow: 1px 1px 2px #000;
+}
+header .ativo{
+    color: white;
+}
+
+header a:hover, .nav-button:hover {
+    color: #fff;
+    text-shadow: 0 10px 15px #ffc402;
+}
+
+header img[alt="logo-Minerva"] {
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 0 5px #d4af37);
+}
+
+#perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid #d4af37;
+    padding: 5px 15px;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+#perfil p {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+#perfil svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+/* main */
+
+.div-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:50px;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    margin: 70px auto;
+    max-width: 900px;
+}
+
+.card{
+    font-size: 2.2rem;
+    background-color: #252B41;
+    padding: 20px 150px;
+    border: 1px solid #d4af37;
+    transition: 0.3s;
+}
+
+.card:hover{
+    transform: scale(1.05);
+}

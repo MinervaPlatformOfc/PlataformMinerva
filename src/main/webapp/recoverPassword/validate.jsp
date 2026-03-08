@@ -46,7 +46,7 @@
     </div>
     <div class="buttons">
         <button class="button" type="submit">Enviar código</button>
-        <button class="button" type="button">Voltar</button>
+        <a href="${pageContext.request.contextPath}/recoverPassword/reciveEmail.jsp"><button class="button" type="button">Voltar</button></a>
     </div>
 
 </form>

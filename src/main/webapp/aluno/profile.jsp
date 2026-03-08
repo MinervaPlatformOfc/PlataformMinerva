@@ -9,8 +9,6 @@
 
     int id = (int) request.getAttribute("id");
     String houseName = (String) request.getAttribute("houseName");
-
-    String houseClass = houseName.toLowerCase();
 %>
 
 <!DOCTYPE html>
@@ -28,7 +26,7 @@
 
 </head>
 
-<body class="<%= houseClass %>">
+<body class="<%= houseName %>">
 
 <header>
 

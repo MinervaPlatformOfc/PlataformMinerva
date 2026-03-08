@@ -19,7 +19,9 @@ public class ServletUpdateSubject extends HttpServlet {
 
         GradeDAO dao = new GradeDAO();
 
-        dao.update(id, subjectName);
+        req.setAttribute("msg", dao.update(id, subjectName)?
+                "Disciplina alterada com sucesso!":
+                "Erro ao alterar disciplina!");
 
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForSubject();

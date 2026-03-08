@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/RemoveTeacher", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/deleteTeacher", loadOnStartup = 1)
 public class ServletDeleteTeacher extends HttpServlet{
 
     @Override
@@ -24,7 +24,9 @@ public class ServletDeleteTeacher extends HttpServlet{
 
         TeacherDAO teacherRepository = new TeacherDAO();
 
-        request.setAttribute("msg", teacherRepository.delete(id) ? "Professor removido com sucesso": "Erro ao remover professor!");
+        request.setAttribute("msg", teacherRepository.delete(id)
+                ? "Professor removido com sucesso":
+                "Erro ao remover professor!");
 
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForTeacher();

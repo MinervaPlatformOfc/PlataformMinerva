@@ -40,7 +40,7 @@
 
         <div class="buttons">
             <button class="button" type="submit">Enviar email</button>
-            <button class="button" type="button">Voltar</button>
+            <a href="${pageContext.request.contextPath}/login.jsp"><button class="button" type="button">Voltar</button></a>
         </div>
 
     </form>

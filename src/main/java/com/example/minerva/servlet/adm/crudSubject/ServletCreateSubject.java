@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/createSubject", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/insertSubject", loadOnStartup = 1)
 public class ServletCreateSubject extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -19,10 +19,16 @@ public class ServletCreateSubject extends HttpServlet {
 
         GradeDAO dao = new GradeDAO();
 
-        dao.save(subjectName, addStudents);
+
+
+        req.setAttribute("msg", dao.save(subjectName, addStudents)?
+                "Disciplina inserida com sucesso!":
+                "Erro ao inserir disciplina!");
 
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForSubject();
+
+
 
         req.getRequestDispatcher("/admin/ViewSubjects").forward(req, resp);
     }

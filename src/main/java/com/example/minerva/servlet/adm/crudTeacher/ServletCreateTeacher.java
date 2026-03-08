@@ -27,7 +27,7 @@ import java.util.Map;
 import com.example.minerva.utils.matricula.Matricula;
 import jakarta.servlet.http.Part;
 
-@WebServlet(urlPatterns = "/admin/CreateTeacher", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/insertTeacher", loadOnStartup = 1)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -54,17 +54,17 @@ public class ServletCreateTeacher extends HttpServlet {
 
         if (userDAO.findByEmail(email) != null) {
             request.setAttribute("msg", "E-mail já cadastrado.");
-            request.getRequestDispatcher("/admin/CRUD/Teacher.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
             return;
         }
         if (!ValidacaoEmail.validarEmail(email)) {
             request.setAttribute("msg", "E-mail inválido.");
-            request.getRequestDispatcher("/admin/CRUD/Teacher.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
             return;
         }
         if (!ValidacaoSenha.validarSenha(password)) {
             request.setAttribute("msg", "Senha inválida.");
-            request.getRequestDispatcher("/admin/CRUD/Teacher.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
             return;
         }
 
@@ -74,12 +74,12 @@ public class ServletCreateTeacher extends HttpServlet {
 
         if (filePart == null) {
             request.setAttribute("msg", "Imagem não enviada.");
-            request.getRequestDispatcher("/admin/CRUD/Teacher.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
             return;
         }
         if (filePart.getSize() == 0) {
             request.setAttribute("msg", "Arquivo de imagem vazio.");
-            request.getRequestDispatcher("/admin/CRUD/Teacher.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
             return;
         }
 
@@ -94,7 +94,7 @@ public class ServletCreateTeacher extends HttpServlet {
         // Verificar se é uma imagem válida (magic numbers)
         if (imageBytes.length < 4) {
             request.setAttribute("msg", "Arquivo inválido.");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
             return;
         }
 
@@ -123,7 +123,9 @@ public class ServletCreateTeacher extends HttpServlet {
 
         Teacher newTeacher = new Teacher(houseId, wand, headHouse, pastExperiences, wizardTitle, teacherRegistrationCode);
 
-        request.setAttribute("msg", teacherRepository.save(newTeacher, newUser) ? "Professor inserido com sucesso!": "Erro ao inserir professor!");
+        request.setAttribute("msg", teacherRepository.save(newTeacher, newUser) ?
+                "Professor inserido com sucesso!":
+                "Erro ao inserir professor!");
 
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForTeacher();

@@ -28,6 +28,7 @@ public class ServletListComments extends HttpServlet {
             throws ServletException, IOException {
         GradeDAO dao = new GradeDAO();
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+        String teacherName = request.getParameter("teacherName");
         int studentId = Integer.parseInt(request.getParameter("studentId"));
         String subject = request.getParameter("subject");
         int subjectId = dao.getSubjectId(subject);
@@ -35,6 +36,7 @@ public class ServletListComments extends HttpServlet {
         CommentDAO commentDAO = new CommentDAO();
         List<CommentDTO> listComments = commentDAO.findBySubjectStudentTeacher(subjectId,studentId,teacherId);
 
+        request.setAttribute("teacherName", teacherName);
         request.setAttribute("teacherId", teacherId);
         request.setAttribute("subjectId", subjectId);
         request.setAttribute("studentId", studentId);

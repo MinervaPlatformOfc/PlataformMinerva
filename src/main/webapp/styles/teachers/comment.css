@@ -1,0 +1,256 @@
+/* reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Almendra', serif;
+    color: #fff;
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-color: #000;
+}
+
+/* header */
+
+header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 5%;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    flex-wrap: wrap;
+}
+
+header a {
+    text-decoration: none;
+    color: gray;
+    font-size: 1.1rem;
+    margin-right: 25px;
+    transition: 0.3s;
+    text-shadow: 1px 1px 2px #000;
+}
+
+header #atual {
+    color: white;
+}
+
+header a:hover {
+    color: #fff;
+    text-shadow: 0 10px 15px #ffc402;
+}
+
+
+header img[alt="logo-Minerva"] {
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 0 5px #d4af37);
+}
+
+#perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #d4af37;
+    padding: 5px 15px;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+#perfil p {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+#perfil svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+/* main */
+
+main {
+    display: flex;
+    gap: 40px;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+aside {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.informacoes {
+    flex: 1;
+}
+
+
+.informacoes h1 {
+    font-size: 2.5rem;
+}
+
+.informacoes img{
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    border: 2px solid #d4af37;
+}
+
+.info-aluno {
+    margin-top: 15px;
+}
+
+.info-aluno p {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: gainsboro;
+}
+
+.observacoes {
+    flex: 2;
+}
+
+.scroll {
+    max-height: 500px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #3c445c #232a3d;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.observacoes input[type="button"] {
+    margin: 20px;
+    padding: 20px 20px;
+    background-color: #021E38;
+    border: 1px solid #d4af37;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    color: white;
+    font-size: 1.1rem;
+    font-family: 'Almendra', serif;
+}
+
+.scroll .card{
+    border: 1px solid #d4af37;
+    padding: 15px;
+    position: relative;
+    background-color: #252B41;
+    margin: 20px;
+}
+
+.observacoes .card p{
+    color: gainsboro;
+}
+
+.pontos {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #00ff88;
+}
+
+.pontos.negativo {
+    color: #ff2e2e;
+}
+
+.escondido {
+    display: none;
+}
+
+.div-add {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 700px;
+    background: #1f2740;
+    padding: 40px;
+    border: 2px solid #d4af37;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    z-index: 1001;
+}
+
+.div-add textarea, input {
+    font-family: 'Almendra', serif;
+}
+
+.div-add h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #e6e6e6;
+}
+
+.div-add form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.div-add label {
+    font-size: 1.2rem;
+    color: #ddd;
+}
+
+.div-add input[type="text"],
+.div-add input[type="number"],
+.div-add textarea {
+    background: #2a3454;
+    border: 2px solid #d4af37;
+    padding: 12px;
+    font-size: 1rem;
+    color: #fff;
+    resize: none;
+    outline: none;
+    box-shadow: 2px 2px 0px #d4af37;
+    transition: 0.3s;
+}
+
+.div-add textarea {
+    min-height: 100px;
+}
+
+.div-add input[type="submit"] {
+    margin-top: 20px;
+    align-self: flex-end;
+    background: #0f2747;
+    border: 2px solid #d4af37;
+    color: #fff;
+    padding: 10px 30px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.div-add input[type="submit"]:hover {
+    background: #163a6b;
+    transform: scale(1.05);
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+}

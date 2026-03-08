@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/RemoveStudent", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/deleteStudent", loadOnStartup = 1)
 public class ServletDeleteStudent extends HttpServlet {
 
     @Override
@@ -25,7 +25,9 @@ public class ServletDeleteStudent extends HttpServlet {
 
         StudentDAO studentRepository = new StudentDAO();
 
-        request.setAttribute("msg", studentRepository.delete(id) ? "Estudante removido com sucesso":"Falha ao remover estudante");
+        request.setAttribute("msg", studentRepository.delete(id) ?
+                "Estudante removido com sucesso":
+                "Falha ao remover estudante");
 
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForStudent();

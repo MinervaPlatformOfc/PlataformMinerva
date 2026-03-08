@@ -292,7 +292,6 @@ aside input:hover{
     font-size: 1.4rem;
 }
 
-.informacoes > p:nth-of-type(9){
-    color: rgba(204, 155, 49, 1);
-}
-
+/*.informacoes > p:nth-of-type(9){*/
+/*    color: rgba(204, 155, 49, 1);*/
+/*}*/

@@ -26,11 +26,15 @@ public class ServletInsertGrade extends HttpServlet {
         String n2 = request.getParameter("n2");
         if (!request.getParameter("n1Original").equals(n1) || !request.getParameter("n1Original").equals(n2)){
             GradeDAO dao = new GradeDAO();
-            dao.updateGrades(dao.getSubjectId(subject),studentId,n1,n2);
+            request.setAttribute("msg", dao.updateGrades(dao.getSubjectId(subject),studentId,n1,n2)?
+                    "Notas atualizadas com sucesso!":
+                    "Erro ao atualizar notas!");
         }
 
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
         request.setAttribute("teacherId", teacherId);
+        String teacherName = request.getParameter("teacherName");
+        request.setAttribute("teacherName", teacherName);
         String houseName = request.getParameter("houseName");
         request.setAttribute("houseName", houseName);
         int year = Integer.parseInt(request.getParameter("year"));

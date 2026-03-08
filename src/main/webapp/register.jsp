@@ -170,11 +170,20 @@
 
     <div class="checkbox-group">
         <input type="checkbox" name="BasicKit" value="true">
-        <label>Tenho kit básico</label>
-    </div>
+        Tenho kit básico
+    </label></div><br><br>
 
-    <button class="button" type="submit">Cadastrar</button>
-</div>
+    <input type="file" name="image"
+           accept="image/jpeg, image/png, image/webp"
+           required>
+    <br><br>
+
+    <!-- Matrícula -->
+    <label>Código de Matrícula:</label><br>
+    <input type="text" name="registration"><br><br>
+
+    <button type="submit">Registrar</button>
+    <a href="${pageContext.request.contextPath}/login.jsp">Voltar</a>
 </form>
 </div>
 </body>

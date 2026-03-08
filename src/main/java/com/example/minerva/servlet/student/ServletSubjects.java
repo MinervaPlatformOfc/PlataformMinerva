@@ -23,6 +23,9 @@ public class ServletSubjects extends HttpServlet {
         request.setAttribute("id", id);
         String houseName = request.getParameter("houseName");
         request.setAttribute("houseName", houseName);
+        String name = request.getParameter("name");
+        request.setAttribute("name", name);
+
         GradeDAO dao = new GradeDAO();
         List<SubjectDTO> subjects = dao.getSubjects(id);
         request.setAttribute("subjects", subjects);

@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/admin/UpdateAdmin", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/updateAdmin", loadOnStartup = 1)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -38,18 +38,24 @@ public class ServletUpdateAdmin extends HttpServlet {
 // ====== PEGAR DADOS ======
         String nameInput = request.getParameter("nameInput");
         String email = request.getParameter("emailInput");
+        String originalEmail = request.getParameter("emailOriginal");
+
+        System.out.println(email);
+        System.out.println(originalEmail);
 
 // ====== VALIDAÇÕES ======
-        if (userDAO.findByEmail(email) != null) {
-            request.setAttribute("msg", "Email já existente");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
-            return;
-        }
+        if (!originalEmail.equals(email)){
+            if (userDAO.findByEmail(email) != null) {
+                request.setAttribute("msg", "Email já existente");
+                request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+                return;
+            }
 
-        if (!ValidacaoEmail.validarEmail(email)) {
-            request.setAttribute("msg", "Email inválido");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
-            return;
+            if (!ValidacaoEmail.validarEmail(email)) {
+                request.setAttribute("msg", "Email inválido");
+                request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+                return;
+            }
         }
 
 // ====== TRATAR IMAGEM ======
@@ -58,7 +64,7 @@ public class ServletUpdateAdmin extends HttpServlet {
 
         if (filePart == null || filePart.getSize() == 0) {
             // Mantém a imagem antiga
-            imageUrl = request.getParameter("currentImageUrl");
+            imageUrl = request.getParameter("fotoOriginal");
         } else {
 
             byte[] imageBytes;
@@ -68,7 +74,7 @@ public class ServletUpdateAdmin extends HttpServlet {
 
             if (imageBytes.length < 4) {
                 request.setAttribute("msg", "Arquivo inválido.");
-                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
                 return;
             }
 

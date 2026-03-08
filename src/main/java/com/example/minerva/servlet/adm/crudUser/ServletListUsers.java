@@ -23,15 +23,29 @@ public class ServletListUsers extends HttpServlet {
         UserDAO dao = new UserDAO();
         double[] stats = (double[]) getServletContext().getAttribute("userStatistics");
         req.setAttribute("stats", stats);
-
+        String name = null;
+String url = null;
         String email = req.getParameter("email");
 
-        if(email==null || email.isEmpty()){
-            User user = dao.findByEmail(email);
-            req.setAttribute("name", user.getName());
-            req.setAttribute("url", user.getImageUrl());
+// Se não veio como parâmetro, tenta pegar do atributo
+        if (email == null || email.isEmpty()) {
+            email = (String) req.getAttribute("email");
         }
 
+// Agora processa com o email (seja de parâmetro ou atributo)
+        if (email != null && !email.isEmpty()) {
+            User user = dao.findByEmail(email);
+            if (user != null) {
+                name =  user.getName();
+                url = user.getImageUrl();
+            }
+        } else {
+            name = req.getParameter("name");
+            url = req.getParameter("name");
+        }
+
+        req.setAttribute("name", name);
+        req.setAttribute("url", url);
         req.setAttribute("users", (List<User>) getServletContext().getAttribute("userNotAdminList"));
         req.getRequestDispatcher("/admin/home.jsp").forward(req, resp);
     }

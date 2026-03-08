@@ -24,7 +24,12 @@ public class ServletValidateOtp extends HttpServlet {
         String otp = number1+number2+number3+number4+number5+number6;
 
         Otp otpService = new Otp();
-        if (otpService.validate(email, otp)) req.getRequestDispatcher("/recoverPassword/update.jsp").forward(req, resp);
-        else req.getRequestDispatcher("/recoverPassword/validate.jsp?error=code_invalid").forward(req, resp);
+        if (otpService.validate(email, otp)){
+            req.getRequestDispatcher("/recoverPassword/update.jsp").forward(req, resp);
+        }
+        else{
+            req.setAttribute("msg", "Código inválido!");
+            req.getRequestDispatcher("/recoverPassword/validate.jsp?error=code_invalid").forward(req, resp);
+        }
     }
 }

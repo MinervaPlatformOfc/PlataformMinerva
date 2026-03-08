@@ -5,7 +5,7 @@
 <%
     int id = (int) request.getAttribute("id");
     String houseName = (String) request.getAttribute("houseName");
-    List<SubjectDTO> subjects = (List<SubjectDTO>) request.getAttribute("subjects");
+    <%String name = (String) request.getAttribute("name");%>
 %>
 
 <!DOCTYPE html>
@@ -25,7 +25,7 @@
 
 </head>
 
-<body class="<%= houseName.toLowerCase() %>">
+<body class="<%= houseName %>">
 
 <header>
 
@@ -38,12 +38,14 @@
 
         <form action="${pageContext.request.contextPath}/aluno/grades" method="post">
             <input type="hidden" name="id" value="<%=id%>">
+                  <input type="hidden" name="name" value="<%=name%>">
             <input type="hidden" name="houseName" value="<%=houseName%>">
             <button type="submit">Boletim</button>
         </form>
 
         <form action="${pageContext.request.contextPath}/aluno/subjects" method="post">
             <input type="hidden" name="id" value="<%=id%>">
+                  <input type="hidden" name="name" value="<%=name%>">
             <input type="hidden" name="houseName" value="<%=houseName%>">
             <button type="submit" id="atual">Matérias</button>
         </form>
@@ -92,6 +94,7 @@
             <input type="hidden" name="subjectId" value="<%= subject.getSubjectId() %>">
             <input type="hidden" name="subjectName" value="<%= subject.getSubjectName() %>">
             <input type="hidden" name="houseName" value="<%= houseName %>">
+                  <input type="hidden" name="name" value="<%=name%>">
 
             <button type="submit" style="all:unset; width:100%; height:100%; cursor:pointer;">
 

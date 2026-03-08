@@ -2,121 +2,199 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.minerva.dto.ProfileDTO" %>
 <%@ page import="com.example.minerva.dto.CommentDTO" %>
-
-<%--
-  Created by IntelliJ IDEA.
-  User: brunajesus-ieg
-  Date: 16/02/2026
-  Time: 14:42
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observações do Aluno - Minerva</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/teachers/comment.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="${pageContext.request.contextPath}/js/comment.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Hermeneus+One&display=swap" rel="stylesheet">
+    <style>
+        /* Botão de voltar no canto direito */
+        .btn-voltar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .btn-voltar form {
+            margin: 0;
+            padding: 0;
+        }
+
+        .btn-voltar button {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #d4af37;
+            border-radius: 50px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: white;
+            font-family: 'Almendra', serif;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn-voltar button:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: scale(1.05);
+        }
+
+        .btn-voltar svg {
+            width: 20px;
+            height: 20px;
+            fill: #ffffff;
+        }
+
+        /* Ajustes para o card de pontos */
+        .card {
+            position: relative;
+        }
+        .card .pontos {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .pontos.positivo {
+            color: #4CAF50;
+        }
+        .pontos.negativo {
+            color: #f44336;
+        }
+        .pontos.neutro {
+            color: #9e9e9e;
+        }
+    </style>
 </head>
 <body>
-    <%ProfileDTO profile = (ProfileDTO) request.getAttribute("profile");%>
-    <br>
-    <%
-        String houseName = (String) request.getAttribute("houseName");
-        String subject = (String) request.getAttribute("subject");
-        int year = (int) request.getAttribute("year");
-        List<CommentDTO> commentList = (List<CommentDTO>) request.getAttribute("listComments");
-        int studentId = (int) request.getAttribute("studentId");
-        int teacherId = (int) request.getAttribute("teacherId");
-        int subjectId = (int) request.getAttribute("subjectId");
-    %>
+<%
+    ProfileDTO profile = (ProfileDTO) request.getAttribute("profile");
+    String houseName = (String) request.getAttribute("houseName");
+    String subject = (String) request.getAttribute("subject");
+    int year = (int) request.getAttribute("year");
+    List<CommentDTO> commentList = (List<CommentDTO>) request.getAttribute("listComments");
+    int studentId = (int) request.getAttribute("studentId");
+    int teacherId = (int) request.getAttribute("teacherId");
+    int subjectId = (int) request.getAttribute("subjectId");
+    String teacherName = (String) request.getAttribute("teacherName");
 
-    <!-- PERFIL DO CARAAAAA -->
-    <div style="border:1px solid #ccc; padding:15px; width:400px;">
+    // Determinar a classe da casa para a imagem
+    String studentHouseNameRaw = profile.getHouseName();
+    String studentHouseNameClass = studentHouseNameRaw != null ?
+            (studentHouseNameRaw.equals("Grifinória") ? "grifinoria" :
+                    studentHouseNameRaw.equals("Lufa-Lufa") ? "lufalufa" :
+                            studentHouseNameRaw.equals("Sonserina") ? "sonserina" : "corvinal") : "";
+%>
 
-        <img src="<%= profile.getImageUrl()%>"
-             alt="Foto de Perfil"
-             width="120"
-             height="120"
-             style="border-radius:50%;">
-
-        <p><strong>Nome:</strong> <%= profile.getName() %></p>
-        <p><strong>Responsável Legal:</strong> <%= profile.getGuardianName() %></p>
-        <p><strong>Ano Escolar:</strong> <%= year %>º Ano</p>
-        <p><strong>Casa:</strong> <%= profile.getHouseName() %></p>
-        <p><strong>Matéria:</strong> <%= subject %></p>
-
-    </div>
-    <hr>
-    <!-- BOTÃO PARA MOSTRAR FORM DE COLOCAR COMENTARIOS -->
-    <button onclick="document.getElementById('commentForm').style.display='block'; this.style.display='none';">
-        Novo Comentário
-    </button>
-    <form id="commentForm" action="<%= request.getContextPath() %>/teacher/insertComment" method="post" style="display:none; margin-top:15px;">
-
-        <input type="hidden" name="studentId" value="<%= studentId %>">
-        <input type="hidden" name="teacherId" value="<%= teacherId %>">
-        <input type="hidden" name="subjectId" value="<%= subjectId %>">
-        <input type="hidden" name="year" value="<%= year %>">
-        <input type="hidden" name="houseName" value="<%= houseName %>">
-        <input type="hidden" name="subject" value="<%= subject %>">
-
-        <textarea name="comment" rows="3" cols="40" placeholder="Digite o comentário" required></textarea>
-        <br><br>
-
-        <input type="number" name="score" step="1" placeholder="Ex: 1 ou -1" required>
-        <br><br>
-        <button type="submit">Salvar Comentário</button>
-    </form>
-
-    <h3>Histórico de Comentários</h3>
-
-    <table border="1" cellpadding="5">
-        <thead>
-        <tr>
-            <th>Comentário</th>
-            <th>Pontos</th>
-            <th>Data</th>
-        </tr>
-        </thead>
-        <tbody>
-        <%
-            if (commentList != null && !commentList.isEmpty()) {
-                for (CommentDTO comment : commentList) {
-                    int score = comment.getScore();
-                    String color = "gray";
-                    if (score < 0) {
-                        color = "red";
-                    } else if (score > 0) {
-                        color = "green";
-                    }
-
-        %>
-        <tr>
-            <td><%= comment.getContent() %></td>
-            <td style="color:<%= color %>;">
-                <%= score > 0 ? "+" + score : score %>
-            </td>
-            <td><%= comment.getCreatedAt() %></td>
-        </tr>
-        <%
-            }
-        } else {
-        %>
-        <tr>
-            <td colspan="3" style="text-align:center;">Aluno sem comentários</td>
-        </tr>
-        <%
-            }
-        %>
-        </tbody>
-    </table>
-
-    <br>
-<%--    BUTTON FOR BACK TO STUDENTS--%>
+<!-- Botão de voltar no canto direito -->
+<header>
+<div class="btn-voltar">
     <form action="<%= request.getContextPath() %>/teacher/students" method="post">
         <input type="hidden" name="teacherId" value="<%= teacherId %>">
         <input type="hidden" name="year" value="<%= year %>">
         <input type="hidden" name="houseName" value="<%= houseName %>">
+        <input type="hidden" name="teacherName" value="<%=teacherName%>">
         <input type="hidden" name="subject" value="<%= subject %>">
-        <button type="submit">Voltar</button>
+        <input type="hidden" name="showGrades" value="false">
+        <button type="submit">
+            Voltar
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                <path d="M400-120 160-360l241-241 56 57-144 144h367v-400h80v480H313l144 143-57 57Z"/>
+            </svg>
+        </button>
     </form>
+</div>
+
+<!-- Logo central clicável -->
+<img src="${pageContext.request.contextPath}/imgs/logo-minerva.png" alt="logo-Minerva" class="logo-central"
+     style="position: absolute; left: 50%; transform: translateX(-50%); top: 15px; height: 60px; filter: drop-shadow(0 0 5px #d4af37); cursor: pointer; z-index: 100;">
+</header>
+<main>
+    <aside class="informacoes">
+        <h1><%= profile.getName() %></h1>
+
+        <img src="<%= profile.getImageUrl() != null ? profile.getImageUrl() : "/imgs/default-student.png" %>"
+             alt="Foto do Aluno">
+
+        <div class="info-aluno">
+            <p><strong>Nome Completo:</strong> <%= profile.getName() %></p>
+            <p><strong>Responsável Legal:</strong> <%= profile.getGuardianName() != null ? profile.getGuardianName() : "-" %></p>
+            <p><strong>Ano Letivo Atual:</strong> <%= year %>º Ano</p>
+            <p><strong>Casa:</strong> <%= profile.getHouseName() %></p>
+            <p><strong>Matéria:</strong> <%= subject %></p>
+        </div>
+    </aside>
+
+    <aside class="observacoes">
+        <div class="scroll">
+            <% if (commentList != null && !commentList.isEmpty()) {
+                for (CommentDTO comment : commentList) {
+                    int score = comment.getScore();
+                    String scoreClass = "neutro";
+                    String scoreDisplay = String.valueOf(score);
+
+                    if (score < 0) {
+                        scoreClass = "negativo";
+                    } else if (score > 0) {
+                        scoreClass = "positivo";
+                        scoreDisplay = "+" + score;
+                    }
+            %>
+            <div class="card">
+                <h1>Comentário</h1>
+                <p><%= comment.getContent() %></p>
+                <p class="pontos <%= scoreClass %>"><%= scoreDisplay %></p>
+                <small style="display: block; text-align: right; color: #888; margin-top: 10px;">
+                    <%= comment.getCreatedAt() %>
+                </small>
+            </div>
+            <%   }
+            } else { %>
+            <div style="text-align: center; color: #888; padding: 40px;">
+                Nenhum comentário para este aluno.
+            </div>
+            <% } %>
+        </div>
+
+        <!-- Botão para adicionar observação -->
+        <input type="button" value="Adicionar Observação" id="btnAddObservacao">
+    </aside>
+
+    <!-- Overlay e formulário de adição de observação -->
+    <div class="overlay escondido"></div>
+    <div class="escondido div-add">
+        <h1>Adicionar Observação</h1>
+        <form action="<%= request.getContextPath() %>/teacher/insertComment" method="post" id="commentForm">
+            <input type="hidden" name="studentId" value="<%= studentId %>">
+            <input type="hidden" name="teacherId" value="<%= teacherId %>">
+            <input type="hidden" name="subjectId" value="<%= subjectId %>">
+            <input type="hidden" name="teacherName" value="<%=teacherName%>">
+            <input type="hidden" name="year" value="<%= year %>">
+            <input type="hidden" name="houseName" value="<%= houseName %>">
+            <input type="hidden" name="subject" value="<%= subject %>">
+
+            <label for="descricao-observacao">Descrição da Observação:</label>
+            <textarea id="descricao-observacao" name="comment" placeholder="Digite a descrição da observação" required></textarea>
+
+            <label for="pontos-observacao">Núm. pontos:</label>
+            <input type="number" name="score" id="pontos-observacao" placeholder="Ex: 1 ou -1" required>
+
+            <input type="submit" value="Adicionar" id="btnSubmitComment">
+        </form>
+    </div>
+</main>
 </body>
 </html>

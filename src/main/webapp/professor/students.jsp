@@ -8,80 +8,349 @@
   int teacherId = (int) request.getAttribute("teacherId");
   String houseName = (String) request.getAttribute("houseName");
   boolean showGrades = request.getAttribute("showGrades") != null && (boolean) request.getAttribute("showGrades");
+  String teacherName = (String) request.getAttribute("teacherName");
 %>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= showGrades ? "Notas" : "Observações" %> do Aluno - Minerva</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/teachers/grade.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Hermeneus+One&display=swap" rel="stylesheet">
+  <script src="${pageContext.request.contextPath}/js/searchGrade.js" defer></script>
+  <style>
+    /* Botão de voltar no canto direito */
+    .btn-voltar {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+    }
+
+    .btn-voltar form {
+      margin: 0;
+      padding: 0;
+    }
+
+    .btn-voltar button {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #d4af37;
+      border-radius: 50px;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: 0.3s;
+      color: white;
+      font-family: 'Almendra', serif;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .btn-voltar button:hover {
+      background: rgba(212, 175, 55, 0.2);
+      transform: scale(1.05);
+    }
+
+    .btn-voltar svg {
+      width: 20px;
+      height: 20px;
+      fill: #ffffff;
+    }
+
+    /* Ajustes para a barra de alunos */
+    .barra {
+      display: grid;
+      grid-template-columns: 50px 1fr <%= showGrades ? "100px 100px 140px" : "" %>;
+      align-items: center;
+      width: 80%;
+      margin: 0 auto 15px auto;
+      padding: 12px 25px;
+      border: 2px solid #d4af37;
+      background: #2a3144;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .barra:hover {
+      background: #323a52;
+      transform: scale(1.01);
+    }
+
+    .barra span:nth-of-type(1) {
+      flex: 1;
+      font-size: 1.4rem;
+    }
+
+    .notas {
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      font-size: 2rem;
+    }
+
+    #boletim-header {
+      display: grid;
+      grid-template-columns: 50px 1fr <%= showGrades ? "120px 120px 150px" : "" %>;
+      align-items: center;
+      width: 80%;
+      margin: 0 auto 20px auto;
+    }
+
+    #boletim-header h3 {
+      grid-column: 2;
+      font-size: 2rem;
+    }
+
+    .col-n {
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    /* Classe para linhas buscáveis */
+    .linhas {
+      display: grid;
+    }
+
+    /* Esconder elementos de busca */
+    .search-field {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-<h1>Alunos do <%= year %>º Ano - <%= subject %></h1>
-<table border="1" cellpadding="5">
-  <thead>
-  <tr>
-    <th>Aluno</th>
+<!-- Botão de voltar no canto direito -->
+<div class="btn-voltar">
+  <form action="<%= request.getContextPath() %>/teacher/yearsSubjects" method="post">
+    <input type="hidden" name="teacherId" value="<%= teacherId %>">
+    <input type="hidden" name="houseName" value="<%= houseName %>">
+    <input type="hidden" name="teacherName" value="<%=teacherName%>">
+    <input type="hidden" name="showGrades" value="<%= showGrades %>">
+    <button type="submit">
+      Voltar
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+        <path d="M400-120 160-360l241-241 56 57-144 144h367v-400h80v480H313l144 143-57 57Z"/>
+      </svg>
+    </button>
+  </form>
+</div>
+
+<!-- Logo central clicável -->
+<img src="${pageContext.request.contextPath}/imgs/logo-minerva.png" alt="logo-Minerva" class="logo-central" style="position: absolute; left: 50%; transform: translateX(-50%); top: 15px; height: 60px; filter: drop-shadow(0 0 5px #d4af37); cursor: pointer; z-index: 100;">
+
+<main>
+  <h1><%= year %>º Ano - <%= subject %></h1>
+
+  <div id="buscar-alunos" class="boletim">
+    <!-- Campo de busca -->
+    <input type="search" name="busca-aluno" id="searchbar" placeholder="Digite o nome a ser pesquisado">
+
+    <!-- Configuração das colunas para busca -->
+    <input type="hidden" id="searchColumns" value="nome<%= showGrades ? ",n1,n2,media" : "" %>">
+
     <% if (showGrades) { %>
-    <th>Nota 1</th>
-    <th>Nota 2</th>
-    <th>Média</th>
+    <!-- Header do boletim (apenas para notas) -->
+    <div id="boletim-header">
+      <h3>Nome do Aluno</h3>
+      <span class="col-n">N1</span>
+      <span class="col-n">N2</span>
+      <span class="col-n">Méd. Fin.</span>
+    </div>
     <% } %>
-  </tr>
-  </thead>
-  <tbody>
-  <% if (students != null && !students.isEmpty()) {
-    for (StudentGradeDTO s : students) { %>
-  <tr>
-    <td><% if (showGrades) { %>
-      <form method="post" action="<%= request.getContextPath() %>/teacher/studentGrade" style="display:none;" class="gradeForm" id="form-<%= s.getStudentId() %>">
+
+    <% if (students != null && !students.isEmpty()) {
+      for (StudentGradeDTO s : students) {
+        // Determinar a classe da casa para a imagem
+        String studentHouseNameRaw = s.getStudentHouseName();
+        String studentHouseNameClass = studentHouseNameRaw != null ?
+                (studentHouseNameRaw.equals("Grifinória") ? "grifinoria" :
+                        studentHouseNameRaw.equals("Lufa-Lufa") ? "lufalufa" :
+                                studentHouseNameRaw.equals("Sonserina") ? "sonserina" : "corvinal") : "";
+    %>
+
+    <% if (showGrades) { %>
+    <!-- Visualização de NOTAS -->
+    <div class="barra <%= studentHouseNameClass %> linhas" data-student-id="<%= s.getStudentId() %>">
+      <img src="${pageContext.request.contextPath}/imgs/brasao-<%= studentHouseNameClass %>.png"
+           alt="<%= s.getStudentHouseName() %>"
+           data-field="houseImage">
+
+      <span data-field="nome" data-original="<%= s.getStudentName() %>"><%= s.getStudentName() %></span>
+
+      <span class="notas" data-field="n1" data-original="<%= s.getN1() != null ? s.getN1() : "0" %>">
+                    <%= s.getN1() != null ? String.format("%.2f", s.getN1()) : "-" %>
+                </span>
+      <span class="notas" data-field="n2" data-original="<%= s.getN2() != null ? s.getN2() : "0" %>">
+                    <%= s.getN2() != null ? String.format("%.2f", s.getN2()) : "-" %>
+                </span>
+      <span class="notas" data-field="media" data-original="<%= s.getMedia() != null ? s.getMedia() : "0" %>">
+                    <%= s.getMedia() != null ? String.format("%.2f", s.getMedia()) : "-" %>
+                </span>
+
+      <!-- Formulário oculto para edição de notas -->
+      <form method="post" action="<%= request.getContextPath() %>/teacher/studentGrade" class="gradeForm" id="form-<%= s.getStudentId() %>" style="display: none;">
         <input type="hidden" name="studentId" value="<%= s.getStudentId() %>">
+        <input type="hidden" name="teacherName" value="<%=teacherName%>">
         <input type="hidden" name="subject" value="<%= subject %>">
         <input type="hidden" name="year" value="<%= year %>">
         <input type="hidden" name="houseName" value="<%= houseName %>">
-        <input type="hidden"  name="teacherId" value="<%=teacherId%>">
+        <input type="hidden" name="teacherId" value="<%= teacherId %>">
         <input type="hidden" name="n1Original" value="<%= s.getN1() != null ? s.getN1() : "" %>">
         <input type="hidden" name="n2Original" value="<%= s.getN2() != null ? s.getN2() : "" %>">
-        <label>Nota 1: <input type="number" step="0.01" name="n1" value="<%= s.getN1() != null ? s.getN1() : "" %>" placeholder="N1" min="0" max="10"></label>
-        <label>Nota 2: <input type="number" step="0.01" name="n2" value="<%= s.getN2() != null ? s.getN2() : "" %>" placeholder="N2" min="0" max="10"></label>
-        <button type="submit">Salvar</button>
       </form>
-      <button onclick="document.getElementById('form-<%= s.getStudentId() %>').style.display='block'; this.style.display='none';">
-        <%= s.getStudentName() %>
-      </button>
-      <% } else { %>
-      <!-- Leva para servlet de comentários -->
-      <form method="post" action="<%= request.getContextPath() %>/teacher/studentComments">
+    </div>
+
+    <% } else { %>
+    <!-- Visualização de OBSERVAÇÕES -->
+    <div class="barra <%= studentHouseNameClass %> linhas" data-student-id="<%= s.getStudentId() %>">
+      <img src="${pageContext.request.contextPath}/imgs/brasao-<%= studentHouseNameClass %>.png"
+           alt="<%= s.getStudentHouseName() %>"
+           data-field="houseImage">
+
+      <span data-field="nome" data-original="<%= s.getStudentName() %>"><%= s.getStudentName() %></span>
+
+      <!-- Formulário para observações -->
+      <form method="post" action="<%= request.getContextPath() %>/teacher/studentComments" style="display: none;" id="form-<%= s.getStudentId() %>">
         <input type="hidden" name="teacherId" value="<%= teacherId %>">
+        <input type="hidden" name="teacherName" value="<%=teacherName%>">
         <input type="hidden" name="year" value="<%= year %>">
         <input type="hidden" name="houseName" value="<%= houseName %>">
         <input type="hidden" name="subject" value="<%= subject %>">
         <input type="hidden" name="studentId" value="<%= s.getStudentId() %>">
-        <button type="submit" style="border:none; background:none; padding:0; cursor:pointer; font-size:inherit;">
-          <%= s.getStudentName() %>
-        </button>
       </form>
-      <% } %>
-    </td>
-    <% if (showGrades) { %>
-    <td><%= s.getN1() != null ? s.getN1() : "-" %></td>
-    <td><%= s.getN2() != null ? s.getN2() : "-" %></td>
-    <td><%= s.getMedia() != null ? s.getMedia() : "-" %></td>
+    </div>
     <% } %>
-  </tr>
-  <%   }
-  } else { %>
-  <tr>
-    <td colspan="<%= showGrades ? 4 : 1 %>" style="text-align:center; color:red;">Nenhum aluno encontrado.</td>
-  </tr>
-  <% } %>
-  </tbody>
-</table>
 
-<form action="<%= request.getContextPath() %>/teacher/yearsSubjects" method="post">
-  <input type="hidden" name="teacherId" value="<%= teacherId %>">
-  <input type="hidden" name="houseName" value="<%= houseName %>">
-  <input type="hidden" name="showGrades" value="<%= showGrades %>">
-  <button type="submit">Voltar</button>
-</form>
+    <%   }
+    } else { %>
+    <div style="text-align: center; color: red; padding: 40px; grid-column: 1/-1;">
+      Nenhum aluno encontrado para esta turma.
+    </div>
+    <% } %>
+  </div>
+
+  <!-- Overlay e formulário de adição de notas (apenas para modo notas) -->
+  <% if (showGrades) { %>
+  <div class="overlay escondido"></div>
+  <div class="escondido div-add">
+    <h1>Adicionar Notas</h1>
+    <form action="" method="post" id="gradeEditForm">
+      <div class="add-notas">
+        <div class="campo">
+          <label for="n1">N1</label>
+          <input type="number" step="0.01" name="n1" id="n1" min="0" max="10">
+        </div>
+        <div class="campo">
+          <label for="n2">N2</label>
+          <input type="number" step="0.01" name="n2" id="n2" min="0" max="10">
+        </div>
+      </div>
+      <input type="button" value="Salvar" class="btn-adicionar" id="btnSalvarNotas">
+    </form>
+  </div>
+  <% } %>
+</main>
+
+<script>
+  // Logo que volta para o início (efeito tremendo)
+  const voltarInicioImg = document.querySelector('.logo-central');
+
+  voltarInicioImg.addEventListener('click', () => {
+    if (document.title !== "Página Professor") {
+      window.location.href = "${pageContext.request.contextPath}/";
+    } else {
+      voltarInicioImg.classList.remove("tremendo");
+      void voltarInicioImg.offsetWidth;
+      voltarInicioImg.classList.add("tremendo");
+    }
+  });
+
+  <% if (showGrades) { %>
+  // Funcionalidade para abrir formulário de edição de notas
+  const barras = document.querySelectorAll('.barra');
+  const divAdd = document.querySelector('.div-add');
+  const overlay = document.querySelector('.overlay');
+  const btnSalvar = document.querySelector('#btnSalvarNotas');
+  const inputN1 = document.getElementById('n1');
+  const inputN2 = document.getElementById('n2');
+  let currentStudentId = null;
+
+  barras.forEach(barra => {
+    barra.addEventListener('click', (e) => {
+      // Não abrir se clicou em algum elemento de formulário
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'FORM') {
+        return;
+      }
+
+      currentStudentId = barra.dataset.studentId;
+      const form = document.getElementById('form-' + currentStudentId);
+
+      // Pegar valores atuais das notas
+      const n1Span = barra.querySelector('[data-field="n1"]');
+      const n2Span = barra.querySelector('[data-field="n2"]');
+
+      inputN1.value = n1Span.dataset.original !== "0" ? n1Span.dataset.original : '';
+      inputN2.value = n2Span.dataset.original !== "0" ? n2Span.dataset.original : '';
+
+      divAdd.classList.remove('escondido');
+      overlay.classList.remove('escondido');
+    });
+  });
+
+  overlay.addEventListener('click', () => {
+    divAdd.classList.add('escondido');
+    overlay.classList.add('escondido');
+  });
+
+  btnSalvar.addEventListener('click', () => {
+    if (currentStudentId) {
+      const form = document.getElementById('form-' + currentStudentId);
+
+      // Adicionar os valores dos inputs ao form
+      const n1Input = document.createElement('input');
+      n1Input.type = 'hidden';
+      n1Input.name = 'n1';
+      n1Input.value = inputN1.value;
+
+      const n2Input = document.createElement('input');
+      n2Input.type = 'hidden';
+      n2Input.name = 'n2';
+      n2Input.value = inputN2.value;
+
+      form.appendChild(n1Input);
+      form.appendChild(n2Input);
+
+      form.submit();
+    }
+
+    divAdd.classList.add('escondido');
+    overlay.classList.add('escondido');
+  });
+  <% } else { %>
+  // Funcionalidade para redirecionar para página de observações do aluno
+  const barras = document.querySelectorAll('.barra');
+
+  barras.forEach(barra => {
+    barra.addEventListener('click', (e) => {
+      // Não redirecionar se clicou em algum elemento de formulário
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'FORM') {
+        return;
+      }
+
+      const studentId = barra.dataset.studentId;
+      const form = document.getElementById('form-' + studentId);
+
+      if (form) {
+        form.submit();
+      }
+    });
+  });
+  <% } %>
+</script>
 </body>
 </html>

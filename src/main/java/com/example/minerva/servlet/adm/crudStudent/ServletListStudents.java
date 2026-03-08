@@ -14,6 +14,12 @@ import java.util.List;
 @WebServlet(urlPatterns = "/admin/ViewStudents", loadOnStartup = 1)
 public class ServletListStudents extends HttpServlet {
 
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        doGet(request, response);
+    }
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<Student> students = (List<Student>) getServletContext().getAttribute("studentList");

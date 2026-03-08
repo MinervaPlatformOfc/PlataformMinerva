@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/admin/UpdateTeacher", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/updateTeacher", loadOnStartup = 1)
 public class ServletUpdateTeacher extends HttpServlet{
 
     @Override

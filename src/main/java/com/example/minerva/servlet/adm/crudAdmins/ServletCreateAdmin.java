@@ -23,7 +23,7 @@ import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/admin/createAdmin", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/insertAdmin", loadOnStartup = 1)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -40,36 +40,36 @@ public class ServletCreateAdmin extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         UserDAO userRepository = new UserDAO();
 
-        String email = request.getParameter("emailInput");
-        String password = request.getParameter("passwordInput");
-        String name = request.getParameter("nameInput");
+        String email = request.getParameter("emailInsert");
+        String password = request.getParameter("passwordInsert");
+        String name = request.getParameter("nameInsert");
 
         if (userRepository.findByEmail(email) != null) {
             request.setAttribute("msg", "E-mail já cadastrado.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
         if (!ValidacaoEmail.validarEmail(email)) {
             request.setAttribute("msg", "E-mail inválido.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
         if (!ValidacaoSenha.validarSenha(password)) {
             request.setAttribute("msg", "Senha inválida.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 
-        Part filePart = request.getPart("image");
+        Part filePart = request.getPart("imageInsert");
         if (filePart == null) {
             request.setAttribute("msg", "Imagem não enviada.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 
         if (filePart.getSize() == 0) {
             request.setAttribute("msg", "Arquivo de imagem vazio.");
-            request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 
@@ -84,7 +84,7 @@ public class ServletCreateAdmin extends HttpServlet {
         // Verificar se é uma imagem válida (magic numbers)
         if (imageBytes.length < 4) {
             request.setAttribute("msg", "Arquivo inválido.");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
             return;
         }
 

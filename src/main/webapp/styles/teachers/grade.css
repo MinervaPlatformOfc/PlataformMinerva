@@ -1,0 +1,298 @@
+/* reset fontes e variaveis */
+
+body {
+    font-family: 'Almendra', serif;
+    color: #fff;
+    min-height: 100vh;
+    background-attachment: fixed;
+    margin: 0;
+    background-color: #000;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 90px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+header a {
+    text-decoration: none;
+    color: gray;
+    font-size: 1.1rem;
+    margin-right: 35px;
+    transition: 0.3s;
+    text-shadow: 1px 1px 2px #000;
+}
+header #atual{
+    color: white;
+}
+
+header a:hover {
+    color: #fff;
+    text-shadow: 0 10px 15px #ffc402;
+}
+
+header img[alt="logo-Minerva"] {
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 0 5px #d4af37);
+}
+
+#perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #d4af37;
+    padding: 5px 15px;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+#perfil p {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+#perfil svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+/* main */
+
+main {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 20px;
+    display: block;
+    text-align: left;
+}
+
+main h1:first-of-type {
+    font-size: 2rem;
+    color: #bdbdbd;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+main h2 {
+    font-size: 4rem;
+    font-weight: 400;
+    margin-bottom: 60px;
+}
+
+/* div buscar-alunos */
+#buscar-alunos {
+    background: transparent;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    flex: 1;
+    padding: 20px;
+    scrollbar-color: #3c445c #232a3d;
+}
+
+#searchbar {
+    width: 90%;
+    display: block;
+    margin: 0 auto 30px auto;
+    padding: 14px 18px;
+    margin-bottom: 30px;
+    background: #252B41;
+    border: 2px solid #d4af37;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-family: 'Almendra', serif;
+    outline: none;
+}
+
+#searchbar::placeholder {
+    color: rgba(127, 127, 127, 0.5);
+}
+
+#searchbar:focus {
+    box-shadow: 0 0 10px #d4af37;
+}
+
+.barra {
+    display: grid;
+    grid-template-columns: 50px 1fr 100px 100px 140px;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto 15px auto;
+    padding: 12px 25px;
+    border: 2px solid #d4af37;
+    background: #2a3144;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.barra:hover {
+    background: #323a52;
+    transform: scale(1.01);
+}
+
+/* imagem da casa */
+
+.barra img {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.barra span:nth-of-type(1) {
+    flex: 1;
+    font-size: 1.4rem;
+}
+
+
+#boletim-header {
+    display: grid;
+    grid-template-columns: 50px 1fr 120px 120px 150px;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto 20px auto;
+}
+
+#boletim-header:nth-of-type(2){
+    margin-left: 200px;
+}
+
+#boletim-header span:nth-last-child(1){
+    color: rgba(204, 155, 49, 1);
+}
+
+#boletim-header h3 {
+    grid-column: 2;
+    font-size: 2rem;
+}
+.col-materia{
+    font-size: 2rem;
+}
+.col-n {
+    text-align: center;
+    font-size: 1rem;
+}
+.notas {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    font-size: 2rem;
+}
+form {
+    width: 100%;
+}
+.div-add {
+    font-family: 'Almendra', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1B1F2D;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    padding: 40px;
+    border: 1px solid #d4af37;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    z-index: 1001;
+}
+
+.div-add h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    align-self: center;
+}
+
+.add-notas {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.campo label {
+    align-self: flex-start;
+}
+
+.add-notas label {
+    display: block;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.add-notas input {
+    font-family: 'Almendra', serif;
+    background-color: #1B1F2D;
+    border: 2px solid #C5A059;
+    color: white;
+    padding: 8px;
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+}
+
+.btn-adicionar {
+    font-family: 'Almendra', serif;
+    background-color: #1B1F2D;
+    border: 2px solid #C5A059;
+    color: #f0f0f0;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 250px;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+}
+
+.add-notas input:focus {
+    outline: none;
+    border: 2px solid #d4af37;
+    box-shadow: 0 0 8px #d4af37;
+}
+
+.btn-adicionar:hover {
+    background-color: #414a6b;
+    transform: scale(1.05);
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+}
+
+.escondido {
+    display: none;
+}

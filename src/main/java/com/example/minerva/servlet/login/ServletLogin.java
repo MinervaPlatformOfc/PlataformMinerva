@@ -58,11 +58,13 @@ public class ServletLogin extends HttpServlet {
                     break;
 
                 default:
+                    request.setAttribute("msg", "Erro ao realizar login, role não identificada");
                     response.sendRedirect(request.getContextPath() + "/login.jsp");
                     break;
             }
 
         } else {
+            request.setAttribute("msg", "Usuário ou senha não encontrado!");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
     }
