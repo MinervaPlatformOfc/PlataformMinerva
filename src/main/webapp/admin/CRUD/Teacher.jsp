@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.minerva.dto.TeacherDTO" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -177,10 +178,9 @@
                 <label for="house-insert">Casa</label>
                 <select name="house" id="house-insert" required>
                     <option value="" disabled selected>Selecione uma casa</option>
-                    <option value="Grifinória">Grifinória</option>
-                    <option value="Sonserina">Sonserina</option>
-                    <option value="Corvinal">Corvinal</option>
-                    <option value="Lufa-Lufa">Lufa-Lufa</option>
+                    <c:forEach items="${houseList}" var="house">
+                        <option value="${house.value}">${house.key}</option>
+                    </c:forEach>
                 </select>
 
                 <label for="wand-insert">Varinha</label>
