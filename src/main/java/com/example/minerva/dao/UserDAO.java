@@ -240,15 +240,14 @@ public class UserDAO {
 
     public  boolean update(int id, User user) {
 
-        String sql = "UPDATE users SET name = ?, email = ?, password = ?, profile_image_url = ? WHERE id = ?";
+        String sql = "UPDATE users SET name = ?, email = ?, profile_image_url = ? WHERE id = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getPassword());
-            stmt.setString(4, user.getImageUrl());
-            stmt.setInt(5, id);
+            stmt.setString(3, user.getImageUrl());
+            stmt.setInt(4, id);
 
             return stmt.executeUpdate()>0;
 

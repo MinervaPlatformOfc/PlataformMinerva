@@ -231,10 +231,11 @@
             <label for="email">Email</label>
             <input type="email" name="email" id="email" required>
 
-            <!-- Role removido - não pode ser alterado -->
-
             <label for="nova_foto">Nova Foto (opcional)</label>
-            <input type="file" name="nova_foto" id="nova_foto" accept="image/*">
+            <input type="file" name="foto" id="nova_foto" accept="image/*">
+
+            <input type="hidden" name="emailOriginal" value="">
+            <input type="hidden" name="currentImageUrl" value="">
 
             <input type="hidden" name="id" value="">
             <input type="hidden" name="name" value="<%= name != null ? name : "" %>">

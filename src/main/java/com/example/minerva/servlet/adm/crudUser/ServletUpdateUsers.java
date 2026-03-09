@@ -2,13 +2,10 @@ package com.example.minerva.servlet.adm.crudUser;
 
 import com.cloudinary.Cloudinary;
 import com.example.minerva.conexao.CloudinaryConfig;
-import com.example.minerva.dao.TeacherDAO;
 import com.example.minerva.dao.UserDAO;
 import com.example.minerva.loader.RechargeListener;
 import com.example.minerva.model.User;
-import com.example.minerva.utils.criptografia.HashSenha;
 import com.example.minerva.utils.validacao.ValidacaoEmail;
-import com.example.minerva.utils.validacao.ValidacaoSenha;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,7 +19,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(urlPatterns = "/admin/UpdateUser", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/updateUser", loadOnStartup = 1)
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
@@ -32,43 +29,33 @@ public class ServletUpdateUsers extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-
         UserDAO userDAO = new UserDAO();
 
-        String nameInput = request.getParameter("nameInput");
-        String role = request.getParameter("role");
-        String email = request.getParameter("emailInput");
-        String passwordRaw = request.getParameter("passwordInput");
+        String nameInput = request.getParameter("nome");
+        String email = request.getParameter("email");
+        String emailOriginal = request.getParameter("emailOriginal");
 
+        if (!emailOriginal.equals(email)) {
+            User existingUser = userDAO.findByEmail(email);
+            if (existingUser != null) {
+                request.setAttribute("msg", "Email já existente");
+                request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
+                return;
+            }
 
-        if (userDAO.findByEmail(email) != null) {
-            request.setAttribute("msg", "Email já existente");
-            request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
-            return;
+            if (!ValidacaoEmail.validarEmail(email)) {
+                request.setAttribute("msg", "Email inválido");
+                request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
+                return;
+            }
         }
 
-        if (!ValidacaoEmail.validarEmail(email)) {
-            request.setAttribute("msg", "Email inválido");
-            request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
-            return;
-        }
-
-        if (!ValidacaoSenha.validarSenha(passwordRaw)) {
-            request.setAttribute("msg", "Senha inválida");
-            request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
-            return;
-        }
-
-        String passwordHash = new HashSenha(passwordRaw).getHashSenha();
-
-        Part filePart = request.getPart("imageInput");
+        Part filePart = request.getPart("foto");
         String imageUrl;
 
         if (filePart == null || filePart.getSize() == 0) {
-            // Mantém a imagem antigaaa
             imageUrl = request.getParameter("currentImageUrl");
         } else {
-
             byte[] imageBytes;
             try (InputStream input = filePart.getInputStream()) {
                 imageBytes = input.readAllBytes();
@@ -87,14 +74,16 @@ public class ServletUpdateUsers extends HttpServlet {
             params.put("resource_type", "image");
             params.put("type", "upload");
 
-            Map uploadResult = cloudinary.uploader().upload(imageBytes, params);
-
-            imageUrl = (String) uploadResult.get("secure_url");
+            try {
+                Map uploadResult = cloudinary.uploader().upload(imageBytes, params);
+                imageUrl = (String) uploadResult.get("secure_url");
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new ServletException("Erro ao fazer upload da imagem", e);
+            }
         }
 
-        User user = new User(nameInput, passwordHash, email, role, imageUrl);
-
-
+        User user = new User(nameInput, email, imageUrl);
         boolean userUpdated = userDAO.update(id, user);
 
         if (userUpdated) {
@@ -109,4 +98,3 @@ public class ServletUpdateUsers extends HttpServlet {
         request.getRequestDispatcher("/admin/users").forward(request, response);
     }
 }
-
