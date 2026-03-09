@@ -118,11 +118,14 @@
         </ul>
     </nav>
 </aside>
-
+<%
+    String msgBruta = request.getAttribute("msg") != null ? (String) request.getAttribute("msg") : "";
+    String msg = !(msgBruta.equals("")||msgBruta.isEmpty())?msgBruta:"Gerencie as matérias do sistema";
+%>
 <main>
     <div class="content-wrapper">
         <h1>Matérias</h1>
-        <p>Gerencie as matérias do sistema</p>
+        <p><%=msg%></p>
 
         <div id="div-crud">
             <button class="btn-amarelo" id="btn-inserir">

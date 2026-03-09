@@ -41,7 +41,6 @@
         <%= name != null ? name : "Admin" %>
     </button>
 </header>
-
 <aside class="sidebar">
     <img src="" alt="minerva-logo" class="logo">
     <nav>
@@ -119,10 +118,15 @@
     </nav>
 </aside>
 
+<%
+    String msgBruta = request.getAttribute("msg") != null ? (String) request.getAttribute("msg") : "";
+    String msg = !(msgBruta.equals("")||msgBruta.isEmpty())?msgBruta:"Gerencie os registros dos administradores";
+%>
+
 <main>
     <div class="content-wrapper">
         <h1>Administradores</h1>
-        <p>Gerencie os registros dos administradores</p>
+        <p><%=msg%></p>
 
         <div id="div-crud">
             <button class="btn-amarelo" id="btn-inserir">

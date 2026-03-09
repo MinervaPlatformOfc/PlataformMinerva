@@ -119,10 +119,15 @@
     </nav>
 </aside>
 
+<%
+    String msgBruta = request.getAttribute("msg") != null ? (String) request.getAttribute("msg") : "";
+    String msg = !(msgBruta.equals("")||msgBruta.isEmpty())?msgBruta:"Gerencie os registros dos professores";
+%>
+
 <main>
     <div class="content-wrapper">
         <h1>Professores</h1>
-        <p>Gerencie os registros dos professores</p>
+        <p><%=msg%></p>
 
         <div id="div-crud">
             <button class="btn-amarelo" id="btn-inserir">

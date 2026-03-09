@@ -139,9 +139,15 @@
     </nav>
 </aside>
 
+<%
+    String msgBruta = request.getAttribute("msg") != null ? (String) request.getAttribute("msg") : "";
+    String msg = !(msgBruta.equals("")||msgBruta.isEmpty())?msgBruta:"";
+%>
+
 <main>
     <div class="content-wrapper">
         <h1>Seja bem vindo(a), <span><%= name != null ? name : "Admin" %>!</span></h1>
+        <p><%=msg%></p>
 
         <section id="cards">
             <div id="total-card">
