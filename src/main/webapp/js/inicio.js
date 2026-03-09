@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputEmail = document.querySelector("#email");
     const fotoPreview = document.querySelector("#foto-preview");
 
+    const inputEmailOriginal = document.querySelector("input[name='emailOriginal']");
+    const inputCurrentImageUrl = document.querySelector("input[name='currentImageUrl']");
+
     // Functions
     function abrirModal(modal) {
         modal.classList.remove("escondido");
@@ -30,6 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (inputNome) inputNome.value = "";
         if (inputEmail) inputEmail.value = "";
         if (fotoPreview) fotoPreview.src = "";
+        if (inputEmailOriginal) inputEmailOriginal.value = "";
+        if (inputCurrentImageUrl) inputCurrentImageUrl.value = "";
     }
 
     // Verificando se existem os elementos necessários para adicionar os eventos
@@ -63,6 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // Preencher o modal
             if (idUpdateSpan) idUpdateSpan.textContent = id;
             if (inputUpdateId) inputUpdateId.value = id;
+            if (inputEmailOriginal) inputEmailOriginal.value = email;
+            if (inputCurrentImageUrl) inputCurrentImageUrl.value = foto;
             if (inputNome) inputNome.value = nome;
             if (inputEmail) inputEmail.value = email;
             if (fotoPreview) fotoPreview.src = foto;

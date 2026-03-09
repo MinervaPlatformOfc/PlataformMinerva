@@ -14,7 +14,7 @@ import java.io.IOException;
 public class ServletUpdateSubject extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String subjectName = req.getParameter("subjectName");
+        String subjectName = req.getParameter("nome");
         int id = Integer.parseInt(req.getParameter("id"));
 
         GradeDAO dao = new GradeDAO();

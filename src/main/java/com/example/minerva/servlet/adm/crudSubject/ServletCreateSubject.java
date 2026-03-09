@@ -14,22 +14,16 @@ import java.io.IOException;
 public class ServletCreateSubject extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String subjectName = req.getParameter("subjectName");
+        String subjectName = req.getParameter("nome");
         boolean addStudents = Boolean.parseBoolean(req.getParameter("addStudents"));
 
         GradeDAO dao = new GradeDAO();
-
-
-
         req.setAttribute("msg", dao.save(subjectName, addStudents)?
                 "Disciplina inserida com sucesso!":
                 "Erro ao inserir disciplina!");
 
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForSubject();
-
-
-
         req.getRequestDispatcher("/admin/ViewSubjects").forward(req, resp);
     }
 }

@@ -141,6 +141,7 @@
             <form action="${pageContext.request.contextPath}/admin/insertSubject" method="post">
                 <label for="nome-insert">Nome da Matéria</label>
                 <input type="text" name="nome" id="nome-insert" required placeholder="Ex: Matemática, Português...">
+                <input type="checkbox" name="addStudents" id="insert-students"> <label for="insert-students">Inserir todos os alunos nessa matéria</label>
 
                 <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
                 <input type="hidden" name="url" value="<%= url != null ? url : "" %>">
