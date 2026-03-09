@@ -183,7 +183,12 @@
 
             <form action="${pageContext.request.contextPath}/admin/updateStudent" method="post">
                 <label for="schoolYear-update">Ano Escolar</label>
-                <input type="number" name="schoolYear" id="schoolYear-update" min="1" max="7">
+                <select name="schoolYear" id="schoolYear-update">
+                    <option value="" disabled selected>Selecione uma série</option>
+                    <option value="1">Primeira série mágia</option>
+                    <option value="2">Segunda série mágia</option>
+                    <option value="3">Terceira série mágia</option>
+                </select>
 
                 <label for="guardianName-update">Nome do Responsável</label>
                 <input type="text" name="legalGuardianName" id="guardianName-update" disabled>
@@ -195,7 +200,12 @@
                 <input type="text" name="wand" id="wand-update" disabled>
 
                 <label for="pet-update">Animal de Estimação</label>
-                <input type="text" name="pet" id="pet-update">
+                <select id="pet-update" name="pet" required>
+                    <option value="" disabled selected>Selecione um animal</option>
+                    <option value="coruja">Coruja</option>
+                    <option value="sapo">Sapo</option>
+                    <option value="gato">Gato</option>
+                </select>
 
                 <label for="allergies-update">Alergias</label>
                 <input type="text" name="allergies" id="allergies-update">
