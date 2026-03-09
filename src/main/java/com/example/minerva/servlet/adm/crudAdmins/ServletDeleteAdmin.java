@@ -37,7 +37,7 @@ public class ServletDeleteAdmin extends HttpServlet {
                            userRepository.delete(id)?"Administrador removido com sucesso":
                                    "Falha ao remover administrador");
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForAdmin();
+        rechargeListener.rechargeForAdmin(getServletContext());
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
     }
 

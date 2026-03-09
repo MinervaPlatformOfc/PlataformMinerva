@@ -105,7 +105,7 @@ public class ServletUpdateAdmin extends HttpServlet {
         }
 
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForAdmin();
+        rechargeListener.rechargeForAdmin(getServletContext());
 
         if (currentAdm){
             request.setAttribute("name", nameInput);

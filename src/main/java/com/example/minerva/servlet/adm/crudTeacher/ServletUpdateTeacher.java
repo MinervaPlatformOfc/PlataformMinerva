@@ -75,7 +75,7 @@ public class ServletUpdateTeacher extends HttpServlet{
             }
         
           RechargeListener rechargeListener = new RechargeListener();
-          rechargeListener.rechargeForTeacher();
+          rechargeListener.rechargeForTeacher(getServletContext());
 
           request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
     }

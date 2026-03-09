@@ -107,7 +107,7 @@ public class ServletCreateAdmin extends HttpServlet {
         request.setAttribute("msg", userRepository.saveAdmin(newUser) ? "Administrador inserido!": "Erro ao inserir administrador");
 
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForAdmin();
+        rechargeListener.rechargeForAdmin(getServletContext());
 
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
     }

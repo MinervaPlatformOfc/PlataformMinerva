@@ -93,7 +93,7 @@ public class ServletUpdateUsers extends HttpServlet {
         }
 
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForUser();
+        rechargeListener.rechargeForUser(getServletContext());
 
         request.getRequestDispatcher("/admin/users").forward(request, response);
     }

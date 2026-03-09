@@ -23,7 +23,7 @@ public class ServletCreateSubject extends HttpServlet {
                 "Erro ao inserir disciplina!");
 
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForSubject();
+        rechargeListener.rechargeForSubject(getServletContext());
         req.getRequestDispatcher("/admin/ViewSubjects").forward(req, resp);
     }
 }
