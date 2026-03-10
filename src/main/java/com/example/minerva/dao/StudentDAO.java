@@ -7,6 +7,7 @@ import com.example.minerva.dto.UpdateStudentDTO;
 import com.example.minerva.model.Student;
 import com.example.minerva.model.User;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class StudentDAO {
     }
 
     public List<Student> getAllStudents(){
-        String sql = "select name,s.id as student_id, u.id, user_id, school_year, legal_guardian_name, residence_address, wand, pet_type, allergies, blood, basic_kit, guardian_permission, registration FROM student s LEFT JOIN users u ON user_id = u.id order by s.id";
+        String sql = "select name,s.id as student_id, u.id, user_id, school_year, legal_guardian_name, residence_address, wand, pet_type, birth_date, allergies, blood, basic_kit, guardian_permission, registration, flight_fitness FROM student s LEFT JOIN users u ON user_id = u.id order by s.id";
 
         List<Student> students = new ArrayList<>();
 
@@ -40,6 +41,8 @@ public class StudentDAO {
             ResultSet rs = stmt.executeQuery(sql);
 
             while(rs.next()){
+                java.sql.Date birthDateSql = rs.getDate("birth_date");
+                LocalDate birthDate = birthDateSql != null ? birthDateSql.toLocalDate() : null;
                 Student temp = new Student(
                         rs.getString("name"),
                         rs.getInt("student_id"),
@@ -52,7 +55,9 @@ public class StudentDAO {
                         rs.getString("blood"),
                         rs.getBoolean("basic_kit"),
                         rs.getBoolean("guardian_permission"),
-                        rs.getString("registration")
+                        rs.getString("registration"),
+                        birthDate,
+                        rs.getBoolean("flight_fitness")
                 );
                 students.add(temp);
             }
@@ -278,6 +283,9 @@ public class StudentDAO {
         String sqlAllergies = "update student set allergies = ? where id = ?";
         String sqlSchoolYear = "update student set school_year = ? where id = ?";
         String sqlFlightFitness = "update student set flight_fitness = ? where id = ?";
+        String sqlLegalGuardianName = "update student set legal_guardian_name = ? where id = ?";
+        String sqlGuardianPermission = "update student set guardian_permission = ? where id = ?";
+
 
         Student currentStudent = findById(id);
 
@@ -290,7 +298,9 @@ public class StudentDAO {
                 PreparedStatement pstmtAllergies = conn.prepareStatement(sqlAllergies);
                 PreparedStatement pstmtSchoolYear = conn.prepareStatement(sqlSchoolYear);
                 PreparedStatement pstmtFlightFitness = conn.prepareStatement(sqlFlightFitness);
-                ){
+                PreparedStatement pstmtLegalGuardianName = conn.prepareStatement(sqlLegalGuardianName);
+                PreparedStatement pstmtGuardianPermission = conn.prepareStatement(sqlGuardianPermission);
+        ){
 
             if(!newStudent.getResidenceAddress().equals(currentStudent.getResidenceAddress())){
                 pstmtResidenceAddress.setString(1, newStudent.getResidenceAddress());
@@ -326,6 +336,18 @@ public class StudentDAO {
                 pstmtFlightFitness.setBoolean(1, newStudent.getFlightFitness());
                 pstmtFlightFitness.setInt(2, id);
                 lines += pstmtFlightFitness.executeUpdate();
+            }
+
+            if(!(newStudent.getLegalGuardianName().equals(currentStudent.getLegalGuardianName()))){
+                pstmtLegalGuardianName.setString(1, newStudent.getLegalGuardianName());
+                pstmtLegalGuardianName.setInt(2, id);
+                lines += pstmtLegalGuardianName.executeUpdate();
+            }
+
+            if(!(newStudent.getGuardianPermission() == currentStudent.getGuardianPermission())){
+                pstmtGuardianPermission.setBoolean(1, newStudent.getGuardianPermission());
+                pstmtGuardianPermission.setInt(2, id);
+                lines += pstmtGuardianPermission.executeUpdate();
             }
 
         }catch (SQLException sqle){

@@ -25,16 +25,30 @@ public class ServletUpdateStudent extends HttpServlet{
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-        int id = Integer.parseInt(request.getParameter("id"));
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
 
-        StudentDAO studentRepository = new StudentDAO();
+            StudentDAO studentRepository = new StudentDAO();
 
+            // Pegando os parâmetros do formulário (verifique se os nomes estão corretos)
             String residenceAddress = request.getParameter("residenceAddress");
             String petType = request.getParameter("pet");
             String allergies = request.getParameter("allergies");
+
+            // Checkboxes: retornam null se não marcados
             Boolean basicKit = request.getParameter("basicKit") != null;
-            Boolean flightFitness = Boolean.parseBoolean(request.getParameter("flightFitnessInput"));
-            Integer schoolYear = Integer.parseInt(request.getParameter("schoolYear"));
+            Boolean guardianPermission = request.getParameter("guardianPermission") != null;
+
+            Boolean flightFitness = request.getParameter("flightFitness") != null;
+
+            // Tratamento para schoolYear (pode vir vazio)
+            Integer schoolYear = null;
+            String schoolYearParam = request.getParameter("schoolYear");
+            if (schoolYearParam != null && !schoolYearParam.isEmpty()) {
+                schoolYear = Integer.parseInt(schoolYearParam);
+            }
+
+            String legalGuardianName = request.getParameter("legalGuardianName");
 
             UpdateStudentDTO student = new UpdateStudentDTO(
                     residenceAddress,
@@ -42,17 +56,32 @@ public class ServletUpdateStudent extends HttpServlet{
                     allergies,
                     basicKit,
                     flightFitness,
-                    schoolYear
+                    schoolYear,
+                    legalGuardianName,
+                    guardianPermission
             );
 
-            request.setAttribute("msg", studentRepository.update(id, student) > 0 ?
-                    "Estudante atualizado com sucesso!" :
-                    "Erro ao atualizar estudante!");
+            int result = studentRepository.update(id, student);
+
+            if (result > 0) {
+                request.setAttribute("msg", "Estudante atualizado com sucesso!");
+            } else {
+                request.setAttribute("msg", "Erro ao atualizar estudante!");
+            }
 
             RechargeListener rechargeListener = new RechargeListener();
             rechargeListener.rechargeForStudent(getServletContext());
 
             request.getRequestDispatcher("/admin/ViewStudents").forward(request,response);
+
+        } catch (NumberFormatException e) {
+            request.setAttribute("msg", "Erro: ID ou ano escolar inválido!");
+            request.getRequestDispatcher("/admin/ViewStudents").forward(request,response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("msg", "Erro ao atualizar estudante: " + e.getMessage());
+            request.getRequestDispatcher("/admin/ViewStudents").forward(request,response);
+        }
     }
 
     @Override
