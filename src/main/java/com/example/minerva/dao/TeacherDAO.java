@@ -361,6 +361,7 @@ public class TeacherDAO {
                 }
                 return null;
         }
+
     public TeacherHomeDTO getTeacherWithStudentsById(int id) {
         String sql = "SELECT \n" +
                 "    ts.teacher_id, \n" +
@@ -428,7 +429,8 @@ public class TeacherDAO {
         }
     }
 
-        public List<String> getYearsAndSubjectsByTeacherId(int teacherId) {
+
+    public List<String> getYearsAndSubjectsByTeacherId(int teacherId) {
                 String sql = "SELECT DISTINCT school_year, subject_name " +
                         "FROM teacher_students " +
                         "WHERE teacher_id = ? " +
@@ -548,6 +550,36 @@ public class TeacherDAO {
             sqle.printStackTrace();
             return false;
         }
+    }
+
+
+    public int findTeacherIdByEmail(String email) {
+
+        String sql = "SELECT t.id " +
+                "FROM teacher t " +
+                "JOIN users u ON t.user_id = u.id " +
+                "WHERE u.email = ?";
+
+        if (conn == null) {
+            System.out.println("Erro na conexão (PostgreSQL)");
+            return -1;
+        }
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, email);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 }
 
