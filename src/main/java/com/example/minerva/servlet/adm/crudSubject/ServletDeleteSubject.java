@@ -19,8 +19,8 @@ public class ServletDeleteSubject extends HttpServlet {
         GradeDAO dao = new GradeDAO();
 
         req.setAttribute("msg", dao.delete(id)?
-                "Disciplina deletada com sucesso":
-                "Erro ao deletar disciplina");
+                "Disciplina deletada com sucesso!":
+                "Erro ao deletar disciplina!");
 
         RechargeListener rechargeListener = new RechargeListener();
         rechargeListener.rechargeForSubject(getServletContext());

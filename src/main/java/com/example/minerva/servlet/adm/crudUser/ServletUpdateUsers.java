@@ -87,9 +87,9 @@ public class ServletUpdateUsers extends HttpServlet {
         boolean userUpdated = userDAO.update(id, user);
 
         if (userUpdated) {
-            request.setAttribute("msg", "Usuário atualizado com sucesso");
+            request.setAttribute("msg", "Usuário atualizado com sucesso!");
         } else {
-            request.setAttribute("msg", "Erro ao atualizar usuário");
+            request.setAttribute("msg", "Erro ao atualizar usuário!");
         }
 
         RechargeListener rechargeListener = new RechargeListener();
