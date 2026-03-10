@@ -14,23 +14,25 @@
     <script src="${pageContext.request.contextPath}/js/searchDivs.js"></script>
 </head>
 
-<body>
-
 <%
     TeacherHomeDTO teacherDTO = (TeacherHomeDTO) request.getAttribute("teacherHomeDto");
+    String teacherHouseNameRaw = teacherDTO.getTeacherHouseName() != null ? teacherDTO.getTeacherHouseName() : "";
+
+String teacherHouseName =
+teacherHouseNameRaw.equals("Grifinória") ? "grifinoria" :
+teacherHouseNameRaw.equals("Lufa-Lufa") ? "lufalufa" :
+teacherHouseNameRaw.equals("Sonserina") ? "sonserina" :
+"corvinal";%>
+<body class="<%= teacherHouseName %>">
+
+<%
 
     if (teacherDTO == null) {
         System.out.println("teacherHomeDto está null");
         return;
     }
 
-    String teacherHouseNameRaw = teacherDTO.getTeacherHouseName() != null ? teacherDTO.getTeacherHouseName() : "";
 
-    String teacherHouseName =
-            teacherHouseNameRaw.equals("Grifinória") ? "grifinoria" :
-                    teacherHouseNameRaw.equals("Lufa-Lufa") ? "lufalufa" :
-                            teacherHouseNameRaw.equals("Sonserina") ? "sonserina" :
-                                    "corvinal";
 %>
 
 <header>

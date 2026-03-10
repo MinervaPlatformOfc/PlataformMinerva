@@ -1,12 +1,62 @@
 /* reset fontes e variaveis */
 
 body {
-    font-family: 'Almendra', serif !important;
+    font-family: 'Almendra', serif;
     color: #fff;
     min-height: 100vh;
-    background-attachment: fixed;
     margin: 0;
-    background-color: #000;
+}
+
+:root{
+    --cor-casa:  rgba(204, 155, 49, 1);
+    --bg-casa: #7a5c18;
+    --bg-intermediario: #3a2a05;
+    --cor-barra:rgba(212, 148, 43, 0.76);
+
+    background: linear-gradient(to bottom,
+    var(--bg-casa) 0%,
+    var(--bg-intermediario) 40%,
+    #000 80%
+    );
+}
+
+body.sonserina{
+    --cor-casa: rgb(27, 146, 102);
+    --bg-casa: #133a1b;
+    --bg-intermediario: #071a0d;
+    --cor-barra:rgba(30, 67, 40, 0.76);
+
+    background: linear-gradient(to bottom,
+    var(--bg-casa) 0%,
+    var(--bg-intermediario) 40%,
+    #000 80%
+    );
+}
+
+body.corvinal{
+    --cor-casa: rgb(18, 138, 223);
+    --bg-casa: #0c4a7c;
+    --bg-intermediario: #06294a;
+    --cor-barra:rgba(9, 70, 104, 0.76);
+
+    background: linear-gradient(to bottom,
+    var(--bg-casa) 0%,
+    var(--bg-intermediario) 40%,
+    #000 80%
+    );
+}
+
+body.grifinoria{
+    --cor-casa: #ec1111;
+    --bg-casa: #740001;
+    --bg-intermediario: #2a0a0a;
+    --cor-barra:rgba(143, 32, 31, 1);
+
+    background: linear-gradient(to bottom,
+    var(--bg-casa) 0%,
+    var(--bg-intermediario) 40%,
+    #000 80%
+    );
 }
 button{
     background: none;
