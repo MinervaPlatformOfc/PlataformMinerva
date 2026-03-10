@@ -21,7 +21,7 @@ public class ServletHome extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = (String) req.getAttribute("email");
-        String teacherId = req.getParameter("teacherId");
+        String teacherId = req.getParameter("teacherId");        
         TeacherDAO teacherDAO = new TeacherDAO();
         TeacherHomeDTO teacherHomeDto;
         if (email!=null && !email.isEmpty()) teacherHomeDto = teacherDAO.getTeacherWithStudentsByEmail(email);

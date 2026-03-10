@@ -1,6 +1,7 @@
 package com.example.minerva.model;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Student {
     private String name;
@@ -33,7 +34,7 @@ public class Student {
         this.guardianPermission = guardianPermission;
         this.registration = registration;
     }
-    public Student(String name, int id, Integer schoolYear, String legalGuardianName, String residenceAdress, String wand, String pet, String allergies, String blood, boolean basicKit, boolean guardianPermission, String registration){
+    public Student(String name, int id, Integer schoolYear, String legalGuardianName, String residenceAdress, String wand, String pet, String allergies, String blood, boolean basicKit, boolean guardianPermission, String registration, LocalDate birthDate, boolean flightFitness){
         this.id = id;
         this.name = name;
         this.schoolYear = schoolYear;
@@ -46,6 +47,8 @@ public class Student {
         this.basicKit = basicKit;
         this.guardianPermission = guardianPermission;
         this.registration = registration;
+        this.birthDate = birthDate;
+        this.flightFitness = flightFitness;
     }
 
     public Student(int id, Integer schoolYear, String legalGuardianName, String residenceAdress, String wand, String pet, String allergies, String blood, boolean basicKit, boolean guardianPermission, String registration, boolean flightFitness){

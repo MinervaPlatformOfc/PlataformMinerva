@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const idUpdateSpan = document.querySelector('.id-update span');
     const inputUpdateId = document.querySelector('#id-update');
 
-    // Campos do Update
+// Campos do Update
     const inputSchoolYearUpdate = document.querySelector('#schoolYear-update');
     const inputGuardianNameUpdate = document.querySelector('#guardianName-update');
     const inputAddressUpdate = document.querySelector('#address-update');
@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputRegistrationUpdate = document.querySelector('#registration-update');
     const inputBasicKitUpdate = document.querySelector('#basicKit-update');
     const inputGuardianPermissionUpdate = document.querySelector('#guardianPermission-update');
+    const inputFlightFitnessUpdate = document.querySelector('#flightFitness-update'); // NOVO
 
     // Elementos do Delete
     const divDelete = document.querySelector('.div-delete');
@@ -85,6 +86,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (inputRegistrationUpdate) inputRegistrationUpdate.value = "";
         if (inputBasicKitUpdate) inputBasicKitUpdate.checked = false;
         if (inputGuardianPermissionUpdate) inputGuardianPermissionUpdate.checked = false;
+        if (inputFlightFitnessUpdate) inputFlightFitnessUpdate.checked = false; // NOVO
+
+        // Limpar campos de visualização
+        const birthDateDisplay = document.querySelector('#birthDate-update-display');
+        if (birthDateDisplay) birthDateDisplay.value = "";
+
+        const birthDateHidden = document.querySelector('#birthDate-update');
+        if (birthDateHidden) birthDateHidden.value = "";
     }
 
     function limparModalDelete() {
@@ -214,59 +223,84 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    /* Atualizar e Excluir na tabela */
+    // Atualizar e Excluir na tabela
     if (tabela) {
         tabela.addEventListener('click', function (event) {
-
             const linha = event.target.closest('tr');
             if (!linha) return;
 
             // Verifica se é a linha de "nenhum registro"
             if (linha.querySelector('td[colspan]')) return;
 
-            const colunas = linha.querySelectorAll('td');
-            if (colunas.length < 9) return;
-
+            // Pegar todos os dados dos atributos data-*
             const id = linha.dataset.id;
-            const nome = colunas[1]?.textContent.trim() || '';
-
-            // Dados completos não estão na tabela, mas pegamos o que temos
-            const registration = colunas[2]?.textContent.trim() === '-' ? '' : colunas[2]?.textContent.trim() || '';
-            const schoolYear = colunas[3]?.textContent.trim() === '-' ? '' : colunas[3]?.textContent.trim() || '';
-            const guardianName = colunas[4]?.textContent.trim() === '-' ? '' : colunas[4]?.textContent.trim() || '';
-            const wand = colunas[5]?.textContent.trim() === '-' ? '' : colunas[5]?.textContent.trim() || '';
-            const pet = colunas[6]?.textContent.trim() === '-' ? '' : colunas[6]?.textContent.trim() || '';
+            const nome = linha.dataset.nome || '';
+            const registration = linha.dataset.registration || '';
+            const schoolYear = linha.dataset.schoolYear || '';
+            const guardianName = linha.dataset.guardianName || '';
+            const residenceAddress = linha.dataset.residenceAddress || '';
+            const wand = linha.dataset.wand || '';
+            const petType = linha.dataset.petType || '';
+            const allergies = linha.dataset.allergies || '';
+            const blood = linha.dataset.blood || '';
+            const birthDate = linha.dataset.birthDate || '';
+            const basicKit = linha.dataset.basicKit === 'true';
+            const guardianPermission = linha.dataset.guardianPermission === 'true';
+            const flightFitness = linha.dataset.flightFitness === 'true';
 
             // Editar
             const botaoEditar = event.target.closest('.editar');
             if (botaoEditar) {
-
+                // Preencher campos de visualização/edição
                 if (idUpdateSpan) idUpdateSpan.textContent = id;
                 if (inputUpdateId) inputUpdateId.value = id;
+
+                // Campos que podem ser visualizados ou editados
                 if (inputRegistrationUpdate) inputRegistrationUpdate.value = registration;
                 if (inputSchoolYearUpdate) inputSchoolYearUpdate.value = schoolYear;
                 if (inputGuardianNameUpdate) inputGuardianNameUpdate.value = guardianName;
+                if (inputAddressUpdate) inputAddressUpdate.value = residenceAddress;
                 if (inputWandUpdate) inputWandUpdate.value = wand;
-                if (inputPetUpdate) inputPetUpdate.value = pet;
+                if (inputPetUpdate) inputPetUpdate.value = petType;
+                if (inputAllergiesUpdate) inputAllergiesUpdate.value = allergies;
 
-                // Campos que não estão na tabela (deixamos vazios para o usuário preencher)
-                if (inputAddressUpdate) inputAddressUpdate.value = "";
-                if (inputAllergiesUpdate) inputAllergiesUpdate.value = "";
-                if (inputBloodUpdate) inputBloodUpdate.value = "";
-                if (inputBasicKitUpdate) inputBasicKitUpdate.checked = false;
-                if (inputGuardianPermissionUpdate) inputGuardianPermissionUpdate.checked = false;
+                // Campo de tipo sanguíneo (agora editável também)
+                if (inputBloodUpdate) inputBloodUpdate.value = blood;
+
+                // Checkboxes
+                if (inputBasicKitUpdate) inputBasicKitUpdate.checked = basicKit;
+                if (inputGuardianPermissionUpdate) inputGuardianPermissionUpdate.checked = guardianPermission;
+                if (inputFlightFitnessUpdate) inputFlightFitnessUpdate.checked = flightFitness;
+
+                // Campo de data de nascimento (apenas visualização)
+                const birthDateDisplay = document.querySelector('#birthDate-update-display');
+                if (birthDateDisplay) {
+                    // Formatar data para exibição (dd/mm/aaaa)
+                    if (birthDate) {
+                        const dateParts = birthDate.split('-');
+                        if (dateParts.length === 3) {
+                            birthDateDisplay.value = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+                        } else {
+                            birthDateDisplay.value = birthDate;
+                        }
+                    } else {
+                        birthDateDisplay.value = '';
+                    }
+                }
+
+                // Hidden field para birthDate (necessário para o servidor)
+                const birthDateHidden = document.querySelector('#birthDate-update');
+                if (birthDateHidden) birthDateHidden.value = birthDate;
 
                 abrirModal(divAtualizar);
                 return;
             }
 
-            // Excluir
+            // Excluir (mantém como está)
             const botaoExcluir = event.target.closest('.excluir');
             if (botaoExcluir) {
-
                 if (nomeDelete) nomeDelete.textContent = nome;
                 if (idDeleteInput) idDeleteInput.value = id;
-
                 abrirModal(divDelete);
                 return;
             }

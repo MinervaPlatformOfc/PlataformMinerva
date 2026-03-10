@@ -3,9 +3,11 @@ package com.example.minerva.dto;
 public class UpdateStudentDTO {
     String residenceAddress,
             petType,
+            legalGuardianName,
             allergies;
     boolean basicKit,
-            flightFitness;
+            flightFitness,
+            guardianPermission;
     int schoolYear;
 
     public UpdateStudentDTO(
@@ -14,7 +16,9 @@ public class UpdateStudentDTO {
             String allergies,
             boolean basicKit,
             boolean flightFitness,
-            int schoolYear
+            int schoolYear,
+            String legalGuardianName,
+            boolean guardianPermission
     ){
         this.residenceAddress = residenceAddress;
         this.petType = petType;
@@ -22,6 +26,8 @@ public class UpdateStudentDTO {
         this.basicKit = basicKit;
         this.flightFitness = flightFitness;
         this.schoolYear = schoolYear;
+        this.legalGuardianName = legalGuardianName;
+        this.guardianPermission = guardianPermission;
     }
 
     public String getResidenceAddress() {
@@ -46,5 +52,13 @@ public class UpdateStudentDTO {
 
     public boolean getFlightFitness(){
         return this.flightFitness;
+    }
+
+    public String getLegalGuardianName() {
+        return legalGuardianName;
+    }
+
+    public boolean getGuardianPermission(){
+        return guardianPermission;
     }
 }
