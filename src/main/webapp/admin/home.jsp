@@ -47,6 +47,8 @@
         <input type="hidden" id="searchColumns" value="nome,email,role">
 
         <form action="${pageContext.request.contextPath}/recharge" method="post" class="recharge-form">
+            <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
+            <input type="hidden" name="url" value="<%= url != null ? url : "" %>">
             <input type="hidden" name="endpoint" value="/admin/users">
             <button type="submit" class="recharge-btn" title="Atualizar dados">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fccb4f">

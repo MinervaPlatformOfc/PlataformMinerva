@@ -82,15 +82,6 @@ public class ServletRegister extends HttpServlet {
         Matricula matricula = new Matricula();
         Email emailUtils = new Email();
 
-        boolean matriculaValida = matricula.validate(email, registration);
-
-        if (!matriculaValida) {
-            request.setAttribute("msg", "Matricula inválida!");
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=invalid_registration");
-            return;
-        }
-//        System.out.println("✅ Matrícula validada com sucesso!");
-
 // Validações do usuário
 //        System.out.println("=== VALIDAÇÕES DO USUÁRIO ===");
         UserDAO userDao = new UserDAO();
@@ -162,6 +153,15 @@ public class ServletRegister extends HttpServlet {
 
         String imageUrl = (String) uploadResult.get("secure_url");
 //        System.out.println("Upload sucesso! URL: " + imageUrl);
+
+        boolean matriculaValida = matricula.validate(email, registration);
+
+        if (!matriculaValida) {
+            request.setAttribute("msg", "Matricula inválida!");
+            response.sendRedirect(request.getContextPath() + "/register.jsp?error=invalid_registration");
+            return;
+        }
+//        System.out.println("✅ Matrícula validada com sucesso!");
 
         Student student = new Student(birthDate, schoolYear, legalGuardianName,
                 residenceAdress, wand, pet, allergies, blood, basicKit, guardianPermission, registration);

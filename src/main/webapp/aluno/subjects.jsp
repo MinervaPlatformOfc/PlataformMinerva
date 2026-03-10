@@ -5,7 +5,7 @@
 <%
     int id = (int) request.getAttribute("id");
     String houseName = (String) request.getAttribute("houseName");
-    <%String name = (String) request.getAttribute("name");%>
+    String name = (String) request.getAttribute("name");
 %>
 
 <!DOCTYPE html>
@@ -63,7 +63,7 @@
 
             <button type="submit" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:10px;">
 
-                Aluno
+                <%=name%>
 
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#FFFFFF">
                     <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/>
@@ -82,6 +82,7 @@
     <div class="container-grid">
 
         <%
+            List<SubjectDTO> subjects = (List<SubjectDTO>) request.getAttribute("subjects");
             if(subjects != null && !subjects.isEmpty()){
                 for(SubjectDTO subject : subjects){
         %>

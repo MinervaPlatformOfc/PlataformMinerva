@@ -30,7 +30,7 @@ public class ServletDeleteStudent extends HttpServlet {
                 "Falha ao remover estudante");
 
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForStudent();
+        rechargeListener.rechargeForStudent(getServletContext());
         request.getRequestDispatcher("/admin/ViewStudents").forward(request,response);
     }
 

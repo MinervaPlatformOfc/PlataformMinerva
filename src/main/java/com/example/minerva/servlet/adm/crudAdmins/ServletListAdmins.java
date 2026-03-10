@@ -19,19 +19,31 @@ public class ServletListAdmins extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         List<AdminDTO> admins = (List<AdminDTO>) getServletContext().getAttribute("adminList");
         request.setAttribute("adminList", admins);
-        String admName = request.getParameter("name");
-        String url = request.getParameter("url");
+        String admName = null;
+        String url = null;
 
-        if (admName == null) {
-            Object attr = request.getAttribute("name");
-            if (attr != null) admName = attr.toString();
+        // Primeiro tenta dos atributos
+        Object nameAttr = request.getAttribute("name");
+        if (nameAttr != null) {
+            admName = nameAttr.toString();
         }
-        if (admName != null) request.setAttribute("name", admName);
+
+        Object urlAttr = request.getAttribute("url");
+        if (urlAttr != null) {
+            url = urlAttr.toString();
+        }
+
+// Se não achou nos atributos, tenta dos parâmetros
+        if (admName == null) {
+            admName = request.getParameter("name");
+        }
 
         if (url == null) {
-            Object attr = request.getAttribute("url");
-            if (attr != null) url = attr.toString();
+            url = request.getParameter("url");
         }
+
+// Seta os atributos para o JSP
+        if (admName != null) request.setAttribute("name", admName);
         if (url != null) request.setAttribute("url", url);
 
         request.getRequestDispatcher("/admin/CRUD/Admin.jsp").forward(request, response);

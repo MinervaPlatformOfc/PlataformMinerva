@@ -29,7 +29,7 @@ public class ServletDeleteTeacher extends HttpServlet{
                 "Erro ao remover professor!");
 
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForTeacher();
+        rechargeListener.rechargeForTeacher(getServletContext());
       
         request.getRequestDispatcher("/admin/ViewTeachers").forward(request, response);
     }

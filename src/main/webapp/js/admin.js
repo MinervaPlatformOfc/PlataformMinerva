@@ -64,34 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 300);
     }
 
-    /* Função para remover campos hidden antigos */
-    function removerCamposHidden(form) {
-        const camposAntigos = form.querySelectorAll('.campo-original');
-        camposAntigos.forEach(campo => campo.remove());
-    }
-
-    /* Função para adicionar campos hidden com valores originais */
-    function adicionarCamposHidden(form, email, foto) {
-        removerCamposHidden(form);
-
-        // Campo hidden para email original
-        const emailOriginal = document.createElement('input');
-        emailOriginal.type = 'hidden';
-        emailOriginal.name = 'emailOriginal';
-        emailOriginal.value = email;
-        emailOriginal.classList.add('campo-original');
-
-        // Campo hidden para foto original
-        const fotoOriginal = document.createElement('input');
-        fotoOriginal.type = 'hidden';
-        fotoOriginal.name = 'fotoOriginal';
-        fotoOriginal.value = foto || '';
-        fotoOriginal.classList.add('campo-original');
-
-        form.appendChild(emailOriginal);
-        form.appendChild(fotoOriginal);
-    }
-
     /* Função de ordenação da tabela */
     function ordenarTabela(criterio) {
         if (!tbody) return;
@@ -270,10 +242,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (inputEmailUpdate) inputEmailUpdate.value = email;
                 if (fotoPreviewUpdate) fotoPreviewUpdate.src = foto;
 
-                // Adiciona campos hidden com valores originais
-                const form = divAtualizar.querySelector('form');
-                if (form) {
-                    adicionarCamposHidden(form, email, foto);
+                // === PREENCHER CAMPOS HIDDEN FIXOS ===
+                const emailOriginalHidden = document.querySelector('#email-original');
+                if (emailOriginalHidden) {
+                    emailOriginalHidden.value = email;
+                    console.log('Email original setado:', email); // Opcional
+                }
+
+                const fotoOriginalHidden = document.querySelector('#foto-original');
+                if (fotoOriginalHidden) {
+                    fotoOriginalHidden.value = foto;
+                    console.log('Foto original setada:', foto); // Opcional
                 }
 
                 abrirModal(divAtualizar);
@@ -300,9 +279,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (botaoFecharUpdate) {
         botaoFecharUpdate.addEventListener('click', () => {
             fecharModal(divAtualizar);
-            // Limpa os campos hidden quando fecha
-            const form = divAtualizar.querySelector('form');
-            if (form) removerCamposHidden(form);
         });
     }
 
@@ -327,10 +303,6 @@ document.addEventListener("DOMContentLoaded", function () {
             fecharModal(divInsere);
             fecharModal(divAtualizar);
             fecharModal(divDelete);
-
-            // Limpa os campos hidden quando fecha pelo overlay
-            const form = divAtualizar.querySelector('form');
-            if (form) removerCamposHidden(form);
         });
     }
 });
