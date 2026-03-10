@@ -21,11 +21,11 @@ public class ServletHome extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = (String) req.getAttribute("email");
-        String teacherId = req.getParameter("teacherId");
+        Integer teacherId = (Integer) req.getAttribute("teacherId");        System.out.println("Teacher Id: " + teacherId);
         TeacherDAO teacherDAO = new TeacherDAO();
         TeacherHomeDTO teacherHomeDto;
         if (email!=null && !email.isEmpty()) teacherHomeDto = teacherDAO.getTeacherWithStudentsByEmail(email);
-        else teacherHomeDto = teacherDAO.getTeacherWithStudentsById(Integer.parseInt(teacherId));
+        else teacherHomeDto = teacherDAO.getTeacherWithStudentsById(teacherId);
         req.setAttribute("teacherHomeDto", teacherHomeDto);
         req.getRequestDispatcher("/professor/home.jsp")
                 .forward(req, resp);
