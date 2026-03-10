@@ -21,7 +21,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.example.minerva.utils.matricula.Matricula;
@@ -46,11 +48,9 @@ public class ServletCreateTeacher extends HttpServlet {
         Matricula matricula = new Matricula();
         UserDAO userDAO = new UserDAO();
         TeacherDAO teacherRepository = new TeacherDAO();
-        HouseDAO houseRepository = new HouseDAO();
-        GradeDAO gradeRepository = new GradeDAO();
 
-        String email = request.getParameter("emailInput");
-        String password = request.getParameter("passwordInput");
+        String email = request.getParameter("email");
+        String password = request.getParameter("senha");
 
         if (userDAO.findByEmail(email) != null) {
             request.setAttribute("msg", "E-mail já cadastrado.");
@@ -68,9 +68,9 @@ public class ServletCreateTeacher extends HttpServlet {
             return;
         }
 
-        String name = request.getParameter("nameInput");
+        String name = request.getParameter("nome");
 
-        Part filePart = request.getPart("image");
+        Part filePart = request.getPart("foto");
 
         if (filePart == null) {
             request.setAttribute("msg", "Imagem não enviada.");
@@ -112,18 +112,28 @@ public class ServletCreateTeacher extends HttpServlet {
         Map uploadResult = cloudinary.uploader().upload(imageBytes, params);
         String imageUrl = (String) uploadResult.get("secure_url");
 
-        User newUser = new User(name, email, new HashSenha(password).getHashSenha(), "TEACHER", imageUrl);
+        User newUser = new User(name, new HashSenha(password).getHashSenha(), email, "TEACHER", imageUrl);
 
         Integer houseId = Integer.parseInt(request.getParameter("houseIdInput"));
-        String wand = request.getParameter("wandInput");
-        Boolean headHouse = Boolean.parseBoolean(request.getParameter("headHouseInput"));
-        String pastExperiences = request.getParameter("pastExperiencesInput");
-        String wizardTitle = request.getParameter("wizardTitleInput");
+        String wand = request.getParameter("wood") + " - " +
+                request.getParameter("core") + " - " +
+                request.getParameter("flexibility");
+        Boolean headHouse = request.getParameter("headHouse") != null;
+        String pastExperiences = request.getParameter("pastExperiences");
+        String wizardTitle = request.getParameter("wizardTitle");
         String teacherRegistrationCode = matricula.generateAndSave("TEACHER", email);
+
+        String[] subjectIds = request.getParameterValues("newSubjects");
+        List<Integer> subjects = new ArrayList<>();
+        if (subjectIds != null) {
+            for (String id : subjectIds) {
+                subjects.add(Integer.parseInt(id));
+            }
+        }
 
         Teacher newTeacher = new Teacher(houseId, wand, headHouse, pastExperiences, wizardTitle, teacherRegistrationCode);
 
-        request.setAttribute("msg", teacherRepository.save(newTeacher, newUser) ?
+        request.setAttribute("msg", teacherRepository.save(newTeacher, newUser, subjects) ?
                 "Professor inserido com sucesso!":
                 "Erro ao inserir professor!");
 

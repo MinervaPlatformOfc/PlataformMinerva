@@ -23,6 +23,26 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    public User(int id, String name, String password, String email, String role, boolean firstAcess, Date createdAt){
+        this.name = name;
+        this. password = password;
+        this.email = email;
+        this.role = role;
+        this.firstAcess = firstAcess;
+        this.createdAt = createdAt;
+        this.id = id;
+    }
+
+    public User(String name, String password, String email, String role, boolean firstAcess, Date createdAt, String imageUrl){
+        this.name = name;
+        this. password = password;
+        this.email = email;
+        this.role = role;
+        this.firstAcess = firstAcess;
+        this.createdAt = createdAt;
+        this.imageUrl = imageUrl;
+    }
+
     public User(int id, String name, String password, String email, String role, String imageUrl){
         this.name = name;
         this. password = password;
@@ -42,6 +62,12 @@ public class User {
         this.firstAcess = true;
     }
 
+    public User(String name, String email, String imageUrl, String role){
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.email = email;
+        this.role = role;
+    }
     public User(String name, String email, String imageUrl){
         this.name = name;
         this.imageUrl = imageUrl;

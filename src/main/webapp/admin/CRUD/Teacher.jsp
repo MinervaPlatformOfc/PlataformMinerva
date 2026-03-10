@@ -2,6 +2,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.minerva.dto.TeacherDTO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="com.example.minerva.dto.SubjectDTO" %>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,6 +13,47 @@
     <title>CRUD - Professores</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/crud/inicio.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/crud/admin.css">
+    <style>
+        .info-group {
+            margin-bottom: 15px;
+        }
+        .info-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #fccb4f;
+        }
+        .info-text {
+            padding: 8px;
+            background-color: #2a2f45;
+            border-radius: 4px;
+            margin: 0;
+        }
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #2a2f45;
+            border-radius: 4px;
+        }
+        .subject-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .subject-checkbox input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        .subject-checkbox label {
+            color: #e3e3e3;
+            font-size: 14px;
+        }
+    </style>
     <script src="${pageContext.request.contextPath}/js/teachers.js" defer></script>
     <script src="${pageContext.request.contextPath}/js/search.js" defer></script>
 </head>
@@ -19,6 +63,8 @@
     String name = (String) request.getAttribute("name");
     String url = (String) request.getAttribute("url");
     List<TeacherDTO> teachers = (List<TeacherDTO>) request.getAttribute("teacherList");
+    HashMap<String, Integer> hash = (HashMap<String, Integer>) request.getAttribute("house");
+    List<SubjectDTO> subjects = (List<SubjectDTO>) request.getAttribute("subjects");
 %>
 
 <header>
@@ -28,6 +74,8 @@
         <input type="hidden" id="searchColumns" value="nome,email,house,wizardTitle">
 
         <form action="${pageContext.request.contextPath}/recharge" method="post" class="recharge-form">
+            <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
+            <input type="hidden" name="url" value="<%= url != null ? url : "" %>">
             <input type="hidden" name="endpoint" value="/admin/ViewTeachers">
             <button type="submit" class="recharge-btn" title="Atualizar dados">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fccb4f">
@@ -176,15 +224,78 @@
                 <input type="password" name="senha" id="senha-insert" required>
 
                 <label for="house-insert">Casa</label>
-                <select name="house" id="house-insert" required>
+                <select name="houseIdInput" id="house-insert">
                     <option value="" disabled selected>Selecione uma casa</option>
-                    <c:forEach items="${houseList}" var="house">
-                        <option value="${house.value}">${house.key}</option>
-                    </c:forEach>
+                    <%
+                        if (hash != null) {
+                            for (Map.Entry<String, Integer> entry : hash.entrySet()) {
+                    %>
+                    <option value="<%= entry.getValue() %>"><%= entry.getKey() %></option>
+                    <%
+                            }
+                        }
+                    %>
                 </select>
 
-                <label for="wand-insert">Varinha</label>
-                <input type="text" name="wand" id="wand-insert" placeholder="Ex: Madeira de carvalho, núcleo de fênix">
+                <label class="label">Madeira da varinha:</label>
+                <select name="wood" required>
+                    <option value="" disabled selected>Selecione uma madeira</option>
+                    <option>Holly</option>
+                    <option>Yew</option>
+                    <option>Oak</option>
+                    <option>Willow</option>
+                    <option>Mahogany</option>
+                    <option>Cherry</option>
+                    <option>Walnut</option>
+                    <option>Ebony</option>
+                    <option>Vine</option>
+                    <option>Ash</option>
+                    <option>Cedar</option>
+                    <option>Fir</option>
+                    <option>Acacia</option>
+                    <option>Beech</option>
+                    <option>Elm</option>
+                    <option>Larch</option>
+                    <option>Maple</option>
+                    <option>Pear</option>
+                    <option>Pine</option>
+                    <option>Poplar</option>
+                    <option>Redwood</option>
+                    <option>Rowan</option>
+                    <option>Spruce</option>
+                    <option>Sycamore</option>
+                    <option>Hazel</option>
+                    <option>Blackthorn</option>
+                </select>
+
+                <label class="label">Núcleo da varinha:</label>
+                <select name="core" required>
+                    <option value="" disabled selected>Selecione um núcleo</option>
+                    <option>Phoenix Feather</option>
+                    <option>Dragon Heartstring</option>
+                    <option>Unicorn Hair</option>
+                    <option>Veela Hair</option>
+                    <option>Thestral Tail Hair</option>
+                    <option>Basilisk Horn</option>
+                    <option>Troll Whisker</option>
+                    <option>Kneazle Whisker</option>
+                </select>
+
+                <label class="label">Flexibilidade da varinha:</label>
+                <select name="flexibility" required>
+                    <option value="" disabled selected>Selecione uma flexibilidade</option>
+                    <option>Rigid</option>
+                    <option>Unyielding</option>
+                    <option>Solid</option>
+                    <option>Stiff</option>
+                    <option>Brittle</option>
+                    <option>Hard</option>
+                    <option>Supple</option>
+                    <option>Flexible</option>
+                    <option>Swishy</option>
+                    <option>Springy</option>
+                    <option>Whippy</option>
+                </select>
 
                 <label for="experiences-insert">Experiências Passadas</label>
                 <textarea name="pastExperiences" id="experiences-insert" rows="3" placeholder="Descreva as experiências do professor..."></textarea>
@@ -192,8 +303,25 @@
                 <label for="title-insert">Título</label>
                 <input type="text" name="wizardTitle" id="title-insert" placeholder="Ex: Professor de Poções, Mestre em Transfiguração">
 
+                <label><input type="checkbox" name="headHouse" id="headHouse-insert"> Chefe de casa</label>
+
                 <label for="foto-insert">Foto</label>
                 <input type="file" name="foto" id="foto-insert" accept="image/*">
+
+                <!-- Matérias no Insert -->
+                <div class="subjects-container">
+                    <label>Matérias que vai lecionar:</label>
+                    <div class="subjects-grid">
+                        <% if (subjects != null) { %>
+                        <% for (SubjectDTO subject : subjects) { %>
+                        <div class="subject-checkbox">
+                            <input type="checkbox" name="newSubjects" value="<%= subject.getSubjectId() %>" id="insert-subject-<%= subject.getSubjectId() %>">
+                            <label for="insert-subject-<%= subject.getSubjectId() %>"><%= subject.getSubjectName() %></label>
+                        </div>
+                        <% } %>
+                        <% } %>
+                    </div>
+                </div>
 
                 <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
                 <input type="hidden" name="url" value="<%= url != null ? url : "" %>">
@@ -208,27 +336,87 @@
             <p class="id-update">ID: <span></span></p>
 
             <form action="${pageContext.request.contextPath}/admin/updateTeacher" method="post" enctype="multipart/form-data">
+                <!-- Apenas visualização dos dados (não editáveis) -->
                 <div class="foto-atual">
                     <label>Foto Atual:</label>
                     <img src="" alt="foto-perfil" id="foto-preview-update">
                 </div>
 
-                <label for="nome-update">Nome</label>
-                <input type="text" name="nome" id="nome-update" required>
+                <div class="info-group">
+                    <label>Nome:</label>
+                    <p class="info-text" id="nome-display"></p>
+                </div>
 
-                <label for="email-update">Email</label>
-                <input type="email" name="email" id="email-update" required>
+                <div class="info-group">
+                    <label>Email:</label>
+                    <p class="info-text" id="email-display"></p>
+                </div>
 
-                <label for="house-update">Casa</label>
-                <select name="house" id="house-update" required>
-                    <option value="Grifinória">Grifinória</option>
-                    <option value="Sonserina">Sonserina</option>
-                    <option value="Corvinal">Corvinal</option>
-                    <option value="Lufa-Lufa">Lufa-Lufa</option>
+                <div class="info-group">
+                    <label>Casa:</label>
+                    <p class="info-text" id="casa-display"></p>
+                </div>
+
+                <!-- Campos editáveis -->
+                <label CLASS="label">Madeira da varinha:</label>
+                <select name="wood" id="wood-update">
+                    <option value="" disabled selected>Selecione uma madeira</option>
+                    <option>Holly</option>
+                    <option>Yew</option>
+                    <option>Oak</option>
+                    <option>Willow</option>
+                    <option>Mahogany</option>
+                    <option>Cherry</option>
+                    <option>Walnut</option>
+                    <option>Ebony</option>
+                    <option>Vine</option>
+                    <option>Ash</option>
+                    <option>Cedar</option>
+                    <option>Fir</option>
+                    <option>Acacia</option>
+                    <option>Beech</option>
+                    <option>Elm</option>
+                    <option>Larch</option>
+                    <option>Maple</option>
+                    <option>Pear</option>
+                    <option>Pine</option>
+                    <option>Poplar</option>
+                    <option>Redwood</option>
+                    <option>Rowan</option>
+                    <option>Spruce</option>
+                    <option>Sycamore</option>
+                    <option>Hazel</option>
+                    <option>Blackthorn</option>
                 </select>
 
-                <label for="wand-update">Varinha</label>
-                <input type="text" name="wand" id="wand-update">
+                <label CLASS="label">Núcleo da varinha:</label>
+                <select name="core" id="core-update">
+                    <option value="" disabled selected>Selecione um núcleo</option>
+                    <option>Phoenix Feather</option>
+                    <option>Dragon Heartstring</option>
+                    <option>Unicorn Hair</option>
+                    <option>Veela Hair</option>
+                    <option>Thestral Tail Hair</option>
+                    <option>Basilisk Horn</option>
+                    <option>Troll Whisker</option>
+                    <option>Kneazle Whisker</option>
+                </select>
+
+                <label CLASS="label">Flexibilidade da varinha:</label>
+                <select name="flexibility" id="flexibility-update">
+                    <option value="" disabled selected>Selecione uma flexibilidade</option>
+                    <option>Rigid</option>
+                    <option>Unyielding</option>
+                    <option>Solid</option>
+                    <option>Stiff</option>
+                    <option>Brittle</option>
+                    <option>Hard</option>
+                    <option>Supple</option>
+                    <option>Flexible</option>
+                    <option>Swishy</option>
+                    <option>Springy</option>
+                    <option>Whippy</option>
+                </select>
 
                 <label for="experiences-update">Experiências Passadas</label>
                 <textarea name="pastExperiences" id="experiences-update" rows="3"></textarea>
@@ -236,12 +424,31 @@
                 <label for="title-update">Título</label>
                 <input type="text" name="wizardTitle" id="title-update">
 
-                <label for="foto-update">Nova Foto (opcional)</label>
-                <input type="file" name="foto" id="foto-update" accept="image/*">
+                <label><input type="checkbox" name="headHouse" id="headHouse-update"> Chefe de casa</label>
 
-                <input type="hidden" name="id" id="id-update" value="">
+                <!-- Matérias -->
+                <div class="subjects-container">
+                    <label>Matérias que leciona:</label>
+                    <div class="subjects-grid">
+                        <% if (subjects != null) { %>
+                        <% for (SubjectDTO subject : subjects) { %>
+                        <div class="subject-checkbox">
+                            <input type="checkbox" name="newSubjects" value="<%= subject.getSubjectId() %>" id="subject-<%= subject.getSubjectId() %>">
+                            <label for="subject-<%= subject.getSubjectId() %>"><%= subject.getSubjectName() %></label>
+                        </div>
+                        <% } %>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Hidden fields -->
+                <input type="hidden" name="id" id="id-update">
                 <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
                 <input type="hidden" name="url" value="<%= url != null ? url : "" %>">
+
+                <!-- Matérias originais (para o servidor saber quais foram removidas) -->
+                <div id="original-subjects-container"></div>
+
                 <input type="submit" value="Atualizar professor">
             </form>
         </div>
@@ -287,9 +494,43 @@
                     <%
                         if (teachers != null && !teachers.isEmpty()) {
                             for (TeacherDTO teacher : teachers) {
+                                String wand = teacher.getWand();
+                                String wood = "";
+                                String core = "";
+                                String flexibility = "";
+
+                                if (wand != null && !wand.isEmpty()) {
+                                    String[] parts = wand.split(" - ");
+                                    if (parts.length >= 1) wood = parts[0];
+                                    if (parts.length >= 2) core = parts[1];
+                                    if (parts.length >= 3) flexibility = parts[2];
+                                }
+
+                                String subjectsJson = "[]";
+                                if (teacher.getSubjects() != null && !teacher.getSubjects().isEmpty()) {
+                                    StringBuilder sb = new StringBuilder("[");
+                                    for (int i = 0; i < teacher.getSubjects().size(); i++) {
+                                        if (i > 0) sb.append(",");
+                                        // ADICIONA ASPAS DUPLAS AO REDOR DO NOME
+                                        sb.append("\"").append(teacher.getSubjects().get(i)).append("\"");
+                                    }
+                                    sb.append("]");
+                                    subjectsJson = sb.toString();
+
+                                    // DEBUG
+//                                    System.out.println("subjectsJson: " + subjectsJson);
+                                }
                     %>
-                    <tr class="linhas" data-id="<%= teacher.getId() %>"
-                        data-foto="<%= teacher.getImageUrl() != null ? teacher.getImageUrl() : "" %>">
+                    <tr class="linhas"
+                        data-id="<%= teacher.getId() %>"
+                        data-foto="<%= teacher.getImageUrl() != null ? teacher.getImageUrl() : "" %>"
+                        data-experiences="<%= teacher.getPastExperiences() != null ? teacher.getPastExperiences().replace("\"", "&quot;") : "" %>"
+                        data-title="<%= teacher.getWizardTitle() != null ? teacher.getWizardTitle() : "" %>"
+                        data-head-house="<%= teacher.getHeadHouse() %>"
+                        data-wood="<%= wood %>"
+                        data-core="<%= core %>"
+                        data-flexibility="<%= flexibility %>"
+                        data-subjects='<%= subjectsJson %>'>
                         <td data-field="id"><%= teacher.getId() %></td>
                         <td data-field="foto">
                             <img src="<%= teacher.getImageUrl() != null ? teacher.getImageUrl() : "" %>"

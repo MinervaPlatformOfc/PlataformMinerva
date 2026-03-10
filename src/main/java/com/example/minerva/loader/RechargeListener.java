@@ -66,6 +66,14 @@ public class RechargeListener extends HttpServlet {
             rechargeForUser(context);
         }
 
+        String adminName = request.getParameter("name");
+        String adminUrl = request.getParameter("url");
+        if (adminName != null && !adminName.isEmpty()) {
+            request.setAttribute("name", adminName);
+        }
+        if (adminUrl != null && !adminUrl.isEmpty()) {
+            request.setAttribute("url", adminUrl);
+        }
         request.getRequestDispatcher(endPoint).forward(request, response);
     }
 }

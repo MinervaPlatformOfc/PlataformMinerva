@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/removeAdmin", loadOnStartup = 1)
+@WebServlet(urlPatterns = "/admin/deleteAdmin", loadOnStartup = 1)
 public class ServletDeleteAdmin extends HttpServlet {
 
     @Override

@@ -15,7 +15,7 @@ public class ServletCreateSubject extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String subjectName = req.getParameter("nome");
-        boolean addStudents = Boolean.parseBoolean(req.getParameter("addStudents"));
+        boolean addStudents = req.getParameter("addStudents") != null;
 
         GradeDAO dao = new GradeDAO();
         req.setAttribute("msg", dao.save(subjectName, addStudents)?

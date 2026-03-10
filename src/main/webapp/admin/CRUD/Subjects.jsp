@@ -27,6 +27,8 @@
         <input type="hidden" id="searchColumns" value="nome">
 
         <form action="${pageContext.request.contextPath}/recharge" method="post" class="recharge-form">
+            <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
+            <input type="hidden" name="url" value="<%= url != null ? url : "" %>">
             <input type="hidden" name="endpoint" value="/admin/ViewSubjects">
             <button type="submit" class="recharge-btn" title="Atualizar dados">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fccb4f">
@@ -144,7 +146,7 @@
             <form action="${pageContext.request.contextPath}/admin/insertSubject" method="post">
                 <label for="nome-insert">Nome da Matéria</label>
                 <input type="text" name="nome" id="nome-insert" required placeholder="Ex: Matemática, Português...">
-                <input type="checkbox" name="addStudents" id="insert-students"> <label for="insert-students">Inserir todos os alunos nessa matéria</label>
+                <label for="insert-students"><input type="checkbox" name="addStudents" id="insert-students"> Inserir todos os alunos nessa matéria</label>
 
                 <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
                 <input type="hidden" name="url" value="<%= url != null ? url : "" %>">

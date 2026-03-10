@@ -8,6 +8,7 @@ import java.util.List;
 public class TeacherDTO {
 
     //Attrubutes
+    private boolean headHouse;
     private int id;
     private String email,
             password,
@@ -23,7 +24,7 @@ public class TeacherDTO {
     private List<String> subjects;
 
     //Constructor
-    public TeacherDTO(String email, String password, String name, String house, String wand, String pastExperiences, String wizardTitle, List<CommentDTO> comments){
+    public TeacherDTO(String email, String password, String name, String house, String wand, String pastExperiences, String wizardTitle, List<CommentDTO> comments, boolean headHouse){
         this.email = email;
         this.password = password;
         this.name = name;
@@ -32,9 +33,11 @@ public class TeacherDTO {
         this.pastExperiences = pastExperiences;
         this.wizardTitle = wizardTitle;
         this.comments = comments;
+        this.headHouse = headHouse;
     }
-    public TeacherDTO(int id, String email, String password, String name, String house, String wand, String pastExperiences, String wizardTitle, String imageUrl, List<CommentDTO> comments, List<String> subjects){
+    public TeacherDTO(boolean headHouse, int id, String email, String password, String name, String house, String wand, String pastExperiences, String wizardTitle, String imageUrl, List<CommentDTO> comments, List<String> subjects){
         this.id = id;
+        this.headHouse = headHouse;
         this.email = email;
         this.password = password;
         this.name = name;
@@ -59,6 +62,9 @@ public class TeacherDTO {
     //Getters methods
     public String getName() {
         return name;
+    }
+    public boolean getHeadHouse(){
+        return headHouse;
     }
 
     public String getEmail() {

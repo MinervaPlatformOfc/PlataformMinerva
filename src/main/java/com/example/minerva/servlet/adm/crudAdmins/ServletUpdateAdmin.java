@@ -9,10 +9,7 @@ import com.example.minerva.utils.validacao.ValidacaoEmail;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,18 +27,18 @@ public class ServletUpdateAdmin extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
+        String originalEmail = request.getParameter("emailOriginal");
+
         UserDAO userDAO = new UserDAO();
 
-        String admName = request.getParameter("name");
-        boolean currentAdm = userDAO.findByName(admName).getId() == id;
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute("user");
+        boolean currentAdm = currentUser.getEmail().equals(originalEmail);
 
 // ====== PEGAR DADOS ======
         String nameInput = request.getParameter("nameInput");
         String email = request.getParameter("emailInput");
-        String originalEmail = request.getParameter("emailOriginal");
 
-        System.out.println(email);
-        System.out.println(originalEmail);
 
 // ====== VALIDAÇÕES ======
         if (!originalEmail.equals(email)){
@@ -93,7 +90,7 @@ public class ServletUpdateAdmin extends HttpServlet {
         }
 
 // ====== CRIAR OBJETO ======
-        User user = new User(nameInput, email, imageUrl);
+        User user = new User(nameInput, email, imageUrl, "admin");
 
 // ====== ATUALIZAR ======
         boolean userUpdated = userDAO.updateAdmin(id, user);
@@ -104,13 +101,16 @@ public class ServletUpdateAdmin extends HttpServlet {
             request.setAttribute("msg", "Erro ao atualizar usuário");
         }
 
-        RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForAdmin(getServletContext());
-
         if (currentAdm){
+            session.setAttribute("user", user);
             request.setAttribute("name", nameInput);
             request.setAttribute("url", imageUrl);
         }
+
+        RechargeListener rechargeListener = new RechargeListener();
+        rechargeListener.rechargeForAdmin(getServletContext());
+
+
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
     }
 }
