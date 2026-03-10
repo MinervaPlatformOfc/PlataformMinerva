@@ -184,6 +184,35 @@
             <p class="id-update">ID: <span></span></p>
 
             <form action="${pageContext.request.contextPath}/admin/updateStudent" method="post">
+                <!-- Seção de informações apenas visualização -->
+                <div style="background-color: #2a2f45; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h3 style="color: #fccb4f; margin-top: 0;">Informações Pessoais (Visualização)</h3>
+
+                    <div style="margin-bottom: 15px;">
+                        <label style="color: #fccb4f; display: block; margin-bottom: 5px;">Data de Nascimento</label>
+                        <input type="text" id="birthDate-update-display" readonly
+                               style="background: #0a0e17; color: #a0aec0; width: 100%; padding: 8px; border: 1px solid #3a3f55; border-radius: 4px; cursor: not-allowed;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                    <label for="wand-update" style="color: #fccb4f; display: block; margin-bottom: 5px;">Varinha</label>
+                    <input type="text" name="wand" id="wand-update" readonly style="background: #0a0e17; color: #a0aec0; width: 100%; padding: 8px; border: 1px solid #3a3f55; border-radius: 4px; cursor: not-allowed;">
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                    <label for="blood-update" style="color: #fccb4f; display: block; margin-bottom: 5px;">Tipo Sanguíneo</label>
+                    <input type="text" name="blood" id="blood-update" readonly style="background: #0a0e17; color: #a0aec0; width: 100%; padding: 8px; border: 1px solid #3a3f55; border-radius: 4px; cursor: not-allowed;">
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                    <label for="registration-update" style="color: #fccb4f; display: block; margin-bottom: 5px;">Matrícula</label>
+                    <input type="text" name="registration" id="registration-update" readonly style="background: #0a0e17; color: #a0aec0; width: 100%; padding: 8px; border: 1px solid #3a3f55; border-radius: 4px; cursor: not-allowed;">
+                    </div>
+
+                </div>
+
+                <!-- Campos editáveis -->
+                <h3 style="color: #fccb4f;">Informações Editáveis</h3>
+
                 <label for="schoolYear-update">Ano Escolar</label>
                 <select name="schoolYear" id="schoolYear-update">
                     <option value="" disabled selected>Selecione uma série</option>
@@ -193,13 +222,10 @@
                 </select>
 
                 <label for="guardianName-update">Nome do Responsável</label>
-                <input type="text" name="legalGuardianName" id="guardianName-update" disabled>
+                <input type="text" name="legalGuardianName" id="guardianName-update">
 
                 <label for="address-update">Endereço</label>
                 <input type="text" name="residenceAddress" id="address-update">
-
-                <label for="wand-update">Varinha</label>
-                <input type="text" name="wand" id="wand-update" disabled>
 
                 <label for="pet-update">Animal de Estimação</label>
                 <select id="pet-update" name="pet" required>
@@ -212,25 +238,27 @@
                 <label for="allergies-update">Alergias</label>
                 <input type="text" name="allergies" id="allergies-update">
 
-                <label for="blood-update">Tipo Sanguíneo</label>
-                <input type="text" name="blood" id="blood-update" disabled>
-
-                <label for="registration-update">Matrícula</label>
-                <input type="text" name="registration" id="registration-update" readonly style="background: #0a0e17; color: #a0aec0;">
-
-                <div style="display: flex; gap: 20px; margin: 10px 0;">
-                    <label style="display: flex; align-items: center; gap: 5px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+                    <label style="display: flex; align-items: center; gap: 5px; color: #e3e3e3;">
                         <input type="checkbox" name="basicKit" id="basicKit-update"> Kit Básico
                     </label>
-                    <label style="display: flex; align-items: center; gap: 5px;">
+                    <label style="display: flex; align-items: center; gap: 5px; color: #e3e3e3;">
                         <input type="checkbox" name="guardianPermission" id="guardianPermission-update"> Permissão do Responsável
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 5px; color: #e3e3e3;">
+                        <input type="checkbox" name="flightFitness" id="flightFitness-update"> Aptidão para Voo
                     </label>
                 </div>
 
+                <!-- Hidden fields -->
                 <input type="hidden" name="id" id="id-update" value="">
                 <input type="hidden" name="name" value="<%= name != null ? name : "" %>">
                 <input type="hidden" name="url" value="<%= url != null ? url : "" %>">
-                <input type="submit" value="Atualizar aluno">
+
+                <!-- Campo oculto para birthDate (necessário para o servidor) -->
+                <input type="hidden" name="birthDate" id="birthDate-update">
+
+                <input type="submit" value="Atualizar aluno" style="margin-top: 20px;">
             </form>
         </div>
 
@@ -275,15 +303,38 @@
                     <%
                         if (students != null && !students.isEmpty()) {
                             for (Student student : students) {
+                                // Formatar data de nascimento para o padrão brasileiro
+                                String birthDateStr = student.getBirthDate() != null ?
+                                        student.getBirthDate().toString() : "";
+
+                                // Converter booleanos para string
+                                String basicKitStr = String.valueOf(student.getBasicKit());
+                                String guardianPermissionStr = String.valueOf(student.getGuardianPermission());
+                                String flightFitnessStr = String.valueOf(student.getFlightFitness());
                     %>
-                    <tr class="linhas" data-id="<%= student.getId() %>">
+                    <tr class="linhas"
+                        data-id="<%= student.getId() %>"
+                        data-nome="<%= student.getName() != null ? student.getName().replace("\"", "&quot;") : "" %>"
+                        data-registration="<%= student.getRegistration() != null ? student.getRegistration() : "" %>"
+                        data-school-year="<%= student.getSchoolYear() != 0 ? student.getSchoolYear() : "" %>"
+                        data-guardian-name="<%= student.getLegalGuardianName() != null ? student.getLegalGuardianName().replace("\"", "&quot;") : "" %>"
+                        data-residence-address="<%= student.getResidenceAddress() != null ? student.getResidenceAddress().replace("\"", "&quot;") : "" %>"
+                        data-wand="<%= student.getWand() != null ? student.getWand() : "" %>"
+                        data-pet-type="<%= student.getPetType() != null ? student.getPetType() : "" %>"
+                        data-allergies="<%= student.getAllergies() != null ? student.getAllergies().replace("\"", "&quot;") : "" %>"
+                        data-blood="<%= student.getBlood() != null ? student.getBlood() : "" %>"
+                        data-birth-date="<%= birthDateStr %>"
+                        data-basic-kit="<%= basicKitStr %>"
+                        data-guardian-permission="<%= guardianPermissionStr %>"
+                        data-flight-fitness="<%= flightFitnessStr %>">
+
                         <td data-field="id"><%= student.getId() %></td>
-                        <td data-field="nome" data-original="<%= student.getName() %>"><%= student.getName() %></td>
-                        <td data-field="registration" data-original="<%= student.getRegistration() %>"><%= student.getRegistration() %></td>
-                        <td data-field="schoolYear" data-original="<%= student.getSchoolYear() != 0 ? String.valueOf(student.getSchoolYear()) : "" %>"><%= student.getSchoolYear() != 0 ? String.valueOf(student.getSchoolYear()) : "-" %></td>
-                        <td data-field="guardian" data-original="<%= student.getLegalGuardianName() != null ? student.getLegalGuardianName() : "" %>"><%= student.getLegalGuardianName() != null ? student.getLegalGuardianName() : "-" %></td>
-                        <td data-field="wand" data-original="<%= student.getWand() != null ? student.getWand() : "" %>"><%= student.getWand() != null ? student.getWand() : "-" %></td>
-                        <td data-field="pet" data-original="<%= student.getPetType() != null ? student.getPetType() : "" %>"><%= student.getPetType() != null ? student.getPetType() : "-" %></td>
+                        <td data-field="nome"><%= student.getName() != null ? student.getName() : "-" %></td>
+                        <td data-field="registration"><%= student.getRegistration() != null ? student.getRegistration() : "-" %></td>
+                        <td data-field="schoolYear"><%= student.getSchoolYear() != 0 ? student.getSchoolYear() : "-" %></td>
+                        <td data-field="guardian"><%= student.getLegalGuardianName() != null ? student.getLegalGuardianName() : "-" %></td>
+                        <td data-field="wand"><%= student.getWand() != null ? student.getWand() : "-" %></td>
+                        <td data-field="pet"><%= student.getPetType() != null ? student.getPetType() : "-" %></td>
                         <td>
                             <button class="editar">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fccb4f">
