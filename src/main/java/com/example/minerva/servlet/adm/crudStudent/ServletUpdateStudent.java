@@ -29,12 +29,12 @@ public class ServletUpdateStudent extends HttpServlet{
 
         StudentDAO studentRepository = new StudentDAO();
 
-            String residenceAddress = request.getParameter("residenceAddressInput");
-            String petType = request.getParameter("petTypeInput");
-            String allergies = request.getParameter("allergiesInput");
-            Boolean basicKit = Boolean.parseBoolean(request.getParameter("basicKit"));
+            String residenceAddress = request.getParameter("residenceAddress");
+            String petType = request.getParameter("pet");
+            String allergies = request.getParameter("allergies");
+            Boolean basicKit = request.getParameter("basicKit") != null;
             Boolean flightFitness = Boolean.parseBoolean(request.getParameter("flightFitnessInput"));
-            Integer schoolYear = Integer.parseInt(request.getParameter("schoolYearInput"));
+            Integer schoolYear = Integer.parseInt(request.getParameter("schoolYear"));
 
             UpdateStudentDTO student = new UpdateStudentDTO(
                     residenceAddress,

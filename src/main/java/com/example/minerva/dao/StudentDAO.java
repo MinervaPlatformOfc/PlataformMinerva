@@ -241,10 +241,12 @@ public class StudentDAO {
     }
 
     public Student findById(int id){
-        String sql = "select id, school_year, legal_guardian_name, residence_address, wand, pet, allergies, blood, basic_kit, guardian_permission, registration, flight_fitness from student";
+        String sql = "select id, school_year, legal_guardian_name, residence_address, wand, pet_type, allergies, blood, basic_kit, guardian_permission, registration, flight_fitness from student where id = ?";
 
-        try(Statement stmt = conn.createStatement()){
-            ResultSet rs = stmt.executeQuery(sql);
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1, id);
+
+            ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()){
                 return new Student(
@@ -253,7 +255,7 @@ public class StudentDAO {
                         rs.getString("legal_guardian_name"),
                         rs.getString("residence_address"),
                         rs.getString("wand"),
-                        rs.getString("pet"),
+                        rs.getString("pet_type"),
                         rs.getString("allergies"),
                         rs.getString("blood"),
                         rs.getBoolean("basic_kit"),
@@ -270,12 +272,12 @@ public class StudentDAO {
 
 
     public int update(int id, UpdateStudentDTO newStudent){
-        String sqlResidenceAddress = "update from student set residence_address = ? where id = ?";
-        String sqlPetType = "update from student set pet_type = ? where id = ?";
-        String sqlBasicKit = "update from student set basic_type = ? where id = ?";
-        String sqlAllergies = "update from student set allergies = ? where id = ?";
-        String sqlSchoolYear = "update from student set school_year = ? where id = ?";
-        String sqlFlightFitness = "update from student set flight_fitness = ? where id = ?";
+        String sqlResidenceAddress = "update student set residence_address = ? where id = ?";
+        String sqlPetType = "update student set pet_type = ? where id = ?";
+        String sqlBasicKit = "update student set basic_kit = ? where id = ?";
+        String sqlAllergies = "update student set allergies = ? where id = ?";
+        String sqlSchoolYear = "update student set school_year = ? where id = ?";
+        String sqlFlightFitness = "update student set flight_fitness = ? where id = ?";
 
         Student currentStudent = findById(id);
 

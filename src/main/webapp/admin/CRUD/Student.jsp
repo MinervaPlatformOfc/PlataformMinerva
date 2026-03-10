@@ -121,10 +121,15 @@
     </nav>
 </aside>
 
+<%
+    String msgBruta = request.getAttribute("msg") != null ? (String) request.getAttribute("msg") : "";
+    String msg = !(msgBruta.equals("")||msgBruta.isEmpty())?msgBruta:"Gerencie os registros dos alunos";
+%>
+
 <main>
     <div class="content-wrapper">
         <h1>Alunos</h1>
-        <p>Gerencie os registros dos alunos</p>
+        <p><%=msg%></p>
 
         <div id="div-crud">
             <button class="btn-amarelo" id="btn-inserir">
@@ -180,25 +185,35 @@
 
             <form action="${pageContext.request.contextPath}/admin/updateStudent" method="post">
                 <label for="schoolYear-update">Ano Escolar</label>
-                <input type="number" name="schoolYear" id="schoolYear-update" min="1" max="7">
+                <select name="schoolYear" id="schoolYear-update">
+                    <option value="" disabled selected>Selecione uma série</option>
+                    <option value="1">Primeira série mágia</option>
+                    <option value="2">Segunda série mágia</option>
+                    <option value="3">Terceira série mágia</option>
+                </select>
 
                 <label for="guardianName-update">Nome do Responsável</label>
-                <input type="text" name="legalGuardianName" id="guardianName-update">
+                <input type="text" name="legalGuardianName" id="guardianName-update" disabled>
 
                 <label for="address-update">Endereço</label>
                 <input type="text" name="residenceAddress" id="address-update">
 
                 <label for="wand-update">Varinha</label>
-                <input type="text" name="wand" id="wand-update">
+                <input type="text" name="wand" id="wand-update" disabled>
 
                 <label for="pet-update">Animal de Estimação</label>
-                <input type="text" name="pet" id="pet-update">
+                <select id="pet-update" name="pet" required>
+                    <option value="" disabled selected>Selecione um animal</option>
+                    <option value="coruja">Coruja</option>
+                    <option value="sapo">Sapo</option>
+                    <option value="gato">Gato</option>
+                </select>
 
                 <label for="allergies-update">Alergias</label>
                 <input type="text" name="allergies" id="allergies-update">
 
                 <label for="blood-update">Tipo Sanguíneo</label>
-                <input type="text" name="blood" id="blood-update">
+                <input type="text" name="blood" id="blood-update" disabled>
 
                 <label for="registration-update">Matrícula</label>
                 <input type="text" name="registration" id="registration-update" readonly style="background: #0a0e17; color: #a0aec0;">
