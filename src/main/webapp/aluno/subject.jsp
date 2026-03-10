@@ -24,9 +24,6 @@
 
 <body class="<%=houseName.toLowerCase()%>">
 <header style="display: flex;justify-content: space-around">
-    <%int id = (int) request.getAttribute("id");%>
-    <%String houseName = (String) request.getAttribute("houseName");%>
-    <%String name = (String) request.getAttribute("name");%>
 
     <form action="${pageContext.request.contextPath}/aluno/home" method="post" >
         <input type="hidden"  name="id" value="<%=id%>">
