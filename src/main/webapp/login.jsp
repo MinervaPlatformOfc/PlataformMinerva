@@ -8,7 +8,10 @@
     <title>JSP - </title>
 </head>
 <body>
-
+<%
+    String msgBruta = request.getAttribute("msg") != null ? (String) request.getAttribute("msg") : "";
+    String msg = !(msgBruta.equals("")||msgBruta.isEmpty())?msgBruta:" ";
+%>
 <div class="page">
 
     <img class="logo" src="" alt="IMAGEM JOAOOOO">
@@ -42,6 +45,8 @@
             <button class="button" type="button">Cadastre-se</button>
         </a>    </div>
 </form>
+    <br>
+    <p><%=msg%></p>
     <br>
 <a class="a" href="recoverPassword/reciveEmail.jsp">Esqueci minha senha</a>
 </div>
