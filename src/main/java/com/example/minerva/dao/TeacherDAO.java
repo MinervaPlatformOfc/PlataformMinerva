@@ -415,6 +415,7 @@ public class TeacherDAO {
                 }
                 return null;
         }
+
     public TeacherHomeDTO getTeacherWithStudentsById(int id) {
         String sql = "SELECT \n" +
                 "    ts.teacher_id, \n" +
@@ -482,7 +483,8 @@ public class TeacherDAO {
         }
     }
 
-        public List<String> getYearsAndSubjectsByTeacherId(int teacherId) {
+
+    public List<String> getYearsAndSubjectsByTeacherId(int teacherId) {
                 String sql = "SELECT DISTINCT school_year, subject_name " +
                         "FROM teacher_students " +
                         "WHERE teacher_id = ? " +
