@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Error!</title>
+    <title>Erro</title>
 </head>
 
 <%
@@ -10,12 +10,15 @@
 %>
 
 <body>
-    <h1><%=error.getStatusCode()%></h1>
 
-    <h3><%=error.getMessage()%></h3>
+    <h1>Ocorreu um erro!</h1>
+    <br>
+    <h3>Código do erro: <%=error.getStatusCode()%></h3>
 
-    <p><%=error.getRequestUri()%></p>
+    <p>Mensagem: <%=error.getMessage()%></p>
 
-    <p><%=error.getException()%></p>
+    <p>URI de requisição: <%=error.getRequestUri()%></p>
+
+    <p><%=error.getException() != null ? "Erro: "+ error.getException(): ""%></p>
 </body>
 </html>
