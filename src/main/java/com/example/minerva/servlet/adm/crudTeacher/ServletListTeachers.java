@@ -28,7 +28,6 @@ public class ServletListTeachers extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         List<TeacherDTO> teachers = (List<TeacherDTO>) getServletContext().getAttribute("teacherList");
         List<SubjectDTO> subjects = (List<SubjectDTO>) getServletContext().getAttribute("subjectList");
-
         request.setAttribute("house", (HashMap<String, Integer>) getServletContext().getAttribute("houseList"));
         request.setAttribute("teacherList", teachers);
         request.setAttribute("subjects", subjects);

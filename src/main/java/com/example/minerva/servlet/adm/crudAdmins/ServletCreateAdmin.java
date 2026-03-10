@@ -102,12 +102,12 @@ public class ServletCreateAdmin extends HttpServlet {
         Map uploadResult = cloudinary.uploader().upload(imageBytes, params);
         String imageUrl = (String) uploadResult.get("secure_url");
 
-        User newUser = new User(name, email, new HashSenha(password).getHashSenha(), "ADMIN", imageUrl);
+        User newUser = new User(name, new HashSenha(password).getHashSenha(), email, "ADMIN", imageUrl);
 
         request.setAttribute("msg", userRepository.saveAdmin(newUser) ? "Administrador inserido!": "Erro ao inserir administrador");
 
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForAdmin();
+        rechargeListener.rechargeForAdmin(getServletContext());
 
         request.getRequestDispatcher("/admin/ViewAdmins").forward(request, response);
     }
