@@ -47,11 +47,6 @@ public class ServletLogin extends HttpServlet {
 
                 case "teacher":
                     request.setAttribute("email", email);
-                    TeacherDAO teacherDAO = new TeacherDAO();
-                    int idTeacher = teacherDAO.findTeacherIdByEmail(email);
-                    System.out.println("erro: "+email);
-                    System.out.println("pq nn vai o id teacher: "+idTeacher);
-                    request.setAttribute("teacherId", idTeacher);
                     request.getRequestDispatcher("/professor/home")
                             .forward(request, response);
                     break;
