@@ -14,37 +14,75 @@ public class TeacherDAO {
 
     private final Connection conn = Conexao.getConnection();
 
-    //Metodo de listagem de todos os professores
-    public boolean save(Teacher teacher, User user){
-        String sql = "call create_teacher(?,?,?,?,?,?,?,?,?,?)";
+    public boolean save(Teacher teacher, User user, List<Integer> subjects){
+        String sqlTeacher = "call create_teacher(?,?,?,?,?,?,?,?,?,?)";
+        String sqlSubjectTeacher = "INSERT INTO subject_teacher (subject_id, teacher_id) VALUES (?, ?)";
+        String sqlGetTeacherId = "SELECT t.id FROM teacher t JOIN users u ON t.user_id = u.id WHERE u.email = ?";
 
-
-        int lines = 0;
         if(conn == null){
             System.out.println("Erro de conexão (PostgreSQL)");
             return false;
         }
-        try(CallableStatement pstmt = conn.prepareCall(sql)){
-            pstmt.setString(1, user.getEmail());
-            pstmt.setString(2, String.valueOf(new HashSenha(user.getPassword())));
-            pstmt.setString(3, user.getName());
-            pstmt.setInt(4, teacher.getHouseId());
-            pstmt.setString(5, teacher.getWand());
-            pstmt.setBoolean(6, teacher.getHeadHouse());
-            pstmt.setString(7, teacher.getPastExperiences());
-            pstmt.setString(8, teacher.getWizardTitle());
-            pstmt.setString(9, teacher.getTeacherRegistrationCode());
-            pstmt.setString(10, user.getImageUrl());
-            lines = pstmt.executeUpdate();
-            return lines > 0;
-        }catch(SQLException sqle){
+
+        try {
+            // 1. Inserir o professor
+            try(CallableStatement pstmt = conn.prepareCall(sqlTeacher)){
+                pstmt.setString(1, user.getEmail());
+                pstmt.setString(2, user.getPassword());
+                pstmt.setString(3, user.getName());
+                pstmt.setInt(4, teacher.getHouseId());
+                pstmt.setString(5, teacher.getWand());
+                pstmt.setBoolean(6, teacher.getHeadHouse());
+                pstmt.setString(7, teacher.getPastExperiences());
+                pstmt.setString(8, teacher.getWizardTitle());
+                pstmt.setString(9, teacher.getTeacherRegistrationCode());
+                pstmt.setString(10, user.getImageUrl());
+
+                pstmt.execute();
+            }
+
+            // 2. Buscar o ID do professor recém-inserido
+            int teacherId = -1;
+            try (PreparedStatement pstmt = conn.prepareStatement(sqlGetTeacherId)) {
+                pstmt.setString(1, user.getEmail());
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    teacherId = rs.getInt("id");
+                } else {
+                    return false;
+                }
+            }
+
+            // 3. Inserir as matérias na tabela subject_teacher
+            if (subjects != null && !subjects.isEmpty()) {
+                try (PreparedStatement pstmt = conn.prepareStatement(sqlSubjectTeacher)) {
+                    for (Integer subjectId : subjects) {
+                        pstmt.setInt(1, subjectId);
+                        pstmt.setInt(2, teacherId);
+                        pstmt.addBatch();
+                    }
+
+                    int[] results = pstmt.executeBatch();
+
+                    for (int result : results) {
+                        if (result <= 0) {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+
+        } catch (SQLException sqle) {
             sqle.printStackTrace();
             return false;
         }
     }
 
         public List<TeacherDTO> getAllTeachers(){
-                String sql = "select t.id as \"teacher_id\",u.email, u.password, u.name as \"name\", u.profile_image_url as \"user_img\", h.name as \"house\", t.wand, t.past_experiences, t.wizard_title " +
+                String sql = "select t.id as \"teacher_id\",u.email, u.password, u.name as \"name\", u.profile_image_url as \"user_img\", h.name as \"house\", t.wand, t.past_experiences, t.head_house, t.wizard_title " +
                         "from teacher t " +
                         "join users u on t.user_id = u.id " +
                         "join house h on t.house_id = h.id " +
@@ -64,6 +102,7 @@ public class TeacherDAO {
                         while(rs.next()){
                             int teacherId = rs.getInt("teacher_id");
                                 TeacherDTO temp = new TeacherDTO(
+                                        rs.getBoolean("head_house"),
                                         rs.getInt("teacher_id"),
                                         rs.getString("email"),
                                         rs.getString("password"),
@@ -86,7 +125,7 @@ public class TeacherDAO {
         }
 
         public TeacherDTO findById(int id){
-                String sql = "select t.id as teacher_id, u.email, u.password, u.name as \"user\", h.name as \"house\", t.wand, t.past_experiences, t.wizard_title\n" +
+                String sql = "select t.id as teacher_id, u.email, u.password, u.name as \"user\", h.name as \"house\", t.wand, t.head_house, t.past_experiences, t.wizard_title\n" +
                         "from teacher t\n" +
                         "join users u on t.user_id = u.id\n" +
                         "join house h on t.house_id = h.id\n" +
@@ -114,8 +153,9 @@ public class TeacherDAO {
                                         rs.getString("wand"),
                                         rs.getString("past_experiences"),
                                         rs.getString("wizard_title"),
-                                        commentRepository.listAllByTeacher(rs.getInt("teacher_id"))
-                                );
+                                        commentRepository.listAllByTeacher(rs.getInt("teacher_id")),
+                                        rs.getBoolean("head_house")
+                                        );
                         }else{
                                 return null;
                         }
@@ -148,9 +188,9 @@ public class TeacherDAO {
                 String sqlWand = "update teacher set wand = ? where id = ?";
                 String sqlPastExperiences = "update teacher set past_experiences = ? where id = ?";
                 String sqlWizardTitle = "update teacher set wizard_title = ? where id = ?";
+                String sqlHeadHouse = "update teacher set head_house = ? where id = ?";
 
-
-                if (conn == null) {
+            if (conn == null) {
                         System.out.println("Erro de conexão (PostgreSQL)");
                         return 0;
                 }
@@ -163,7 +203,9 @@ public class TeacherDAO {
                 try (
                         PreparedStatement pstmtWand = conn.prepareStatement(sqlWand);
                         PreparedStatement pstmtPastExperiences = conn.prepareStatement(sqlPastExperiences);
-                        PreparedStatement pstmtWizardTitle = conn.prepareStatement(sqlWizardTitle)
+                        PreparedStatement pstmtWizardTitle = conn.prepareStatement(sqlWizardTitle);
+                        PreparedStatement pstmtHeadHouse = conn.prepareStatement(sqlHeadHouse)
+
                 ) {
 
                         if(!teacher.getWand().equals(newTeacher.getWand())){
@@ -180,8 +222,13 @@ public class TeacherDAO {
 
                         if(!teacher.getWizardTitle().equals(newTeacher.getWizardTitle())){
                                 pstmtWizardTitle.setString(1, newTeacher.getWizardTitle());
-                                pstmtPastExperiences.setInt(2, id);
+                                pstmtWizardTitle.setInt(2, id);
                                 lines += pstmtWizardTitle.executeUpdate();
+                        }
+                        if(!teacher.getHeadHouse()==newTeacher.getHeadHouse()){
+                            pstmtHeadHouse.setBoolean(1, newTeacher.getHeadHouse());
+                            pstmtHeadHouse.setInt(2, id);
+                            lines += pstmtHeadHouse.executeUpdate();
                         }
 
                         return lines;
@@ -192,37 +239,44 @@ public class TeacherDAO {
                 }
         }
 
-        public boolean delete(int id){
-                String sql = "delete from teacher where id = ?";
-                String sqlFindUserId = "select user_id from teacher where id = ?";
+    public boolean delete(int id) {
+        String sql = "delete from teacher where id = ?";
+        String sqlFindUserId = "select user_id from teacher where id = ?";
 
-
-                if(conn == null){
-                        System.out.println("Erro de conexão (PostgreSQL)");
-                        return false;
-                }
-                int lines = 0;
-
-                try(PreparedStatement pstmt = conn.prepareStatement(sql); PreparedStatement stmt = conn.prepareStatement(sqlFindUserId)){
-                        pstmt.setInt(1, id);
-                        stmt.setInt(1, id);
-
-                        UserDAO userRepository = new UserDAO();
-
-                        ResultSet rs = stmt.executeQuery();
-                        boolean userDeleted = userRepository.delete(rs.getInt("user_id"));
-
-                        rs.next();
-
-                        lines = pstmt.executeUpdate();
-
-                        return lines > 0 && userDeleted;
-
-                }catch (SQLException sqle){
-                        sqle.printStackTrace();
-                        return false;
-                }
+        if (conn == null) {
+            System.out.println("Erro de conexão (PostgreSQL)");
+            return false;
         }
+
+        // Primeiro, pegaaa o user_id
+        try (PreparedStatement stmt = conn.prepareStatement(sqlFindUserId)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            // Verifica se encontrou o registro no bd
+            if (rs.next()) {
+                int userId = rs.getInt("user_id");
+
+                // Agora deleta o teacher
+                try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                    pstmt.setInt(1, id);
+                    int lines = pstmt.executeUpdate();
+
+                    // Se deletou o teacher, deleta o user
+                    if (lines > 0) {
+                        UserDAO userRepository = new UserDAO();
+                        boolean userDeleted = userRepository.delete(userId);
+                        return userDeleted;
+                    }
+                }
+            }
+            return false; // Não encontrou o teacher
+
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+            return false;
+        }
+    }
 
     public TeacherHomeDTO getTeacherWithStudentsByEmail(String email) {
         String sql = "SELECT \n" +

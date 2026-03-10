@@ -50,7 +50,7 @@ public class ServletUpdateStudent extends HttpServlet{
                     "Erro ao atualizar estudante!");
 
             RechargeListener rechargeListener = new RechargeListener();
-            rechargeListener.rechargeForStudent();
+            rechargeListener.rechargeForStudent(getServletContext());
 
             request.getRequestDispatcher("/admin/ViewStudents").forward(request,response);
     }

@@ -5,7 +5,27 @@ body {
     color: #fff;
     margin: 0;
 }
+#aluno-perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #d4af37;
+    padding: 5px 15px;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
 
+#aluno-perfil p {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+#aluno-perfil svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
 :root{
     --cor-casa:  rgba(204, 155, 49, 1);
     --bg-casa: #7a5c18;

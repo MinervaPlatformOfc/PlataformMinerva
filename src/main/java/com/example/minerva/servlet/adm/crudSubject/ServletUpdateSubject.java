@@ -24,7 +24,7 @@ public class ServletUpdateSubject extends HttpServlet {
                 "Erro ao alterar disciplina!");
 
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForSubject();
+        rechargeListener.rechargeForSubject(getServletContext());
 
         req.getRequestDispatcher("/admin/ViewSubjects").forward(req, resp);
     }

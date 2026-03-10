@@ -23,7 +23,7 @@ public class ServletDeleteSubject extends HttpServlet {
                 "Erro ao deletar disciplina");
 
         RechargeListener rechargeListener = new RechargeListener();
-        rechargeListener.rechargeForSubject();
+        rechargeListener.rechargeForSubject(getServletContext());
 
         req.getRequestDispatcher("/admin/ViewSubjects").forward(req, resp);
     }

@@ -14,15 +14,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const idUpdateSpan = document.querySelector('.id-update span');
     const inputUpdateId = document.querySelector('#id-update');
 
-    // Campos do Update
-    const inputNomeUpdate = document.querySelector('#nome-update');
-    const inputEmailUpdate = document.querySelector('#email-update');
-    const inputHouseUpdate = document.querySelector('#house-update');
-    const inputWandUpdate = document.querySelector('#wand-update');
+    // Campos do Update - Visualização
+    const nomeDisplay = document.querySelector('#nome-display');
+    const emailDisplay = document.querySelector('#email-display');
+    const casaDisplay = document.querySelector('#casa-display');
+    const fotoPreviewUpdate = document.querySelector('#foto-preview-update');
+
+    // Campos do Update - Editáveis
+    const woodUpdate = document.querySelector('#wood-update');
+    const coreUpdate = document.querySelector('#core-update');
+    const flexibilityUpdate = document.querySelector('#flexibility-update');
     const inputExperiencesUpdate = document.querySelector('#experiences-update');
     const inputTitleUpdate = document.querySelector('#title-update');
-    const fotoPreviewUpdate = document.querySelector('#foto-preview-update');
+    const headHouseUpdate = document.querySelector('#headHouse-update');
     const inputFotoUpdate = document.querySelector('#foto-update');
+    const originalSubjectsContainer = document.querySelector('#original-subjects-container');
 
     // Elementos do Delete
     const divDelete = document.querySelector('.div-delete');
@@ -75,10 +81,24 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector('#email-insert').value = "";
         document.querySelector('#senha-insert').value = "";
         document.querySelector('#house-insert').value = "";
-        document.querySelector('#wand-insert').value = "";
         document.querySelector('#experiences-insert').value = "";
         document.querySelector('#title-insert').value = "";
         document.querySelector('#foto-insert').value = "";
+
+        // Limpar selects da varinha
+        document.querySelector('select[name="wood"]').value = "";
+        document.querySelector('select[name="core"]').value = "";
+        document.querySelector('select[name="flexibility"]').value = "";
+
+        // Desmarcar checkbox de chefe de casa
+        const headHouseCheckbox = document.querySelector('#headHouse-insert');
+        if (headHouseCheckbox) headHouseCheckbox.checked = false;
+
+        // Desmarcar todos os checkboxes de matérias
+        document.querySelectorAll('.div-insert input[name="newSubjects"]').forEach(cb => {
+            cb.checked = false;
+        });
+
         if (fotoPreviewInsert) {
             fotoPreviewInsert.src = "";
             fotoPreviewInsert.style.display = "none";
@@ -88,14 +108,27 @@ document.addEventListener("DOMContentLoaded", function () {
     function limparModalUpdate() {
         if (idUpdateSpan) idUpdateSpan.textContent = "";
         if (inputUpdateId) inputUpdateId.value = "";
-        if (inputNomeUpdate) inputNomeUpdate.value = "";
-        if (inputEmailUpdate) inputEmailUpdate.value = "";
-        if (inputHouseUpdate) inputHouseUpdate.value = "";
-        if (inputWandUpdate) inputWandUpdate.value = "";
+
+        // Limpar visualização
+        if (nomeDisplay) nomeDisplay.textContent = "";
+        if (emailDisplay) emailDisplay.textContent = "";
+        if (casaDisplay) casaDisplay.textContent = "";
+        if (fotoPreviewUpdate) fotoPreviewUpdate.src = "";
+
+        // Limpar campos editáveis
+        if (woodUpdate) woodUpdate.value = "";
+        if (coreUpdate) coreUpdate.value = "";
+        if (flexibilityUpdate) flexibilityUpdate.value = "";
         if (inputExperiencesUpdate) inputExperiencesUpdate.value = "";
         if (inputTitleUpdate) inputTitleUpdate.value = "";
-        if (fotoPreviewUpdate) fotoPreviewUpdate.src = "";
+        if (headHouseUpdate) headHouseUpdate.checked = false;
         if (inputFotoUpdate) inputFotoUpdate.value = "";
+
+        // Desmarcar todos os checkboxes de matérias
+        document.querySelectorAll('input[name="newSubjects"]').forEach(cb => cb.checked = false);
+
+        // Limpar container de matérias originais
+        if (originalSubjectsContainer) originalSubjectsContainer.innerHTML = "";
     }
 
     function limparModalDelete() {
@@ -103,14 +136,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (nomeDelete) nomeDelete.textContent = "";
     }
 
-    /* Função de ordenação da tabela - SIMPLIFICADA */
+    /* Função de ordenação da tabela */
     function ordenarTabela(criterio) {
         if (!tbody) return;
 
         const linhas = Array.from(tbody.querySelectorAll('tr'));
         if (linhas.length === 0) return;
 
-        // Remove a linha de "Nenhum registro encontrado" se existir
         if (linhas.length === 1 && linhas[0].querySelector('td[colspan]')) return;
 
         const linhasOrdenadas = linhas.sort((a, b) => {
@@ -134,7 +166,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Remove todas as linhas e adiciona ordenadas
         linhasOrdenadas.forEach(linha => tbody.appendChild(linha));
     }
 
@@ -145,7 +176,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const criterio = orderBySelect.value;
             ordenarTabela(criterio);
 
-            // Fecha o painel de filtros
             divEscondida.classList.add('escondido');
             filtros.style.color = 'white';
             filtro.style.fill = '#e3e3e3';
@@ -153,7 +183,6 @@ document.addEventListener("DOMContentLoaded", function () {
             btnFiltro.classList.add('fechado');
         });
 
-        // Botão Limpar
         const botaoLimpar = filtroForm.querySelector('input[type="reset"]');
         if (botaoLimpar) {
             botaoLimpar.addEventListener('click', (e) => {
@@ -218,18 +247,14 @@ document.addEventListener("DOMContentLoaded", function () {
     /* Filtros - Abrir/Fechar */
     if (btnFiltro) {
         btnFiltro.addEventListener('click', () => {
-
             if (btnFiltro.classList.contains('fechado')) {
-
                 divEscondida.classList.remove('escondido');
                 filtros.style.color = '#fccb4f';
                 filtro.style.fill = '#fccb4f';
                 btnFiltro.style.border = '2px solid #fccb4f';
                 btnFiltro.style.borderRadius = '12px';
                 btnFiltro.classList.remove('fechado');
-
             } else {
-
                 divEscondida.classList.add('escondido');
                 filtros.style.color = 'white';
                 filtro.style.fill = '#e3e3e3';
@@ -259,11 +284,8 @@ document.addEventListener("DOMContentLoaded", function () {
     /* Atualizar e Excluir na tabela */
     if (tabela) {
         tabela.addEventListener('click', function (event) {
-
             const linha = event.target.closest('tr');
             if (!linha) return;
-
-            // Verifica se é a linha de "nenhum registro"
             if (linha.querySelector('td[colspan]')) return;
 
             const colunas = linha.querySelectorAll('td');
@@ -274,24 +296,65 @@ document.addEventListener("DOMContentLoaded", function () {
             const nome = colunas[2]?.textContent.trim() || '';
             const email = colunas[3]?.textContent.trim() || '';
             const casa = colunas[4]?.textContent.trim() === '-' ? '' : colunas[4]?.textContent.trim() || '';
-            const varinha = colunas[5]?.textContent.trim() === '-' ? '' : colunas[5]?.textContent.trim() || '';
-            const titulo = colunas[6]?.textContent.trim() === '-' ? '' : colunas[6]?.textContent.trim() || '';
+
+            // Pegar dados dos atributos data-*
+            const pastExperiences = linha.dataset.experiences || '';
+            const wizardTitle = linha.dataset.title || '';
+            const headHouse = linha.dataset.headHouse === 'true';
+            const wood = linha.dataset.wood || '';
+            const core = linha.dataset.core || '';
+            const flexibility = linha.dataset.flexibility || '';
+
+            // Pegar matérias do professor
+            let teacherSubjects = [];
+            if (linha.dataset.subjects) {
+                try {
+                    teacherSubjects = JSON.parse(linha.dataset.subjects);
+                } catch (e) {
+                    console.error('Erro ao parsear matérias:', e);
+                }
+            }
 
             // Editar
             const botaoEditar = event.target.closest('.editar');
             if (botaoEditar) {
-
                 if (idUpdateSpan) idUpdateSpan.textContent = id;
-                if (inputUpdateId) inputUpdateId.value = id;
-                if (inputNomeUpdate) inputNomeUpdate.value = nome;
-                if (inputEmailUpdate) inputEmailUpdate.value = email;
-                if (inputHouseUpdate) inputHouseUpdate.value = casa;
-                if (inputWandUpdate) inputWandUpdate.value = varinha;
-                if (inputTitleUpdate) inputTitleUpdate.value = titulo;
+                if (inputUpdateId) {
+                    inputUpdateId.value = id;
+                    inputUpdateId.setAttribute('value', id);
+                }
+
+                // Preencher visualização
+                if (nomeDisplay) nomeDisplay.textContent = nome;
+                if (emailDisplay) emailDisplay.textContent = email;
+                if (casaDisplay) casaDisplay.textContent = casa;
                 if (fotoPreviewUpdate) fotoPreviewUpdate.src = foto;
 
-                // Experiências não está na tabela, então não preenchemos
-                if (inputExperiencesUpdate) inputExperiencesUpdate.value = "";
+                // Preencher campos editáveis
+                if (woodUpdate) woodUpdate.value = wood;
+                if (coreUpdate) coreUpdate.value = core;
+                if (flexibilityUpdate) flexibilityUpdate.value = flexibility;
+                if (inputExperiencesUpdate) inputExperiencesUpdate.value = pastExperiences;
+                if (inputTitleUpdate) inputTitleUpdate.value = wizardTitle;
+                if (headHouseUpdate) headHouseUpdate.checked = headHouse;
+
+                // Marcar checkboxes das matérias do professor
+                document.querySelectorAll('input[name="newSubjects"]').forEach(cb => {
+                    const subjectName = cb.nextElementSibling.textContent.trim(); // Pega o nome da matéria
+                    cb.checked = teacherSubjects.includes(subjectName);
+                });
+
+                // Criar hidden inputs para as matérias originais
+                if (originalSubjectsContainer) {
+                    originalSubjectsContainer.innerHTML = '';
+                    document.querySelectorAll('input[name="newSubjects"]:checked').forEach(cb => {
+                        const hidden = document.createElement('input');
+                        hidden.type = 'hidden';
+                        hidden.name = 'originalSubjects';
+                        hidden.value = cb.value; // value é o ID
+                        originalSubjectsContainer.appendChild(hidden);
+                    });
+                }
 
                 abrirModal(divAtualizar);
                 return;
@@ -300,7 +363,6 @@ document.addEventListener("DOMContentLoaded", function () {
             // Excluir
             const botaoExcluir = event.target.closest('.excluir');
             if (botaoExcluir) {
-
                 if (nomeDelete) nomeDelete.textContent = nome;
                 if (idDeleteInput) idDeleteInput.value = id;
 

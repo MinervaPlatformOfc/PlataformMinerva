@@ -41,11 +41,13 @@ String url = null;
             }
         } else {
             name = req.getParameter("name");
-            url = req.getParameter("name");
+            url = req.getParameter("url");
         }
+        String urlAttribute = (String) req.getAttribute("url");
+        if (urlAttribute != null) url = urlAttribute;
 
-        req.setAttribute("name", name);
-        req.setAttribute("url", url);
+        if (name != null) req.setAttribute("name", name);
+        if (url!=null) req.setAttribute("url", url);
         req.setAttribute("users", (List<User>) getServletContext().getAttribute("userNotAdminList"));
         req.getRequestDispatcher("/admin/home.jsp").forward(req, resp);
     }
