@@ -123,7 +123,6 @@
     <p>Perfil do Aluno</p>
   </div>
 
-    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
   <!-- Botão de voltar no canto direito -->
   <div class="btn-voltar">

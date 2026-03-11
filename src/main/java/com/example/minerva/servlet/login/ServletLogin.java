@@ -52,7 +52,7 @@ public class ServletLogin extends HttpServlet {
                     break;
 
                 case "admin":
-                    request.setAttribute("email", email);
+                    session.setAttribute("email", email);
                     request.getRequestDispatcher("/admin/users")
                             .forward(request, response);
                     break;

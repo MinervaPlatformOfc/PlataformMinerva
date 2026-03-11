@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,11 +22,12 @@ public class ServletListUsers extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDAO dao = new UserDAO();
+        HttpSession session = req.getSession();
         double[] stats = (double[]) getServletContext().getAttribute("userStatistics");
         req.setAttribute("stats", stats);
         String name = null;
 String url = null;
-        String email = req.getParameter("email");
+        String email = (String) session.getAttribute("email");
 
 // Se não veio como parâmetro, tenta pegar do atributo
         if (email == null || email.isEmpty()) {

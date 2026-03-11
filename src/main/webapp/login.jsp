@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/recoverPassword/generic.css">
     <link href="https://fonts.googleapis.com/css2?family=Almendra&display=swap" rel="stylesheet">
 
-    <title>JSP - </title>
+    <title>Login</title>
 </head>
 <body>
 
