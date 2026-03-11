@@ -22,7 +22,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/students/subjects.css">
-
+    <style>
+        .logo {
+            width: 190px;
+            margin-bottom: -35px;
+            justify-content: center;
+        }
+    </style>
 </head>
 
 <body class="<%= houseName %>">
@@ -52,7 +58,7 @@
 
     </div>
 
-    <img src="" alt="logo-Minerva" class="logo-central">
+    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
     <div id="aluno-perfil">
 
@@ -62,13 +68,7 @@
             <input type="hidden" name="houseName" value="<%=houseName%>">
 
             <button type="submit" style="all:unset; cursor:pointer; display:flex; align-items:center; gap:10px;">
-
                 <%=name%>
-
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#FFFFFF">
-                    <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/>
-                </svg>
-
             </button>
 
         </form>

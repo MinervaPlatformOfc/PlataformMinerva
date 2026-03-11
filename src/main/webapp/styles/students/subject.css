@@ -16,7 +16,7 @@ body {
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 120%
     );
 }
 
@@ -29,7 +29,7 @@ body.sonserina{
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 120%
     );
 }
 
@@ -42,7 +42,7 @@ body.corvinal{
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 120%
     );
 }
 
@@ -55,7 +55,7 @@ body.grifinoria{
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 120%
     );
 }
 
@@ -86,7 +86,7 @@ header {
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-header p {
+header form button {
     text-decoration: none;
     color: gray;
     font-size: 1.7rem;
@@ -105,6 +105,16 @@ header a {
     color:white
 }
 
+header form button{
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'Almendra', serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0;
+}
+
 .logo-central{
     height:70px;
     filter:drop-shadow(0 0 8px #d4af37);
@@ -115,9 +125,7 @@ header p:hover {
     color: #fff;
     text-shadow: 0 0 10px #d4af37;
 }
-
 header > div:not(#aluno-perfil){
-    margin-left: 125px;
     display: flex;
     flex-direction: row-reverse;
 }
@@ -125,15 +133,6 @@ header > div:not(#aluno-perfil){
 header > div:not(#aluno-perfil) > p{
     margin-top: 10px;
 }
-
-header img[alt="logo-Minerva"] {
-    height: 60px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    filter: drop-shadow(0 0 5px #d4af37);
-}
-
 
 
 #aluno-perfil a:hover {

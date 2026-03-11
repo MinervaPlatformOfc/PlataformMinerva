@@ -16,7 +16,7 @@ body {
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 200%
     );
 }
 
@@ -29,7 +29,7 @@ body.sonserina{
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 200%
     );
 }
 
@@ -42,7 +42,7 @@ body.corvinal{
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 200%
     );
 }
 
@@ -55,7 +55,7 @@ body.grifinoria{
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 200%
     );
 }
 

@@ -8,10 +8,21 @@
 
 body {
     font-family: 'Almendra', serif;
-    color: #fff;
     min-height: 100vh;
+    margin: 0;
+
+    height:100vh;
+    width:100%;
     background-attachment: fixed;
-    background-color: #000;
+    background-image: url("../../assets/bg_prof.png");
+    background-color: #0F0A0E;
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+
+    color:white;
+
+    letter-spacing: 0.5px;
 }
 
 /* header */
@@ -38,7 +49,7 @@ header a {
 }
 
 header #atual {
-    color: white;
+    color: #f5f3e7;
 }
 
 header a:hover {
@@ -74,7 +85,7 @@ header img[alt="logo-Minerva"] {
 #perfil svg {
     width: 24px;
     height: 24px;
-    fill: #fff;
+    fill: #f5f3e7;
 }
 
 /* main */
@@ -142,7 +153,7 @@ aside {
     cursor: pointer;
     display: block;
     margin-left: auto;
-    color: white;
+    color: #f5f3e7;
     font-size: 1.1rem;
     font-family: 'Almendra', serif;
 }
@@ -198,7 +209,7 @@ aside {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 30px;
-    color: #e6e6e6;
+    color: #f5f3e7;
 }
 
 .div-add form {
@@ -219,7 +230,7 @@ aside {
     border: 2px solid #d4af37;
     padding: 12px;
     font-size: 1rem;
-    color: #fff;
+    color: #f5f3e7;
     resize: none;
     outline: none;
     box-shadow: 2px 2px 0px #d4af37;
@@ -235,7 +246,7 @@ aside {
     align-self: flex-end;
     background: #0f2747;
     border: 2px solid #d4af37;
-    color: #fff;
+    color: #f5f3e7;
     padding: 10px 30px;
     font-size: 1.1rem;
     cursor: pointer;
