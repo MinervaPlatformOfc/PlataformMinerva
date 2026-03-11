@@ -200,5 +200,80 @@
         </form>
     </div>
 </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM carregado!'); // Log para debug
+
+        // CORREÇÃO: Logo que volta para o início
+        const voltarInicioImg = document.querySelector('.logo');
+
+        if (voltarInicioImg) {
+            console.log('Logo encontrada!');
+            voltarInicioImg.style.cursor = 'pointer';
+
+            voltarInicioImg.addEventListener('click', () => {
+                console.log('Logo clicada!');
+                window.location.href = "${pageContext.request.contextPath}/";
+            });
+        } else {
+            console.log('Logo NÃO encontrada!');
+        }
+
+        // Funcionalidade para adicionar observação
+        const btnAddObservacao = document.getElementById('btnAddObservacao');
+        const divAdd = document.querySelector('.div-add');
+        const overlay = document.querySelector('.overlay');
+        const btnSubmit = document.getElementById('btnSubmitComment');
+
+        console.log('Elementos encontrados:', {
+            btnAddObservacao: !!btnAddObservacao,
+            divAdd: !!divAdd,
+            overlay: !!overlay,
+            btnSubmit: !!btnSubmit
+        });
+
+        if (btnAddObservacao && divAdd && overlay) {
+            btnAddObservacao.addEventListener('click', (e) => {
+                console.log('Botão de adicionar observação clicado!');
+                e.preventDefault(); // Prevenir qualquer comportamento padrão
+                divAdd.classList.remove('escondido');
+                overlay.classList.remove('escondido');
+                console.log('Popup aberto!');
+            });
+        } else {
+            console.log('ERRO: Elementos necessários não encontrados!');
+        }
+
+        if (btnSubmit && overlay && divAdd) {
+            btnSubmit.addEventListener('click', (e) => {
+                console.log('Botão de submit clicado!');
+                // O formulário será submetido normalmente
+                // Não prevenir o comportamento padrão
+            });
+        }
+
+        if (overlay && divAdd) {
+            overlay.addEventListener('click', () => {
+                console.log('Overlay clicado!');
+                divAdd.classList.add('escondido');
+                overlay.classList.add('escondido');
+            });
+        } else {
+            console.log('Overlay ou divAdd não encontrados para o evento de clique');
+        }
+
+        // Prevenir que o clique no formulário feche o overlay
+        const form = document.querySelector('.div-add form');
+        if (form) {
+            form.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log('Clique no formulário - propagação parada');
+            });
+        } else {
+            console.log('Formulário não encontrado!');
+        }
+    });
+</script>
 </body>
 </html>

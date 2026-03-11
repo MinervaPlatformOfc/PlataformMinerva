@@ -98,9 +98,6 @@
                   <input type="hidden" name="name" value="<%=name%>">
 
             <button type="submit" style="all:unset; width:100%; height:100%; cursor:pointer;">
-
-                <img src="${pageContext.request.contextPath}/images/materia.png" alt="A IMAGEM JOAO">
-
                 <div class="nome-Materia">
 
 <span>

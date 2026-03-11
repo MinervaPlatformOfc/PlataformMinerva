@@ -198,7 +198,7 @@
                 </span>
 
       <!-- Formulário oculto para edição de notas -->
-      <form method="post" action="<%= request.getContextPath() %>/teacher/studentGrade" class="gradeForm" id="form-<%= s.getStudentId() %>" style="display: none;">
+      <form method="post" action="${pageContext.request.contextPath}/teacher/studentGrade" class="gradeForm" id="form-<%= s.getStudentId() %>" style="display: none;">
         <input type="hidden" name="studentId" value="<%= s.getStudentId() %>">
         <input type="hidden" name="teacherName" value="<%=teacherName%>">
         <input type="hidden" name="subject" value="<%= subject %>">
@@ -220,7 +220,7 @@
       <span data-field="nome" data-original="<%= s.getStudentName() %>"><%= s.getStudentName() %></span>
 
       <!-- Formulário para observações -->
-      <form method="post" action="<%= request.getContextPath() %>/teacher/studentComments" style="display: none;" id="form-<%= s.getStudentId() %>">
+      <form method="post" action="${pageContext.request.contextPath}/teacher/studentComments" style="display: none;" id="form-<%= s.getStudentId() %>">
         <input type="hidden" name="teacherId" value="<%= teacherId %>">
         <input type="hidden" name="teacherName" value="<%=teacherName%>">
         <input type="hidden" name="year" value="<%= year %>">
@@ -244,7 +244,7 @@
   <div class="overlay escondido"></div>
   <div class="escondido div-add">
     <h1>Adicionar Notas</h1>
-    <form action="" method="post" id="gradeEditForm">
+    <form action="${pageContext.request.contextPath}/teacher/studentGrade" method="post" id="gradeEditForm">
       <div class="add-notas">
         <div class="campo">
           <label for="n1">N1</label>
@@ -261,23 +261,33 @@
   <% } %>
 </main>
 
-<script>
-  // Logo que volta para o início (efeito tremendo)
-  const voltarInicioImg = document.querySelector('.logo-central');
+<script>// Aguardar o DOM carregar completamente
+// Aguardar o DOM carregar completamente
+document.addEventListener('DOMContentLoaded', function() {
 
-  voltarInicioImg.addEventListener('click', () => {
-    if (document.title !== "Página Professor") {
+  // CORREÇÃO: Selecionar a imagem pela classe correta 'logo'
+  const voltarInicioImg = document.querySelector('.logo');
+
+  if (voltarInicioImg) {
+    console.log('Logo encontrada!');
+
+    voltarInicioImg.addEventListener('click', function() {
+      console.log('Logo clicada!');
       window.location.href = "${pageContext.request.contextPath}/";
-    } else {
-      voltarInicioImg.classList.remove("tremendo");
-      void voltarInicioImg.offsetWidth;
-      voltarInicioImg.classList.add("tremendo");
-    }
-  });
+    });
+
+    voltarInicioImg.style.cursor = 'pointer';
+  } else {
+    console.log('Logo NÃO encontrada! Verifique a classe CSS.');
+  }
+
+  // Declaração ÚNICA de barras - fora dos condicionais
+  const barras = document.querySelectorAll('.barra');
+  console.log('Total de barras encontradas:', barras.length);
 
   <% if (showGrades) { %>
-  // Funcionalidade para abrir formulário de edição de notas
-  const barras = document.querySelectorAll('.barra');
+  // MODO NOTAS - Funcionalidade para abrir formulário de edição
+
   const divAdd = document.querySelector('.div-add');
   const overlay = document.querySelector('.overlay');
   const btnSalvar = document.querySelector('#btnSalvarNotas');
@@ -285,77 +295,97 @@
   const inputN2 = document.getElementById('n2');
   let currentStudentId = null;
 
-  barras.forEach(barra => {
-    barra.addEventListener('click', (e) => {
-      // Não abrir se clicou em algum elemento de formulário
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'FORM') {
-        return;
+  if (barras.length > 0 && divAdd && overlay) {
+    barras.forEach(barra => {
+      barra.addEventListener('click', (e) => {
+        console.log('Barra de notas clicada!');
+
+        // Não abrir se clicou em algum elemento de formulário
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'FORM') {
+          return;
+        }
+
+        currentStudentId = barra.dataset.studentId;
+        console.log('Student ID:', currentStudentId);
+
+        // Pegar valores atuais das notas
+        const n1Span = barra.querySelector('[data-field="n1"]');
+        const n2Span = barra.querySelector('[data-field="n2"]');
+
+        if (n1Span && n2Span) {
+          inputN1.value = n1Span.dataset.original !== "0" ? n1Span.dataset.original : '';
+          inputN2.value = n2Span.dataset.original !== "0" ? n2Span.dataset.original : '';
+
+          divAdd.classList.remove('escondido');
+          overlay.classList.remove('escondido');
+          console.log('Popup aberto!');
+        }
+      });
+    });
+
+    overlay.addEventListener('click', () => {
+      divAdd.classList.add('escondido');
+      overlay.classList.add('escondido');
+    });
+
+    btnSalvar.addEventListener('click', () => {
+      if (currentStudentId) {
+        const form = document.getElementById('form-' + currentStudentId);
+
+        if (form) {
+          // Limpar inputs anteriores para não duplicar
+          const inputsAntigos = form.querySelectorAll('input[name="n1"], input[name="n2"]');
+          inputsAntigos.forEach(input => input.remove());
+
+          // Adicionar novos inputs
+          const n1Input = document.createElement('input');
+          n1Input.type = 'hidden';
+          n1Input.name = 'n1';
+          n1Input.value = inputN1.value;
+
+          const n2Input = document.createElement('input');
+          n2Input.type = 'hidden';
+          n2Input.name = 'n2';
+          n2Input.value = inputN2.value;
+
+          form.appendChild(n1Input);
+          form.appendChild(n2Input);
+
+          console.log('Submetendo formulário...');
+          form.submit();
+        }
       }
 
-      currentStudentId = barra.dataset.studentId;
-      const form = document.getElementById('form-' + currentStudentId);
-
-      // Pegar valores atuais das notas
-      const n1Span = barra.querySelector('[data-field="n1"]');
-      const n2Span = barra.querySelector('[data-field="n2"]');
-
-      inputN1.value = n1Span.dataset.original !== "0" ? n1Span.dataset.original : '';
-      inputN2.value = n2Span.dataset.original !== "0" ? n2Span.dataset.original : '';
-
-      divAdd.classList.remove('escondido');
-      overlay.classList.remove('escondido');
+      divAdd.classList.add('escondido');
+      overlay.classList.add('escondido');
     });
-  });
+  }
 
-  overlay.addEventListener('click', () => {
-    divAdd.classList.add('escondido');
-    overlay.classList.add('escondido');
-  });
-
-  btnSalvar.addEventListener('click', () => {
-    if (currentStudentId) {
-      const form = document.getElementById('form-' + currentStudentId);
-
-      // Adicionar os valores dos inputs ao form
-      const n1Input = document.createElement('input');
-      n1Input.type = 'hidden';
-      n1Input.name = 'n1';
-      n1Input.value = inputN1.value;
-
-      const n2Input = document.createElement('input');
-      n2Input.type = 'hidden';
-      n2Input.name = 'n2';
-      n2Input.value = inputN2.value;
-
-      form.appendChild(n1Input);
-      form.appendChild(n2Input);
-
-      form.submit();
-    }
-
-    divAdd.classList.add('escondido');
-    overlay.classList.add('escondido');
-  });
   <% } else { %>
-  // Funcionalidade para redirecionar para página de observações do aluno
-  const barras = document.querySelectorAll('.barra');
+  // MODO OBSERVAÇÕES - Funcionalidade para redirecionar
 
-  barras.forEach(barra => {
-    barra.addEventListener('click', (e) => {
-      // Não redirecionar se clicou em algum elemento de formulário
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'FORM') {
-        return;
-      }
+  if (barras.length > 0) {
+    barras.forEach(barra => {
+      barra.addEventListener('click', (e) => {
+        console.log('Barra de observação clicada!');
 
-      const studentId = barra.dataset.studentId;
-      const form = document.getElementById('form-' + studentId);
+        // Não redirecionar se clicou em algum elemento de formulário
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'FORM') {
+          return;
+        }
 
-      if (form) {
-        form.submit();
-      }
+        const studentId = barra.dataset.studentId;
+        const form = document.getElementById('form-' + studentId);
+
+        if (form) {
+          console.log('Redirecionando para observações do aluno:', studentId);
+          form.submit();
+        }
+      });
     });
-  });
+  }
   <% } %>
+});
 </script>
 </body>
 </html>

@@ -82,7 +82,6 @@
     </form>
   </div>
 
-    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
   <form action="${pageContext.request.contextPath}/teacher/profile" method="post" id="perfil">
     <input type="hidden" name="teacherId" value="<%=teacherId%>">

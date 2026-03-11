@@ -24,6 +24,7 @@ public class ServletListUsers extends HttpServlet {
         HttpSession session = req.getSession();
 
         UserDAO dao = new UserDAO();
+        HttpSession session = req.getSession();
         double[] stats = (double[]) getServletContext().getAttribute("userStatistics");
         req.setAttribute("stats", stats);
         String name = null;
