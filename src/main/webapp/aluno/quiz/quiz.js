@@ -200,7 +200,7 @@ botoesPerguntas.forEach(botao => {
                 h2Resposta.innerText = "Grifinória";
                 houseName = "Grifinória";
                 h2Resposta.style.color = "red";
-                imgResposta.src = contextPath + "/aluno/quiz/imgs/grifinoria.jpg";
+                imgResposta.src = contextPath + "/assets/grifinoria.png";
 
                 pResposta.innerText = "Seja muito bem-vindo à Grifinória, pois esta é a casa dos corajosos, dos audazes e daqueles que possuem a ousadia no sangue. Aqui, o vermelho e o dourado representam a chama que arde no peito de quem não recua diante de um desafio e coloca a honra acima de tudo. Você foi escolhido para caminhar entre os bravos, onde a amizade é um pacto de lealdade e cada dia é uma oportunidade de provar o seu valor. Prepare-se para viver com intensidade, pois agora você faz parte da linhagem dos leões de Hogwarts.";
 
@@ -211,7 +211,7 @@ botoesPerguntas.forEach(botao => {
                 h2Resposta.innerText = "Sonserina";
                 houseName = "Sonserina";
                 h2Resposta.style.color = "green";
-                imgResposta.src = contextPath + "/aluno/quiz/imgs/sonserina.jpg";
+                imgResposta.src = contextPath + "/assets/sonserina.png";
 
                 pResposta.innerText = "Seja muito bem-vindo à Sonserina, pois esta é a casa dos ambiciosos, dos astutos e daqueles que nasceram para alcançar a grandeza. Aqui, sob o brilho do verde e da prata, valorizamos a inteligência estratégica e o desejo de chegar ao topo, custe o que custar. Você foi escolhido porque o Chapéu Seletor viu em você o potencial de um líder que sabe usar o poder com sabedoria e mantém a lealdade aos seus acima de qualquer coisa. Entre com orgulho em nossas masmorras, pois o seu caminho para o sucesso começa agora.";
 
@@ -222,7 +222,7 @@ botoesPerguntas.forEach(botao => {
                 h2Resposta.innerText = "Corvinal";
                 houseName = "Corvinal";
                 h2Resposta.style.color = "blue";
-                imgResposta.src = contextPath + "/aluno/quiz/imgs/corvinal.jpg";
+                imgResposta.src = contextPath + "/assets/corvinal.png";
 
                 pResposta.innerText = "Seja muito bem-vindo à Corvinal, pois esta é a casa dos sábios, dos criativos e daqueles que possuem uma mente sem limites. Aqui, as cores azul e bronze envolvem aqueles que buscam o conhecimento como o maior dos tesouros e não têm medo de pensar de forma diferente do resto. Você foi escolhido porque sua inteligência e sua curiosidade brilham mais forte, encontrando morada na torre mais alta do castelo. Prepare-se para abrir seus horizontes, pois entre os corvos, o aprendizado é a nossa maior aventura.";
 
@@ -233,7 +233,7 @@ botoesPerguntas.forEach(botao => {
                 h2Resposta.innerText = "Lufa-Lufa";
                 houseName = "Lufa-Lufa";
                 h2Resposta.style.color = "yellow";
-                imgResposta.src = contextPath + "/aluno/quiz/imgs/lufalufa.jpg";
+                imgResposta.src = contextPath + "/assets/lufalufa.png";
 
                 pResposta.innerText = "Seja muito bem-vindo à Lufa-Lufa, pois esta é a casa dos justos, dos leais e daqueles que acreditam no valor do trabalho árduo. Aqui, o amarelo e o preto protegem quem planta a bondade e colhe amizades verdadeiras, sem nunca deixar um companheiro para trás. Você foi escolhido porque seu coração é honesto e sua paciência é sua maior força, fazendo de você uma peça fundamental na família mais acolhedora de Hogwarts. Sinta-se em casa entre os texugos, pois aqui a sua \n" +
                     "dedicação sempre será reconhecida e celebrada.";

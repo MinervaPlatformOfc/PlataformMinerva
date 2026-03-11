@@ -279,33 +279,32 @@ public class TeacherDAO {
     }
 
     public TeacherHomeDTO getTeacherWithStudentsByEmail(String email) {
-        String sql = "SELECT \n" +
-                "    ts.teacher_id, \n" +
-                "    ts.teacher_name, \n" +
-                "    ts.teacher_house_name, \n" +
-                "    ts.student_id, \n" +
-                "    ts.student_name, \n" +
-                "    ts.student_house_name, \n" +
-                "    ts.subject_name,\n" +
-                "    COALESCE(SUM(CASE WHEN c.score > 0 THEN c.score ELSE 0 END), 0) AS points_gained,\n" +
-                "    COALESCE(SUM(CASE WHEN c.score < 0 THEN c.score ELSE 0 END), 0) AS points_lost\n" +
-                "FROM teacher_students ts\n" +
-                "LEFT JOIN comment c \n" +
-                "    ON c.student_id = ts.student_id\n" +
-                "    AND c.teacher_id = ts.teacher_id\n" +
-                "WHERE ts.teacher_name = (\n" +
-                "    SELECT name \n" +
-                "    FROM users \n" +
-                "    WHERE email = ?\n" +
-                ")\n" +
-                "GROUP BY \n" +
-                "    ts.teacher_id, \n" +
-                "    ts.teacher_name, \n" +
-                "    ts.teacher_house_name,\n" +
-                "    ts.student_id, \n" +
-                "    ts.student_name, \n" +
-                "    ts.student_house_name, \n" +
-                "    ts.subject_name\n" +
+        String sql = "SELECT " +
+                "ts.teacher_id, " +
+                "ts.teacher_name, " +
+                "ts.teacher_house_name, " +
+                "ts.student_id, " +
+                "ts.student_name, " +
+                "ts.student_house_name, " +
+                "MIN(ts.subject_name) AS subject_name, " +
+                "COALESCE(SUM(CASE WHEN c.score > 0 THEN c.score ELSE 0 END), 0) AS points_gained, " +
+                "COALESCE(SUM(CASE WHEN c.score < 0 THEN c.score ELSE 0 END), 0) AS points_lost " +
+                "FROM teacher_students ts " +
+                "LEFT JOIN comment c " +
+                "ON c.student_id = ts.student_id " +
+                "AND c.teacher_id = ts.teacher_id " +
+                "WHERE ts.teacher_name = ( " +
+                "SELECT name " +
+                "FROM users " +
+                "WHERE email = ? " +
+                ") " +
+                "GROUP BY " +
+                "ts.teacher_id, " +
+                "ts.teacher_name, " +
+                "ts.teacher_house_name, " +
+                "ts.student_id, " +
+                "ts.student_name, " +
+                "ts.student_house_name " +
                 "ORDER BY ts.student_name;";
 
         try {

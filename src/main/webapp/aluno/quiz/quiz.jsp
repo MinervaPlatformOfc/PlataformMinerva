@@ -13,7 +13,7 @@
 <body>
 <section id="apresentacao" class="page">
 
-    <img src="${pageContext.request.contextPath}/assets/logo" class="logo">
+    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
     <div class="title-container">
         <img src="${pageContext.request.contextPath}/assets/ornamento-esq.png" class="ornamento-esq">
@@ -43,7 +43,7 @@
             Porque sou único, sou um Chapéu Pensador!
          </p>
         </div>
-        <img src="${pageContext.request.contextPath}/aluno/quiz/imgs/corvinal.jpg" class="img-seletor">
+        <img src="${pageContext.request.contextPath}/aluno/quiz/imgs/Chapeu%20seletor.png" class="img-seletor">
 
     </div>
 
@@ -53,6 +53,7 @@
 
 </section>
 <section id="perguntas" class="page escondido">
+    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
     <div class="title-container">
         <img src="${pageContext.request.contextPath}/assets/ornamento-esq.png" class="ornamento-esq">
@@ -77,6 +78,7 @@
 
 </section>
 <section id="resposta" class="page escondido">
+    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
     <div class="title-container">
         <img src="${pageContext.request.contextPath}/assets/ornamento-esq.png" class="ornamento-esq">
@@ -103,7 +105,6 @@
             <input type="hidden" id="emailUsuario" name="email" value="<%= (String) request.getAttribute("email")%>">
             <button class="button" id="aprovarResultado" type="submit">Aprovar resultado</button>
         </form>
-        <button class="button" id="recomecarQuiz">Recomeçar</button>
     </div>
     <script src="${pageContext.request.contextPath}/aluno/quiz/quiz.js"></script>
     <script>

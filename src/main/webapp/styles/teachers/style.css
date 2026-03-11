@@ -1,12 +1,22 @@
 /* reset fontes e variaveis */
 
 body {
-    font-family: 'Almendra', serif !important;
-    color: #fff;
+    font-family: 'Almendra', serif;
     min-height: 100vh;
-    background-attachment: fixed;
     margin: 0;
-    background-color: #000;
+
+    height:100vh;
+    width:100%;
+    background-attachment: fixed;
+    background-image: url("../../assets/bg_prof.png");
+    background-color: #0F0A0E;
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+
+    color:#f5f3e7;
+
+    letter-spacing: 0.5px;
 }
 button{
     background: none;
@@ -44,11 +54,11 @@ header a, .nav-button {
     text-shadow: 1px 1px 2px #000;
 }
 header #atual{
-    color: white;
+    color: #f5f3e7;
 }
 
 header a:hover, .nav-button:hover {
-    color: #fff;
+    color: #f5f3e7;
     text-shadow: 0 10px 15px #ffc402;
 }
 
@@ -79,7 +89,7 @@ header img[alt="logo-Minerva"] {
 #perfil svg {
     width: 24px;
     height: 24px;
-    fill: #fff;
+    fill: #f5f3e7;
 }
 
 /* main */
@@ -153,7 +163,7 @@ main h2 {
     margin-bottom: 30px;
     background: #252B41;
     border: 2px solid #d4af37;
-    color: #fff;
+    color: #f5f3e7;
     font-size: 1.3rem;
     font-weight: 600;
     font-family: 'Almendra', serif;
@@ -228,4 +238,9 @@ main h2 {
 
 .tremendo {
     animation: tremer 0.3s ease;
+}
+
+.nav-links{
+    display:flex;
+    justify-content: space-between;
 }
