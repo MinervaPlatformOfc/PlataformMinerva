@@ -119,7 +119,7 @@
 
                 House casa = ranking.get(i);
                 String cssCasa = casa.getName().equals("Grifinória") ? "grifinoria" :
-                        casa.getName().equals("Lufa-Lufa") ? "lufa-lufa" :
+                        casa.getName().equals("Lufa-Lufa") ? "lufalufa" :
                                 casa.getName().equals("Sonserina") ? "sonserina" : "corvinal";
     %>
 
@@ -127,7 +127,7 @@
 
     <div class="barra <%=cssCasa%>">
 
-        <img src="${pageContext.request.contextPath}/assets/casas/<%=cssCasa%>.png">
+        <img src="${pageContext.request.contextPath}/assets/<%=cssCasa%>.png">
 
         <span><%=casa.getName()%></span>
 

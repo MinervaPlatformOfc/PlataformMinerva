@@ -116,8 +116,9 @@ legend {
     gap: 200px;
 }
 
-.img-seletor{
-    width: 300px;
+.img-seletor {
+    width: 400px;
+    margin-left: -100px;
 }
 
 .info-box-question{
