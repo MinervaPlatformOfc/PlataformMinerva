@@ -109,6 +109,11 @@
       filter: drop-shadow(0 0 5px #d4af37);
       cursor: pointer;
     }
+    .logo {
+        width: 190px;
+        margin-bottom: -35px;
+        justify-content: center;
+    }
   </style>
 </head>
 <body class="<%= houseClass %>">
@@ -118,7 +123,7 @@
     <p>Perfil do Aluno</p>
   </div>
 
-  <img src="${pageContext.request.contextPath}/imgs/logo-minerva.png" alt="logo-Minerva" class="logo-central">
+    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
   <!-- Botão de voltar no canto direito -->
   <div class="btn-voltar">

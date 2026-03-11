@@ -8,6 +8,7 @@ body {
     margin: 0;
 }
 
+
 :root{
     --cor-casa:  rgba(204, 155, 49, 1);
     --bg-casa: #7a5c18;
@@ -269,12 +270,14 @@ main > div.barra span:last-child {
     color: #fff;
 }
 
-.lufa-lufa {
-    background: linear-gradient(to right, #ecb939, #f0c75e);
+.lufalufa {
+    background: linear-gradient(to right, #c17f13,  #9B660F, #80550d);
+
     color: #000;
     text-shadow: none !important;
     border-color: #000 !important;
 }
+
 
 .grifinoria {
     background: linear-gradient(to right, #740001, #ae0001);

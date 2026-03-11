@@ -2,61 +2,21 @@
 
 body {
     font-family: 'Almendra', serif;
-    color: #fff;
     min-height: 100vh;
     margin: 0;
-}
 
-:root{
-    --cor-casa:  rgba(204, 155, 49, 1);
-    --bg-casa: #7a5c18;
-    --bg-intermediario: #3a2a05;
-    --cor-barra:rgba(212, 148, 43, 0.76);
+    height:100vh;
+    width:100%;
+    background-attachment: fixed;
+    background-image: url("../../assets/bg_prof.png");
+    background-color: #0F0A0E;
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
 
-    background: linear-gradient(to bottom,
-    var(--bg-casa) 0%,
-    var(--bg-intermediario) 40%,
-    #000 80%
-    );
-}
+    color:#f5f3e7;
 
-body.sonserina{
-    --cor-casa: rgb(27, 146, 102);
-    --bg-casa: #133a1b;
-    --bg-intermediario: #071a0d;
-    --cor-barra:rgba(30, 67, 40, 0.76);
-
-    background: linear-gradient(to bottom,
-    var(--bg-casa) 0%,
-    var(--bg-intermediario) 40%,
-    #000 80%
-    );
-}
-
-body.corvinal{
-    --cor-casa: rgb(18, 138, 223);
-    --bg-casa: #0c4a7c;
-    --bg-intermediario: #06294a;
-    --cor-barra:rgba(9, 70, 104, 0.76);
-
-    background: linear-gradient(to bottom,
-    var(--bg-casa) 0%,
-    var(--bg-intermediario) 40%,
-    #000 80%
-    );
-}
-
-body.grifinoria{
-    --cor-casa: #ec1111;
-    --bg-casa: #740001;
-    --bg-intermediario: #2a0a0a;
-    --cor-barra:rgba(143, 32, 31, 1);
-
-    background: linear-gradient(to bottom,
-    var(--bg-casa) 0%,
-    var(--bg-intermediario) 40%,
-    #000 80%
-    );
+    letter-spacing: 0.5px;
 }
 button{
     background: none;
@@ -94,11 +54,11 @@ header a, .nav-button {
     text-shadow: 1px 1px 2px #000;
 }
 header #atual{
-    color: white;
+    color: #f5f3e7;
 }
 
 header a:hover, .nav-button:hover {
-    color: #fff;
+    color: #f5f3e7;
     text-shadow: 0 10px 15px #ffc402;
 }
 
@@ -129,7 +89,7 @@ header img[alt="logo-Minerva"] {
 #perfil svg {
     width: 24px;
     height: 24px;
-    fill: #fff;
+    fill: #f5f3e7;
 }
 
 /* main */
@@ -203,7 +163,7 @@ main h2 {
     margin-bottom: 30px;
     background: #252B41;
     border: 2px solid #d4af37;
-    color: #fff;
+    color: #f5f3e7;
     font-size: 1.3rem;
     font-weight: 600;
     font-family: 'Almendra', serif;
@@ -278,4 +238,9 @@ main h2 {
 
 .tremendo {
     animation: tremer 0.3s ease;
+}
+
+.nav-links{
+    display:flex;
+    justify-content: space-between;
 }

@@ -53,6 +53,11 @@
       height: 24px;
       fill: #fff;
     }
+    .logo {
+        width: 190px;
+        margin-bottom: -35px;
+        justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -79,7 +84,7 @@
     </form>
   </div>
 
-  <img src="${pageContext.request.contextPath}/imgs/logo-minerva.png" alt="logo-Minerva" class="logo-central">
+    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
   <form action="${pageContext.request.contextPath}/teacher/profile" method="post" id="perfil">
     <input type="hidden" name="teacherId" value="<%=teacherId%>">

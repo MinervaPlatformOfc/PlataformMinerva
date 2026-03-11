@@ -121,6 +121,11 @@
     .search-field {
       display: none;
     }
+    .logo {
+        width: 190px;
+        margin-bottom: -35px;
+        justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -141,7 +146,7 @@
 </div>
 
 <!-- Logo central clicável -->
-<img src="${pageContext.request.contextPath}/imgs/logo-minerva.png" alt="logo-Minerva" class="logo-central" style="position: absolute; left: 50%; transform: translateX(-50%); top: 15px; height: 60px; filter: drop-shadow(0 0 5px #d4af37); cursor: pointer; z-index: 100;">
+<img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
 <main>
   <h1><%= year %>º Ano - <%= subject %></h1>
