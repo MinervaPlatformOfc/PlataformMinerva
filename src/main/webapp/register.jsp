@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: erickbarbosa-ieg
-  Date: 05/02/2026
-  Time: 22:18
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,6 +6,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Almendra&display=swap" rel="stylesheet">
     <title>Cadastro</title>
 </head>
+
+<%
+    String msgBruta = request.getAttribute("msg") != null ? (String) request.getAttribute("msg") : "";
+    String msg = !(msgBruta.equals("")||msgBruta.isEmpty())?msgBruta:" ";
+%>
 <body>
 <div class="page">
 

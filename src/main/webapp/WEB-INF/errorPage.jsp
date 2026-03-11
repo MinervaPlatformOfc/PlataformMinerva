@@ -2,19 +2,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Error Page</title>
+    <title>Erro</title>
 </head>
+
+<%
+    ErrorDTO error = (ErrorDTO) request.getAttribute("error");
+%>
+
 <body>
-    <%
-        ErrorDTO error = (ErrorDTO) request.getAttribute("error");
-    %>
 
-    <h1>${error.getStatusCode()}</h1>
+    <h1>Ocorreu um erro!</h1>
+    <br>
+    <h3>Código do erro: <%=error.getStatusCode()%></h3>
 
-    <h3>${error.getMessage()}</h3>
+    <p>Mensagem: <%=error.getMessage()%></p>
 
-    <p>${error.getRequestUri}</p>
+    <p>URI de requisição: <%=error.getRequestUri()%></p>
 
-    <p>${error.getException}</p>
+    <p><%=error.getException() != null ? "Erro: "+ error.getException(): ""%></p>
 </body>
 </html>

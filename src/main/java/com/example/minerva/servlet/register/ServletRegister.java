@@ -68,13 +68,13 @@ public class ServletRegister extends HttpServlet {
         Part filePart = request.getPart("image");
         if (filePart == null) {
             request.setAttribute("msg", "Imagem vazia!");
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_null");
+            request.getRequestDispatcher("/register.jsp?error=file_null").forward(request, response);
             return;
         }
 
         if (filePart.getSize() == 0) {
             request.setAttribute("msg", "Imagem vazia!");
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=file_empty");
+            request.getRequestDispatcher("/register.jsp?error=file_empty").forward(request, response);
             return;
         }
 
@@ -109,7 +109,7 @@ public class ServletRegister extends HttpServlet {
 
         if (!senhaValida || usuarioExistente != null || !idadeValida || !dataNascimentoValida) {
             request.setAttribute("msg", "Campos inválidoss!");
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=validation_failed");
+            request.getRequestDispatcher("/register.jsp?error=validation_failed").forward(request, response);
             return;
         }
 
@@ -135,7 +135,7 @@ public class ServletRegister extends HttpServlet {
         // Verificar se é uma imagem válida (magic numbers)
         if (imageBytes.length < 4) {
             request.setAttribute("msg", "Imagem inválida!");
-            response.sendRedirect("/register.jsp?error=invalid_img");
+            request.getRequestDispatcher("/register.jsp?error=invalid_img").forward(request, response);
         }
 
         // Upload para Cloudinary com parâmetros explícitos
@@ -158,7 +158,7 @@ public class ServletRegister extends HttpServlet {
 
         if (!matriculaValida) {
             request.setAttribute("msg", "Matricula inválida!");
-            response.sendRedirect(request.getContextPath() + "/register.jsp?error=invalid_registration");
+            request.getRequestDispatcher("/register.jsp?error=invalid_registration").forward(request, response);
             return;
         }
 //        System.out.println("✅ Matrícula validada com sucesso!");

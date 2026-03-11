@@ -22,6 +22,9 @@ public class ServletError extends HttpServlet {
         }
 
         int statusCode = (int) status;
+
+        System.out.println("Ocorreu um erro!\nStatus: " + statusCode);
+
         ErrorDTO error = new ErrorDTO(
                 statusCode,
                 (String) request.getAttribute("jakarta.servlet.error.message"),
