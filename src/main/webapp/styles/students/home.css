@@ -16,7 +16,7 @@ body {
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #322405 80%
+    #322405 120%
     );
 }
 #aluno-perfil {
@@ -48,7 +48,7 @@ body.sonserina{
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 30%
+    #000 120%
     );
 }
 
@@ -60,7 +60,7 @@ body.corvinal{
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 30%
+    #000 120%
     );
 }
 
@@ -72,7 +72,7 @@ body.grifinoria{
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 30%
+    #000 120%
     );
 }
 
@@ -180,9 +180,10 @@ main h1 {
 }
 
 .brasao-grande {
-    width: 120px;
+    width: 150px;
     height: auto;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+    filter: drop-shadow(0 0 10px rgba(234, 216, 134, 0.5));
+    margin-right: 20px;
 }
 
 .texto-casa {

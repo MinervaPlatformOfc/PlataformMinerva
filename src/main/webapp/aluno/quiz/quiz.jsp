@@ -13,7 +13,7 @@
 <body>
 <section id="apresentacao" class="page">
 
-    <img src="${pageContext.request.contextPath}/assets/logo" class="logo">
+    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
     <div class="title-container">
         <img src="${pageContext.request.contextPath}/assets/ornamento-esq.png" class="ornamento-esq">

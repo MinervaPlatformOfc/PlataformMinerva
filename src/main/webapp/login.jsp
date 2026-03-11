@@ -11,7 +11,7 @@
 
 <div class="page">
 
-    <img class="logo" src="" alt="IMAGEM JOAOOOO">
+    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
     <div class="title-container">
 

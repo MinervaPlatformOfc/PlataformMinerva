@@ -24,6 +24,13 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Hermeneus+One&display=swap" rel="stylesheet">
 
+    <style>
+        .logo {
+            width: 190px;
+            margin-bottom: -35px;
+            justify-content: center;
+        }
+    </style>
 </head>
 
 <body class="<%= houseName %>">
@@ -34,7 +41,7 @@
         <p>Perfil Aluno</p>
     </div>
 
-    <img src="/images/logo.png" alt="logo-Minerva" class="logo-central">
+    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
     <div id="aluno-perfil">
 
