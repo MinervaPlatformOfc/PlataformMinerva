@@ -11,14 +11,14 @@ public class ChatbotRequest {
     private String userName;
 
     @JsonProperty("session_id")
-    private int sessionId;
+    private String sessionId;
 
-    public ChatbotRequest(String msg, int sessionId){
+    public ChatbotRequest(String msg, String sessionId){
         this.msg = msg;
         this.sessionId = sessionId;
     }
 
-    public ChatbotRequest(String msg, String userName, int sessionId){
+    public ChatbotRequest(String msg, String userName, String sessionId){
         this.msg = msg;
         this.userName = userName;
         this.sessionId = sessionId;
@@ -28,7 +28,7 @@ public class ChatbotRequest {
         return this.msg;
     }
 
-    public int getSessionId(){
+    public String getSessionId(){
         return this.sessionId;
     }
 

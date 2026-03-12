@@ -11,7 +11,7 @@ public class ChatbotResponse {
     private String msg;
 
     @JsonProperty("session_id")
-    private int sessionId;
+    private String sessionId;
 
     @JsonProperty("detail")
     private List<Map<String,Object>> detail;
@@ -26,11 +26,11 @@ public class ChatbotResponse {
         this.msg = msg;
     }
 
-    public int getSessionId(){
+    public String getSessionId(){
         return sessionId;
     }
 
-    public void setSessionId(int sessionId){
+    public void setSessionId(String sessionId){
         this.sessionId = sessionId;
     }
 
