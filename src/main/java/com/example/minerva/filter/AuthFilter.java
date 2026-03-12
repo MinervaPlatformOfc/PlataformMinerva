@@ -31,7 +31,7 @@ public class AuthFilter implements Filter {
         }
 
         // permitir login e resgistro sem session, tbm trocar a senha
-        if(uri.contains("login") || uri.contains("register") || uri.endsWith(".js") || uri.endsWith(".css") || uri.endsWith(".png") || uri.endsWith(".jpg") || uri.contains("recoverPassword")) {
+        if(uri.contains("login") || uri.contains("register") || uri.endsWith(".js") || uri.endsWith(".css") || uri.endsWith(".png") || uri.endsWith(".jpg") || uri.contains("recoverPassword") || uri.contains("/ia/")) {
             chain.doFilter(request, response);
             return;
         }
@@ -51,7 +51,7 @@ public class AuthFilter implements Filter {
         }
 
 
-        if(uri.contains("aluno") || uri.contains("ia")) {
+        if(uri.contains("aluno")) {
             if(!"student".equals(role)) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;
