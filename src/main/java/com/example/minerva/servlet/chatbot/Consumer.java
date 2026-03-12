@@ -8,11 +8,18 @@ import java.net.http.HttpResponse;
 import com.example.minerva.dto.ChatbotRequest;
 import com.example.minerva.dto.ChatbotResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cdimascio.dotenv.Dotenv;
 
 
 public class Consumer {
+    private static Dotenv dotenv = Dotenv.configure()
+            .ignoreIfMissing()
+            .load();
+
+    private static String API_KEY = dotenv.get("CHATBOT_API_KEY", System.getenv("CHATBOT_API_KEY"));
 
     public static ChatbotResponse send(ChatbotRequest request) throws IOException, InterruptedException{
+
 
 
         HttpClient client = HttpClient.newHttpClient();
@@ -23,7 +30,7 @@ public class Consumer {
                 .uri(URI.create("https://chatbotapi-gei3.onrender.com/"))
                 .headers(
                         "Content-Type", "application/json",
-                        "CHATBOT_API_KEY","9e4c1e9c3a5b2c64c91a8c9b7e3d3c7a5a4c2c7e5f6b1a9d4f3c2e1b0a8d7c6"
+                        "CHATBOT_API_KEY", API_KEY
                         )
                 .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(request)))
                 .build();
