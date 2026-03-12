@@ -51,7 +51,7 @@ public class AuthFilter implements Filter {
         }
 
 
-        if(uri.contains("aluno")) {
+        if(uri.contains("aluno") || uri.contains("ia")) {
             if(!"student".equals(role)) {
                 res.sendRedirect(req.getContextPath() + "/login.jsp");
                 return;
