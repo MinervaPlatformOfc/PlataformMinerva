@@ -140,6 +140,10 @@
         }
     %>
 
+    <form action="${pageContext.request.contextPath}/aluno/frames" method="get">
+        <button type="submit">Sala dos quadros</button>
+    </form>
+
 </main>
 <br>
 <br>

@@ -24,12 +24,12 @@ public class ServletListUsers extends HttpServlet {
         HttpSession session = req.getSession();
 
         UserDAO dao = new UserDAO();
-        HttpSession session = req.getSession();
+        HttpSession currentSession = req.getSession();
         double[] stats = (double[]) getServletContext().getAttribute("userStatistics");
         req.setAttribute("stats", stats);
         String name = null;
 String url = null;
-        String email = (String) session.getAttribute("email");
+        String email = (String) currentSession.getAttribute("email");
 
 // Se não veio como parâmetro, tenta pegar do atributo
 
