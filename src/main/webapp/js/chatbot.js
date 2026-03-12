@@ -60,6 +60,10 @@ async function sendMessage(){
         body: "msg="+encodeURIComponent(msg)
     });
 
+    if (!response.ok){
+        throw new Error("Erro HTTP: "+response.status)
+    }
+
     let data = await response.json();
 
     removerTyping(typing)
