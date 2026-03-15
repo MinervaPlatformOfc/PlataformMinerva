@@ -1,0 +1,256 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    position: relative;
+    overflow-x: hidden; /* Evita barra de rolagem lateral indesejada */
+}
+
+body {
+    font-family: 'Almendra', serif;
+    background-color: #0a0e17;
+}
+body::before {
+    content: "";
+    position: fixed; /* Fica parado mesmo ao rolar a página */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    /* Substitua pelo caminho da sua imagem/brasão */
+    background-image: url('../../assets/castelo.png');
+
+    background-repeat: no-repeat;
+    background-position: center;
+
+    /* TRANSPARÊNCIA: 0.05 é quase um fantasma, 0.1 aparece um pouco mais */
+    opacity: 0.05;
+    background-size: cover;
+
+
+    z-index: -1; /* Joga para trás de TUDO */
+    pointer-events: none; /* Ignora cliques para não atrapalhar o uso do site */
+
+    /* Opcional: filtro para deixar a imagem em tons de sépia ou dourado */
+    filter: sepia(1) saturate(2);
+}
+
+#chat {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    height: 400px;
+    overflow-y: auto;
+    border-radius: 8px 8px 0 0;
+}
+
+@keyframes flutuarMagico {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+        text-shadow: 0 0 10px rgba(255, 245, 197, 0.7);
+    }
+    33% {
+        transform: translateY(-4px) rotate(0.5deg); /* Sobe e inclina levemente */
+        text-shadow: 0 0 15px rgba(255, 245, 197, 0.9);
+    }
+    66% {
+        transform: translateY(-2px) rotate(-0.5deg); /* Desce um pouco mas continua no ar */
+        text-shadow: 0 0 12px rgba(255, 245, 197, 0.8);
+    }
+    100% {
+        transform: translateY(0px) rotate(0deg);
+        text-shadow: 0 0 10px rgba(255, 245, 197, 0.7);
+    }
+}
+/* Balão da IA (Esquerda - Translúcido) */
+.msg-ia {
+    align-self: flex-start;
+    background-color: #421010;
+    color: #e0af42; /* O placeholder fica mais "vivo" quando você clica */
+    text-shadow: 0 0 10px rgba(255, 245, 197, 0.8);
+    padding: 12px 18px;
+    border-radius: 15px 15px 15px 0px;
+    max-width: 80%;
+    border: 1px solid rgb(105, 1, 0);
+    box-shadow: 0px 0px 10px rgb(45, 5, 5);
+
+    /* A MÁGICA ESTÁ AQUI: */
+    /* Usamos 5 segundos para ser bem lento e uma curva cubic-bezier para suavidade extrema */
+    animation: flutuarMagico 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+
+    /* GPU Acceleration: isso aqui tira os "engasgos" da animação no navegador */
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Balão do Usuário (Direita - Marrom) */
+.msg-user {
+    align-self: flex-end;
+    background-color: #431111;
+    color: #e0af42; /* O placeholder fica mais "vivo" quando você clica */
+    text-shadow: 0 0 10px rgba(255, 245, 197, 0.8);
+    padding: 12px 18px;
+    border-radius: 15px 15px 0px 15px;
+    max-width: 80%;
+    box-shadow: 2px 2px 10px rgba(51, 0, 0, 0.82);
+}
+
+#msg {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+}
+
+/* Container principal (a barra no fundo) */
+#input-area {
+    animation: flutuarMagico 5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+
+    /* GPU Acceleration: isso aqui tira os "engasgos" da animação no navegador */
+    will-change: transform;
+    backface-visibility: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    /* ESPAÇAMENTO: Aqui você controla o respiro nas laterais (20px ou mais) */
+    padding: 20px 5%;
+
+    /* Garante que o padding não aumente o tamanho total da barra */
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* Garante que input e botão tenham a mesma altura */
+    gap: 15px;
+    z-index: 999;
+}
+
+/* O input estilizado conforme o print (70%) */
+#msg {
+
+    width: 60%; /* Ocupa 70% da área útil do centro */
+    background-color: #1a0505; /* Fundo escuro do print */
+    color: #f1dbaf;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+
+    /* Efeito de borda dupla da imagem */
+    border: 1px solid #9c8144;
+    outline: 1px solid #9c8144;
+    outline-offset: -5px;
+
+    border-radius: 2px;
+}
+
+#msg::placeholder {
+    color: #9c8144; /* Um tom de marrom avermelhado escuro/discreto */
+    opacity: 0.7;    /* Deixa um pouco transparente para não confundir com o texto digitado */
+    font-family: 'Almendra', serif;
+}
+/* Estilo para quando o usuário CLICA e está DIGITANDO */
+#msg:focus {
+    background-color: #2a0a0a; /* Fundo levemente mais claro que o padrão para dar destaque */
+    color: #ffffff;            /* Cor do texto que você digita (mudei para branco puro) */
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.4);
+    outline: 1px solid #f1dbaf;
+    /* Brilho dourado opcional na borda para um efeito "mágico" */
+    box-shadow: 0 0 10px rgba(156, 129, 68, 0.5);
+
+    outline: 1px solid #f1dbaf; /* Muda a linha interna para um dourado mais claro */
+    transition: all 0.3s ease;  /* Deixa a transição de cor suave */
+}
+
+/* Se você quiser que o placeholder mude de cor especificamente
+   enquanto o campo está focado (antes de começar a escrever): */
+#msg:focus::placeholder {
+    color: #e0af42; /* O placeholder fica mais "vivo" quando você clica */
+    text-shadow: 0 0 10px rgba(255, 245, 197, 0.8)
+}
+/* O botão de enviar (30%) */
+#input-area button {
+    width: 25%;
+    background-color: #431111;
+    /* Brilho dourado opcional na borda para um efeito "mágico" */
+    box-shadow: 0 0 10px rgb(178, 75, 73);
+    color: #9c8144;
+    border: 1px solid #9c8144;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Almendra', serif;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#input-area button:hover {
+    animation: sussurroMagico 2s ease-in-out infinite;
+    background-color: #9c8144;
+    color: #1a0505;
+    text-shadow: 0 0 10px rgb(255, 176, 0);
+    /* Brilho dourado opcional na borda para um efeito "mágico" */
+    box-shadow: 0 0 10px rgba(255, 238, 204, 0.5);
+}
+
+/* Dica: Adicione isso no seu container de chat
+para que as mensagens não fiquem escondidas atrás da barra fixa */
+#chat {
+    margin-bottom: 100px;
+}
+
+/* Container da mensagem de digitação */
+.typing {
+    align-self: flex-start;
+    margin: 10px 20px;
+    padding: 8px 15px;
+
+    /* Estética Mística */
+    color: #f1dbaf; /* Dourado pergaminho */
+    font-family: 'Almendra', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+
+    /* Efeito de brilho suave */
+    text-shadow: 0 0 8px rgba(224, 175, 66, 0.6);
+
+    /* Animação de pulsação (sussurro mágico) */
+    animation: sussurroMagico 2s ease-in-out infinite;
+
+    /* Opacidade inicial para não ser agressivo */
+    opacity: 0.8;
+}
+
+/* Animação que faz o texto "Quadro digitando..." brilhar e sumir levemente */
+@keyframes sussurroMagico {
+    0%, 100% {
+        opacity: 0.4;
+        transform: translateX(0px);
+        text-shadow: 0 0 5px rgba(224, 175, 66, 0.4);
+    }
+    50% {
+        opacity: 1;
+        text-shadow: 0 0 15px rgba(224, 175, 66, 0.9);
+    }
+}
+
+/* Opcional: Adicionar três pontinhos animados após o texto */
+.typing::after {
+    content: '...';
+    display: inline-block;
+    width: 20px;
+    animation: pontinhos 1.5s steps(4, end) infinite;
+}
+
+@keyframes pontinhos {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+}
