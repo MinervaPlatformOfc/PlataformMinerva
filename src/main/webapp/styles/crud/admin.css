@@ -1,21 +1,8 @@
-/* Ajustes para os modais */
-.div-insert,
-.div-update,
-.div-delete {
-    background-color: #1b2534;
-    width: 100%;
-    max-width: 520px;
-    padding: 35px;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 20px 40px rgba(0,0,0,.5);
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10000;
-    animation: modalOpen 0.25s ease;
+main h1{
+    color: #fccb4f;
 }
+
+/* Ajustes para os modais */
 
 .div-insert h2,
 .div-update h2,
@@ -138,6 +125,7 @@
 /* Ajuste para o header da tabela */
 .table-container {
     overflow-y: auto;
+    overflow-x: auto;
     max-height: 500px;
     border-radius: 8px;
     scrollbar-width: none;
@@ -257,7 +245,8 @@ tbody td:nth-last-child(2) {
 
 #divEscondida form {
     display: flex;
-    gap: 20px;
+    gap: 15px;
+    flex-wrap:wrap;
     align-items: flex-end;
     background: linear-gradient(180deg, #1b2534, #162030);
     padding: 20px;
@@ -278,6 +267,7 @@ tbody td:nth-last-child(2) {
     background: #0f1724;
     color: #ffffff;
     cursor: pointer;
+    min-width: 180px;
 }
 
 #divEscondida select:focus {
@@ -323,9 +313,10 @@ tbody td:nth-last-child(2) {
     transform: translate(-50%, -50%);
     z-index: 10000;
     animation: modalOpen 0.25s ease;
-    overflow-y: auto; /* Scroll vertical quando necessário */
-    scrollbar-width: none; /* Firefox - esconder scroll */
-    -ms-overflow-style: none; /* IE/Edge - esconder scroll */
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
 }
 
 .div-insert::-webkit-scrollbar,
@@ -658,4 +649,14 @@ tbody td:nth-last-child(2) {
     text-align: center;
     vertical-align: middle;
     padding: 10px 5px;
+}
+
+@media (max-width:768px){
+
+    .div-insert,
+    .div-update,
+    .div-delete{
+        padding:25px;
+    }
+
 }
