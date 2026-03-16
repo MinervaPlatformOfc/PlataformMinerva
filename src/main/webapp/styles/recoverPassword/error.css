@@ -1,0 +1,135 @@
+/* FUNDO */
+
+body{
+    margin:0;
+    height:100vh;
+    width:100%;
+
+    background-attachment: fixed;
+    background-image: url("../../assets/castelo.png");
+    background-color: #0F0A0E;
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+
+    font-family: 'Almendra', serif;
+    color:white;
+
+    letter-spacing:0.5px;
+}
+
+
+/* CONTAINER */
+
+.page{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+
+    padding-top:70px;
+}
+
+
+/* LOGO */
+
+.logo{
+    width: 300px;
+    margin-bottom: -30px;
+    margin-left: 20px;
+    justify-content: center;
+}
+
+
+/* CONTAINER DO TITULO + ORNAMENTOS */
+
+.title-container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+
+    margin-bottom:15px;
+}
+
+
+/* ORNAMENTOS */
+
+.ornamento-esq{
+    height:22px;
+}
+
+.ornamento-dir{
+    height:22px;
+    transform:scaleX(-1);
+}
+
+
+/* CONTAINER DO ERRO */
+
+.error-box{
+    background:#1f263b;
+    border:2px solid #c8a24c;
+
+    padding:30px 35px;
+
+    max-width:520px;
+    width:85%;
+
+    text-align:center;
+    color:white;
+
+    margin:15px auto;
+
+    line-height:1.5;
+    text-shadow:1px 1px 2px #000;
+    font-size:18px;
+
+    box-shadow:0 0 0 4px rgba(200,162,76,0.3);
+}
+
+
+/* TITULO DO ERRO */
+
+.error-code{
+    color:#ffffff;
+    font-size:30px;
+    margin:0;
+
+    text-shadow:
+            0 2px 3px rgba(0,0,0,0.9),
+            0 0 6px rgba(0,0,0,0.6);
+
+}
+
+
+/* BOTAO REINICIAR */
+
+.retry-button{
+    margin-top:25px;
+    padding:12px 30px;
+    font-size:16px;
+
+    background:#7b1d1d;
+    border:2px solid #c8a24c;
+
+    color:white;
+
+    border-radius:40px;
+    cursor:pointer;
+    font-family:inherit;
+
+    text-shadow:1px 1px 2px #000;
+
+    transition:0.2s;
+}
+
+.retry-button:hover{
+    background:#922424;
+    transform:scale(1.05);
+}
+
+.error-message{
+    color:#b32626;
+    font-weight:bold;
+}
