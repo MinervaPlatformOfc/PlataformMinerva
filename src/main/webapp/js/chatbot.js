@@ -7,7 +7,8 @@ function adicionarMensagemUsuario(texto){
     let p = document.createElement("p");
 
 
-    msg.className = "msg-user";
+// Na função adicionarMensagemUsuario:
+    msg.className = "msg-user"; // Já está assim, mantenha.
     p.innerText = texto;
 
     chat.appendChild(msg);
@@ -23,7 +24,8 @@ function adicionarMensagemIA(texto){
     let msg = document.createElement("div");
     let  p = document.createElement("p");
 
-    p.className = "msg-ia";
+    // Na função adicionarMensagemIA:
+    msg.className = "msg-ia"; // Adicione a classe na DIV, não no P
     p.innerText = texto;
 
     chat.appendChild(msg);
