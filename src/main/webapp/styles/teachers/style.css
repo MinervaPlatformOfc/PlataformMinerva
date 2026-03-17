@@ -1,95 +1,197 @@
 /* reset fontes e variaveis */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Almendra', serif;
+}
 
 body {
     font-family: 'Almendra', serif;
     min-height: 100vh;
     margin: 0;
-
-    height:100vh;
     width:100%;
-    background-attachment: fixed;
-    background-image: url("../../assets/bg_prof.png");
-    background-color: #0F0A0E;
+
+    color:white;
+    letter-spacing: 0.5px;
+
+    background:
+            linear-gradient(
+                    180deg,
+                    rgba(5,10,25,0.85) 0%,
+                    rgba(5,10,25,0.95) 40%,
+                    rgba(0,0,0,1) 100%
+            ),
+            url("../../assets/bg_prof.png");
+
     background-size: cover;
     background-position: center 30%;
     background-repeat: no-repeat;
-
-    color:#f5f3e7;
-
-    letter-spacing: 0.5px;
-}
-button{
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-}
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
-/* Header */
+.escondido{
+    display: none;
+}
 
-header {
+/* header */
+header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 90px;
-    background: rgba(0, 0, 0, 0.3);
+    padding: 15px 40px;
+    background: rgba(0,0,0,0.3);
     border-bottom: 1px solid #d4af37;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    position: relative;
 }
 
-header a, .nav-button {
-    background: none;
+header .nav-links{
     text-decoration: none;
-    color: gray;
+    color: white;
     font-size: 1.1rem;
     margin-right: 35px;
     transition: 0.3s;
     text-shadow: 1px 1px 2px #000;
 }
+header form button{
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    transition: 0.7s ease;
+}
+
+header form{
+    display: inline;
+    margin-right: 35px;
+}
 header #atual{
-    color: #f5f3e7;
+    color: white;
 }
 
-header a:hover, .nav-button:hover {
-    color: #f5f3e7;
-    text-shadow: 0 10px 15px #ffc402;
+header .nav-links button:hover {
+    text-shadow:
+            0 0 25px #ffc400,
+            0 0 50px #ffc400,
+            0 0 100px #ffc400;
 }
 
-header img[alt="logo-Minerva"] {
-    height: 60px;
+header img{
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 40%;
+    transform: translateX(-30%);
+    margin-top: 80px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    cursor: pointer;
     filter: drop-shadow(0 0 5px #d4af37);
+    animation: flutuar 3s ease-in-out infinite;
 }
 
 #perfil {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    border: 2px solid #d4af37;
-    padding: 5px 15px;
-    border-radius: 50px;
-    background: rgba(0, 0, 0, 0.5);
-    cursor: pointer;
-}
 
-#perfil p {
-    color: #d4af37;
-    font-weight: bold;
+    width: 100%;
+    max-width: 120px;
+    padding: 8px 20px;
+    border-radius: 50px;
+    gap: 10px;
+
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    font-family: 'Almendra', serif;
+    border: 2px solid #d4af37;
+    background: rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
 }
 
 #perfil svg {
     width: 24px;
     height: 24px;
-    fill: #f5f3e7;
+    fill: #fff;
+}
+
+
+
+form #perfil button:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: scale(1.05);
+}
+
+form #perfil button svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+    margin-right: auto;
+}
+
+.sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    height: 100%;
+    width: 260px;
+    transition: 0.3s;
+    z-index: 200;
+    background-color: rgba(5,10,25,0.95);
+}
+
+.sidebar form {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    padding: 20px 0px;
+}
+
+.sidebar form #atual{
+    color: white;
+}
+
+.sidebar button {
+    width: 100%;
+    height: auto;
+
+    padding: 10px;
+    font-size: 1rem;
+    color: gray;
+    background-color: var(--bg-casa);
+}
+
+.sidebar button:hover{
+    color: white;
+    box-shadow: drop-shadow(0 0 50px #d4af37);
+}
+
+.sidebar input {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+    color: #a0aec0;
+}
+
+.sidebar input {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 500;
+    margin-left: 10px;
+    font-size: 1rem;
+}
+
+.sidebar input:hover {
+    background-color: #1f253a;
+    color: #ffffff;
 }
 
 /* main */
@@ -104,7 +206,8 @@ main {
 
 main h1:first-of-type {
     font-size: 2rem;
-    color: #bdbdbd;
+    color: #ffffff;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8);
     font-weight: 400;
     margin-bottom: 10px;
 }
@@ -163,7 +266,7 @@ main h2 {
     margin-bottom: 30px;
     background: #252B41;
     border: 2px solid #d4af37;
-    color: #f5f3e7;
+    color: #fff;
     font-size: 1.3rem;
     font-weight: 600;
     font-family: 'Almendra', serif;
@@ -190,6 +293,7 @@ main h2 {
     background: #2a3144;
     transition: 0.3s;
     cursor: pointer;
+    overflow-x: scroll;
 }
 
 .barra:hover {
@@ -240,7 +344,56 @@ main h2 {
     animation: tremer 0.3s ease;
 }
 
-.nav-links{
-    display:flex;
-    justify-content: space-between;
+
+
+@keyframes flutuar {
+    0% {
+        transform: translateY(-2px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(+12px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateY(-2px) rotate(0deg);
+    }
+}
+
+@media (max-width: 1000px){
+
+    header img{
+        left: 27%;
+    }
+
+    .col-n, .nav-links{
+        display: none;
+    }
+
+    #boletim{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+
+    }
+
+    .col-materia{
+        align-self: center;
+    }
+
+    #menu-sandwich{
+        display: block !important;
+        cursor: pointer;
+    }
+
+    .sidebar.aberta{
+        left:0;
+    }
+}
+
+@media (max-width: 700px) {
+    header img{
+        display: none;
+    }
 }

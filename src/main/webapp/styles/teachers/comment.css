@@ -10,90 +10,131 @@ body {
     font-family: 'Almendra', serif;
     min-height: 100vh;
     margin: 0;
-
-    height:100vh;
     width:100%;
-    background-attachment: fixed;
-    background-image: url("../../assets/bg_prof.png");
-    background-color: #0F0A0E;
+
+    color:white;
+    letter-spacing: 0.5px;
+
+    background:
+            linear-gradient(
+                    180deg,
+                    rgba(5,10,25,0.85) 0%,
+                    rgba(5,10,25,0.95) 40%,
+                    rgba(0,0,0,1) 100%
+            ),
+            url("../../assets/bg_prof.png");
+
     background-size: cover;
     background-position: center 30%;
     background-repeat: no-repeat;
-
-    color:white;
-
-    letter-spacing: 0.5px;
 }
 
-/* header */
+.escondido{
+    display: none;
+}
 
-header {
-    position: relative;
+
+/* header */
+header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 50px 5%;
-    background: rgba(0, 0, 0, 0.3);
+    padding: 20px 40px;
+    background: rgba(0,0,0,0.3);
     border-bottom: 1px solid #d4af37;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    flex-wrap: wrap;
+    position: relative;
 }
 
-header a {
-    text-decoration: none;
-    color: gray;
-    font-size: 1.1rem;
-    margin-right: 25px;
-    transition: 0.3s;
-    text-shadow: 1px 1px 2px #000;
+header form button{
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    transition: 0.7s ease;
 }
 
-header #atual {
-    color: #f5f3e7;
+header form{
+    display: inline;
+    margin-right: 35px;
+}
+header .nav-links button:hover {
+    text-shadow:
+            0 0 25px #ffc400,
+            0 0 50px #ffc400,
+            0 0 100px #ffc400;
 }
 
-header a:hover {
-    color: #fff;
-    text-shadow: 0 10px 15px #ffc402;
-}
-
-
-header img[alt="logo-Minerva"] {
-    height: 60px;
+header img{
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 42%;
+    margin-top: 80px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    cursor: pointer;
     filter: drop-shadow(0 0 5px #d4af37);
+    animation: flutuar 3s ease-in-out infinite;
 }
 
-#perfil {
+.btn-voltar {
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    margin-left: auto;
+}
+
+.btn-voltar form {
+    margin: 0;
+    padding: 0;
+}
+
+.btn-voltar button {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #d4af37;
+    border-radius: 50px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    font-family: 'Almendra', serif;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 10px;
-    border: 1px solid #d4af37;
-    padding: 5px 15px;
-    border-radius: 50px;
-    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+}
+
+.btn-voltar button:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: scale(1.05);
+}
+
+.btn-voltar svg {
+    width: 20px;
+    height: 20px;
+    fill: #ffffff;
+}
+
+#chat{
+    margin: 20px;
     cursor: pointer;
+    width: 100%;
+    min-width: 20px;
+    max-width: 40px;
+    height: auto;
 }
-
-#perfil p {
-    color: #d4af37;
-    font-weight: bold;
-}
-
-#perfil svg {
-    width: 24px;
-    height: 24px;
-    fill: #f5f3e7;
-}
-
 /* main */
 
 main {
     display: flex;
+    flex-wrap: wrap;
     gap: 40px;
     max-width: 1200px;
+    width: 90%;
     margin: auto;
     padding: 20px;
 }
@@ -105,7 +146,7 @@ aside {
 }
 
 .informacoes {
-    flex: 1;
+    flex: 1 1 320px;
 }
 
 
@@ -117,6 +158,7 @@ aside {
     width: 100%;
     max-width: 700px;
     height: auto;
+    object-fit: cover;
     border: 2px solid #d4af37;
 }
 
@@ -131,7 +173,7 @@ aside {
 }
 
 .observacoes {
-    flex: 2;
+    flex: 2 1 600px;
 }
 
 .scroll {
@@ -170,6 +212,8 @@ aside {
     color: gainsboro;
 }
 
+
+
 .pontos {
     position: absolute;
     top: 10px;
@@ -183,6 +227,28 @@ aside {
     color: #ff2e2e;
 }
 
+.card {
+    position: relative;
+    width:100%;
+    word-wrap:break-word;
+}
+.card .pontos {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.pontos.positivo {
+    color: #4CAF50;
+}
+.pontos.negativo {
+    color: #f44336;
+}
+.pontos.neutro {
+    color: #9e9e9e;
+}
+
 .escondido {
     display: none;
 }
@@ -194,11 +260,13 @@ aside {
     transform: translate(-50%, -50%);
     width: 90%;
     max-width: 700px;
+    max-height: 90vh;
     background: #1f2740;
     padding: 40px;
     border: 2px solid #d4af37;
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
     z-index: 1001;
+    overflow-y:auto;
 }
 
 .div-add textarea, input {
@@ -264,4 +332,69 @@ aside {
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(4px);
     z-index: 1000;
+}
+
+
+@keyframes flutuar {
+    0% {
+        transform: translateY(-2px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(+12px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateY(-2px) rotate(0deg);
+    }
+}
+
+@media (max-width:1000px){
+
+    header{
+        padding:15px 20px;
+    }
+
+    header img{
+        left:10%;
+        max-width:250px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    #menu-sandwich{
+        display:block !important;
+        cursor:pointer;
+    }
+
+    .sidebar.aberta{
+        left:0;
+    }
+
+}
+
+@media (max-width:700px){
+
+    main{
+        flex-direction:column;
+        width:95%;
+    }
+
+    header img{
+        left:10%;
+        max-width:200px;
+    }
+
+    .informacoes h1{
+        font-size:2rem;
+        text-align:center;
+    }
+
+    .observacoes input[type="button"]{
+        width:100%;
+        margin:20px 0;
+    }
+
 }

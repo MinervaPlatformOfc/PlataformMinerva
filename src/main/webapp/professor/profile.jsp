@@ -12,45 +12,6 @@
   <title>Perfil Professor - Minerva</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/teachers/perfil.css">
   <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Hermeneus+One&display=swap" rel="stylesheet">
-  <style>
-    form#perfil {
-      padding: 0;
-      background: none;
-    }
-
-    /* Aplica os estilos visuais apenas no botão */
-    form#perfil button {
-      background: rgba(0, 0, 0, 0.5);
-      border: 2px solid #d4af37;
-      border-radius: 50px;
-      padding: 8px 20px;
-      color: white;
-      font-family: 'Almendra', serif;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      width: 100%;
-    }
-
-    form#perfil button:hover {
-      background: rgba(212, 175, 55, 0.2);
-      transform: scale(1.05);
-    }
-
-    form#perfil button svg {
-      width: 24px;
-      height: 24px;
-      fill: #fff;
-    }
-    .logo {
-        width: 190px;
-        margin-bottom: -35px;
-        justify-content: center;
-    }
-  </style>
 </head>
 <body>
 <%
@@ -62,6 +23,9 @@
 %>
 
 <header>
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="54px" fill="#C7D9E5" class="escondido" id="menu-sandwich"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
+
   <div class="nav-links">
     <form action="${pageContext.request.contextPath}/professor/home" method="post" style="display: inline;">
       <input type="hidden" name="teacherId" value="<%=teacherId%>">
@@ -82,6 +46,9 @@
     </form>
   </div>
 
+  <img src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png"
+       alt="logo-Minerva"
+       class="logo-central">
 
   <form action="${pageContext.request.contextPath}/teacher/profile" method="post" id="perfil">
     <input type="hidden" name="teacherId" value="<%=teacherId%>">
@@ -94,6 +61,26 @@
     </button>
   </form>
 </header>
+
+<aside class="sidebar">
+  <form action="${pageContext.request.contextPath}/professor/home" method="post" style="display: inline;">
+    <input type="hidden" name="teacherId" value="<%=teacherId%>">
+    <button type="submit" class="nav-button">Início</button>
+  </form>
+  <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post" style="display: inline;">
+    <input type="hidden" name="teacherId" value="<%=teacherId%>">
+    <input type="hidden" name="teacherName" value="<%=name%>">
+    <input type="hidden" name="houseName" value="<%=houseName%>">
+    <button type="submit" class="nav-button">Observações</button>
+  </form>
+  <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post" style="display: inline;">
+    <input type="hidden" name="showGrades" value="true">
+    <input type="hidden" name="teacherId" value="<%=teacherId%>">
+    <input type="hidden" name="teacherName" value="<%=name%>">
+    <input type="hidden" name="houseName" value="<%=houseName%>">
+    <button type="submit" class="nav-button">Notas</button>
+  </form>
+</aside>
 
 <main>
   <div class="conteudo-principal">
@@ -154,15 +141,6 @@
 
 </main>
 
-<script>
-  // Logo que volta para o início (efeito tremendo)
-  const voltarInicioImg = document.querySelector('.logo-central');
-
-  voltarInicioImg.addEventListener('click', () => {
-    voltarInicioImg.classList.remove("tremendo");
-    void voltarInicioImg.offsetWidth;
-    voltarInicioImg.classList.add("tremendo");
-  });
-</script>
+<script src="${pageContext.request.contextPath}/js/sidebar.js"></script>
 </body>
 </html>

@@ -1,29 +1,40 @@
-/* reset font e variaeis  */
+/* reset fontes e variaveis */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Almendra', serif;
+}
 
 body {
-    font-family: 'Almendra', serif;
     color: #fff;
     min-height: 100vh;
     margin: 0;
-}
 
-:root{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
     --cor-casa:  rgba(204, 155, 49, 1);
     --bg-casa: #7a5c18;
     --bg-intermediario: #3a2a05;
+    --bg-sidebar:#aa7503;
     --cor-barra:rgba(212, 148, 43, 0.76);
 
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 120%
+    #322405 120%
     );
 }
 
+
 body.sonserina{
-    --cor-casa: rgb(27, 146, 102);
+    --cor-casa: rgb(25, 197, 134);
     --bg-casa: #133a1b;
     --bg-intermediario: #071a0d;
+    --bg-sidebar:#071a0d;
     --cor-barra:rgba(30, 67, 40, 0.76);
 
     background: linear-gradient(to bottom,
@@ -37,6 +48,7 @@ body.corvinal{
     --cor-casa: rgb(18, 138, 223);
     --bg-casa: #0c4a7c;
     --bg-intermediario: #06294a;
+    --bg-sidebar:#06294a;
     --cor-barra:rgba(9, 70, 104, 0.76);
 
     background: linear-gradient(to bottom,
@@ -50,6 +62,7 @@ body.grifinoria{
     --cor-casa: #ec1111;
     --bg-casa: #740001;
     --bg-intermediario: #2a0a0a;
+    --bg-sidebar:#2a0a0a;
     --cor-barra:rgba(143, 32, 31, 1);
 
     background: linear-gradient(to bottom,
@@ -57,105 +70,183 @@ body.grifinoria{
     var(--bg-intermediario) 40%,
     #000 120%
     );
+
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.escondido{
+    display: none;
 }
-
-
-body {
-    font-family: 'Almendra', serif;
-    color: #ffffff;
-    background-attachment: fixed;
-    min-height: 100vh;
-    margin: 0;
-}
-
 /* header */
-
-header {
+header{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0,0,0,0.3);
     border-bottom: 1px solid #d4af37;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    position: relative;
 }
 
-header form button {
-    text-decoration: none;
-    color: gray;
-    font-size: 1.7rem;
-    margin-left: 35px;
-    transition: 0.3s;
-    text-shadow: 1px 1px 2px #000;
-    color:white
-}
-
-header a {
+header .nav-links button {
     text-decoration: none;
     color: gray;
     font-size: 1.1rem;
+    margin-right: 35px;
     transition: 0.3s;
     text-shadow: 1px 1px 2px #000;
-    color:white
+}
+header #atual{
+    color: white;
+}
+
+header button:hover, #aluno-perfil p:hover {
+    color: #fff;
+    text-shadow: 0 10px 15px #ffc402;
+}
+
+header img{
+    position: absolute;
+    left: 40%;
+    transform: translateX(-40%);
+    margin-top: 80px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    cursor: pointer;
+    filter: drop-shadow(0 0 5px #d4af37);
+    animation: flutuar 3s ease-in-out infinite;
 }
 
 header form button{
     background: none;
     border: none;
-    color: white;
-    font-family: 'Almendra', serif;
-    font-size: 1.1rem;
+    color: inherit;
+    font: inherit;
     cursor: pointer;
     padding: 0;
 }
-
-.logo-central{
-    height:70px;
-    filter:drop-shadow(0 0 8px #d4af37);
-    cursor: pointer;
-}
-
-header p:hover {
-    color: #fff;
-    text-shadow: 0 0 10px #d4af37;
-}
-header > div:not(#aluno-perfil){
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-header > div:not(#aluno-perfil) > p{
-    margin-top: 10px;
-}
-
-
-#aluno-perfil a:hover {
-    color: #f1e9d1;
-    text-shadow: 0 0 10px #d4af37;
+header form{
+    display: inline;
+    margin-right: 35px;
 }
 
 #aluno-perfil {
     display: flex;
     align-items: center;
-    gap: 10px;
+    margin-left: auto;
     border: 1px solid #d4af37;
-    padding: 5px 15px;
-    border-radius: 50px;
+    padding: 10px 15px;
+    border-radius: 40px;
     background: rgba(0, 0, 0, 0.5);
     cursor: pointer;
+
+}
+#aluno-perfil button{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition: 1s ease-in;
 }
 
+#aluno-perfil p {
+    color: #fff;
+    font-weight: bold;
+    transition: 0.1s ease-in;
+}
 
 #aluno-perfil svg {
     width: 24px;
     height: 24px;
     fill: #fff;
+}
+
+#chat{
+    margin: 20px;
+    cursor: pointer;
+    width: 100%;
+    min-width: 20px;
+    max-width: 32px;
+    height: auto;
+}
+/* sidebar */
+
+
+.sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    height: 100%;
+    width: 260px;
+    transition: 0.3s;
+    z-index: 200;
+    background-color: var(--bg-sidebar);
+}
+
+.sidebar form {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    padding: 20px 0px;
+}
+
+.sidebar form #atual{
+    color: white;
+}
+
+.sidebar button {
+    width: 100%;
+    height: auto;
+
+    padding: 10px;
+    font-size: 1rem;
+    color: gray;
+    background-color: var(--bg-casa);
+}
+
+.sidebar button:hover{
+    color: white;
+    box-shadow: drop-shadow(0 0 50px #d4af37);
+}
+
+.sidebar input {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+    color: #a0aec0;
+}
+
+.sidebar input {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 500;
+    margin-left: 10px;
+    font-size: 1rem;
+}
+
+.sidebar input {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+}
+
+.sidebar input:hover {
+    background-color: #1f253a;
+    color: #ffffff;
 }
 
 /* main */
@@ -164,9 +255,9 @@ main{
     display: grid;
     grid-template-columns: 1fr 2px 1fr;
     max-width: 1200px;
-    width: 100%;
+    width: 90%;
     margin: 80px auto;
-    gap: 60px;
+    gap: 40px;
 }
 
 main > div.barra {
@@ -183,6 +274,7 @@ main > div.barra {
     text-shadow: 1px 1px 2px #000;
     position: relative;
     overflow: hidden;
+    background-color: var(--bg-sidebar);
 }
 
 main > div.barra svg, path {
@@ -216,6 +308,8 @@ aside{
 
 aside img{
     width:100%;
+    height:auto;
+    object-fit:cover;
     border:2px solid #d4af37;
     margin-bottom:10px;
 }
@@ -232,6 +326,7 @@ aside .barra{
     width: 100%;
     border:1px solid #d4af37;
     background:var(--cor-barra);
+    word-wrap:break-word;
     display:flex;
     text-align: justify;
     flex-direction: column;
@@ -254,8 +349,7 @@ aside .barra p{
 }
 
 aside .barra .pontos{
-    position: fixed;
-    left: 440px;
+    margin-left: auto;
 }
 
 aside:not(.observacoes) .barra:hover{
@@ -280,4 +374,64 @@ aside .barra span{
     background-color: #d4af37;
     width: 2px;
     min-height: 100%;
+}
+
+@keyframes flutuar {
+    0% {
+        transform: translateY(-2px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(+12px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateY(-2px) rotate(0deg);
+    }
+}
+
+
+@media (max-width: 1000px){
+
+    header{
+        padding:15px 20px;
+    }
+
+    header img{
+        left:50%;
+        transform:translateX(-50%);
+        max-width:200px;
+    }
+
+    .nav-links{
+        display:none;
+    }
+
+    #menu-sandwich{
+        display:block !important;
+        cursor:pointer;
+    }
+
+    .sidebar.aberta{
+        left:0;
+    }
+}
+
+@media (max-width: 900px){
+
+    main{
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .divisor{
+        display:none;
+    }
+
+}
+
+@media (max-width: 700px) {
+    header img{
+        display: none;
+    }
 }

@@ -22,18 +22,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/students/subjects.css">
-    <style>
-        .logo {
-            width: 190px;
-            margin-bottom: -35px;
-            justify-content: center;
-        }
-    </style>
 </head>
 
 <body class="<%= houseName %>">
 
 <header>
+
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="54px" fill="#C7D9E5" class="escondido" id="menu-sandwich"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
 
     <div class="nav-links">
 
@@ -76,6 +71,28 @@
     </div>
 
 </header>
+
+
+<aside class="sidebar">
+    <form action="${pageContext.request.contextPath}/aluno/home" method="post">
+        <input type="hidden" name="id" value="<%=id%>">
+        <button type="submit">Início</button>
+    </form>
+
+    <form action="${pageContext.request.contextPath}/aluno/grades" method="post">
+        <input type="hidden" name="id" value="<%=id%>">
+        <input type="hidden" name="name" value="<%=name%>">
+        <input type="hidden" name="houseName" value="<%=houseName%>">
+        <button type="submit">Boletim</button>
+    </form>
+
+    <form action="${pageContext.request.contextPath}/aluno/subjects" method="post">
+        <input type="hidden" name="id" value="<%=id%>">
+        <input type="hidden" name="name" value="<%=name%>">
+        <input type="hidden" name="houseName" value="<%=houseName%>">
+        <button type="submit">Matérias</button>
+    </form>
+</aside>
 
 <main>
 
@@ -124,6 +141,6 @@
     </div>
 
 </main>
-
+<script src="${pageContext.request.contextPath}/js/sidebar.js"></script>
 </body>
 </html>

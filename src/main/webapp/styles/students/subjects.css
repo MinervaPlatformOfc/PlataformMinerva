@@ -1,35 +1,47 @@
 /* reset fontes e variaveis */
 
-body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: 'Almendra', serif;
+}
+
+body {
     color: #fff;
     min-height: 100vh;
     margin: 0;
-}
 
-:root{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
     --cor-casa:  rgba(204, 155, 49, 1);
     --bg-casa: #7a5c18;
     --bg-intermediario: #3a2a05;
-    --bg-boletim:rgba(143, 112, 20, 1);
+    --bg-sidebar:#aa7503;
+    --cor-barra:rgba(212, 148, 43, 0.76);
 
-    background: linear-gradient(to bottom,
-    var(--bg-casa) 0%,
-    var(--bg-intermediario) 40%,
-    #000 80%
+    background: linear-gradient(
+            180deg,
+            var(--bg-casa) 0%,
+            var(--bg-intermediario) 40%,
+            #322405 100%
     );
 }
+
 
 body.sonserina{
     --cor-casa: rgb(25, 197, 134);
     --bg-casa: #133a1b;
     --bg-intermediario: #071a0d;
-    --bg-boletim: rgba(14, 33, 19, 1);
+    --bg-sidebar:#071a0d;
+    --cor-barra:rgba(30, 67, 40, 0.76);
 
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 120%
     );
 }
 
@@ -37,12 +49,13 @@ body.corvinal{
     --cor-casa: rgb(18, 138, 223);
     --bg-casa: #0c4a7c;
     --bg-intermediario: #06294a;
-    --bg-boletim: rgba(1, 24, 45, 1);
+    --bg-sidebar:#06294a;
+    --cor-barra:rgba(9, 70, 104, 0.76);
 
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 120%
     );
 }
 
@@ -50,40 +63,62 @@ body.grifinoria{
     --cor-casa: #ec1111;
     --bg-casa: #740001;
     --bg-intermediario: #2a0a0a;
-    --bg-boletim: rgba(85, 15, 15, 1);
+    --bg-sidebar:#2a0a0a;
+    --cor-barra:rgba(143, 32, 31, 1);
 
     background: linear-gradient(to bottom,
     var(--bg-casa) 0%,
     var(--bg-intermediario) 40%,
-    #000 80%
+    #000 120%
     );
+
 }
 
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.escondido{
+    display: none;
 }
-
-
-body {
-    font-family: 'Almendra', serif;
-    color: #ffffff;
-    background-attachment: fixed;
-    min-height: 100vh;
-}
-
 /* header */
-header {
+header{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0,0,0,0.3);
     border-bottom: 1px solid #d4af37;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    position: relative;
 }
+
+header .nav-links button {
+    text-decoration: none;
+    color: gray;
+    font-size: 1.1rem;
+    margin-right: 35px;
+    transition: 0.3s;
+    text-shadow: 1px 1px 2px #000;
+}
+header #atual{
+    color: white;
+}
+
+header button:hover, #aluno-perfil p:hover {
+    color: #fff;
+    text-shadow: 0 10px 15px #ffc402;
+}
+
+header img{
+    position: absolute;
+    left: 40%;
+    transform: translateX(-40%);
+    margin-top: 80px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    cursor: pointer;
+    filter: drop-shadow(0 0 5px #d4af37);
+    animation: flutuar 3s ease-in-out infinite;
+}
+
 header form button{
     background: none;
     border: none;
@@ -96,39 +131,35 @@ header form{
     display: inline;
     margin-right: 35px;
 }
-header a {
-    text-decoration: none;
-    color: gray;
-    font-size: 1.1rem;
-    margin-right: 35px;
-    transition: 0.3s;
-    text-shadow: 1px 1px 2px #000;
-}
-header #atual{
-    color: white;
-}
-
-header a:hover {
-    color: #fff;
-    text-shadow: 0 0 10px #d4af37;
-}
-
-
 
 #aluno-perfil {
     display: flex;
     align-items: center;
-    gap: 10px;
+    margin-left: auto;
     border: 1px solid #d4af37;
-    padding: 5px 15px;
-    border-radius: 50px;
+    padding: 10px 15px;
+    border-radius: 40px;
     background: rgba(0, 0, 0, 0.5);
     cursor: pointer;
+
+}
+#aluno-perfil button{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    transition: 1s ease-in;
 }
 
 #aluno-perfil p {
-    color: #d4af37;
+    color: #fff;
     font-weight: bold;
+    transition: 0.1s ease-in;
 }
 
 #aluno-perfil svg {
@@ -137,20 +168,105 @@ header a:hover {
     fill: #fff;
 }
 
+#chat{
+    margin: 20px;
+    cursor: pointer;
+    width: 100%;
+    min-width: 20px;
+    max-width: 32px;
+    height: auto;
+}
+/* sidebar */
+
+
+.sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    height: 100%;
+    width: 260px;
+    transition: 0.3s;
+    z-index: 200;
+    background-color: var(--bg-sidebar);
+}
+
+.sidebar form {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    padding: 20px 0px;
+}
+
+.sidebar form #atual{
+    color: white;
+}
+
+.sidebar button {
+    width: 100%;
+    height: auto;
+
+    padding: 10px;
+    font-size: 1rem;
+    color: gray;
+    background-color: var(--bg-casa);
+}
+
+.sidebar button:hover{
+    color: white;
+    box-shadow: drop-shadow(0 0 50px #d4af37);
+}
+
+.sidebar input {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+    color: #a0aec0;
+}
+
+.sidebar input {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 500;
+    margin-left: 10px;
+    font-size: 1rem;
+}
+
+.sidebar input {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+}
+
+.sidebar input:hover {
+    background-color: #1f253a;
+    color: #ffffff;
+}
+
 main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 100px;
+    padding: 100px 20px;
+    width: 100%;
 }
 
 .container-grid{
     display: grid;
     align-items: start;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, auto);
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1200px;
 }
+
 
 .materia{
     cursor: pointer;
@@ -158,9 +274,9 @@ main{
     flex-direction: column;
     border-radius: 12px;
     border: 1px solid #d4af37;
-    height: auto;
+    min-height: 320px;
     text-align: center;
-    height: 450px;
+    width: 100%;
     transform: scale(1);
     transition: transform 0.35s cubic-bezier(.4,0,.2,1);
     will-change: transform;
@@ -170,13 +286,13 @@ main{
     transform: scale(1.1);
 }
 
+
 .materia img{
-    flex: 1;
-    max-width: 100%;
-    height: auto;
+    width:100%;
+    height:220px;
+    object-fit:cover;
     transition: 0.3;
 }
-
 
 
 .nome-Materia{
@@ -193,4 +309,48 @@ main{
 
 .nome-Materia span{
     font-size: 1.5rem;
+}
+
+@keyframes flutuar {
+    0% {
+        transform: translateY(-2px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(+12px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateY(-2px) rotate(0deg);
+    }
+}
+
+@media (max-width: 1000px){
+
+    header img{
+        left: 27%;
+    }
+
+    .nav-links{
+        display: none;
+    }
+
+    .col-materia{
+        align-self: center;
+    }
+
+    #menu-sandwich{
+        display: block !important;
+        cursor: pointer;
+    }
+
+    .sidebar.aberta{
+        left:0;
+    }
+}
+
+@media (max-width: 700px) {
+    header img{
+        display: none;
+    }
 }

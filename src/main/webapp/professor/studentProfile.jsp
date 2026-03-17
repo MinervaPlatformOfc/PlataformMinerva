@@ -26,95 +26,6 @@
   <title>Perfil do Aluno - Minerva</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/students/profile.css">
   <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=Hermeneus+One&display=swap" rel="stylesheet">
-  <style>
-    /* Botão de voltar no canto direito */
-    .btn-voltar {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 100;
-    }
-
-    .btn-voltar form {
-      margin: 0;
-      padding: 0;
-    }
-
-    .btn-voltar button {
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid #d4af37;
-      border-radius: 50px;
-      padding: 8px 20px;
-      cursor: pointer;
-      transition: 0.3s;
-      color: white;
-      font-family: 'Almendra', serif;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      height: 100%;
-    }
-
-    .btn-voltar button:hover {
-      background: rgba(212, 175, 55, 0.2);
-      transform: scale(1.05);
-    }
-
-    .btn-voltar svg {
-      width: 20px;
-      height: 20px;
-      fill: #ffffff;
-    }
-
-    /* Estilo para matérias não clicáveis */
-    .materias .barra {
-      cursor: default;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .materias .barra:hover {
-      transform: none;
-      background: #2a3144;
-    }
-    .materias .barra span {
-      font-size: 1.2rem;
-    }
-
-    /* Ajuste para o header do perfil */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 30px 90px;
-      background: rgba(0, 0, 0, 0.3);
-      border-bottom: 1px solid #d4af37;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      position: relative;
-    }
-
-    header div:first-child p {
-      color: white;
-      font-size: 1.1rem;
-      margin: 0;
-    }
-
-    .logo-central {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      height: 60px;
-      filter: drop-shadow(0 0 5px #d4af37);
-      cursor: pointer;
-    }
-    .logo {
-        width: 190px;
-        margin-bottom: -35px;
-        justify-content: center;
-    }
-  </style>
 </head>
 <body class="<%= houseClass %>">
 
@@ -123,6 +34,7 @@
     <p>Perfil do Aluno</p>
   </div>
 
+  <img class="logo-central" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente 2.png" alt="IMAGEM JOAOOOO">
 
   <!-- Botão de voltar no canto direito -->
   <div class="btn-voltar">

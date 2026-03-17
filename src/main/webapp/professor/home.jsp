@@ -12,13 +12,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/teachers/style.css">
 
     <script src="${pageContext.request.contextPath}/js/searchDivs.js"></script>
-    <style>
-        .logo {
-            width: 190px;
-            margin-bottom: -35px;
-            justify-content: center;
-        }
-    </style>
 </head>
 
 <%
@@ -44,6 +37,9 @@ teacherHouseNameRaw.equals("Sonserina") ? "sonserina" :
 
 <header>
 
+
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="54px" fill="#C7D9E5" class="escondido" id="menu-sandwich"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
+
     <div class="nav-links">
 
         <form action="${pageContext.request.contextPath}/professor/home" method="post">
@@ -68,7 +64,7 @@ teacherHouseNameRaw.equals("Sonserina") ? "sonserina" :
 
     </div>
 
-    <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
+    <img class="logo-central" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
     <form action="${pageContext.request.contextPath}/teacher/profile" method="post" id="perfil">
         <input type="hidden" name="teacherId" value="<%=teacherDTO.getTeacherId()%>">
@@ -81,6 +77,29 @@ teacherHouseNameRaw.equals("Sonserina") ? "sonserina" :
         </button>
     </form>
 </header>
+
+<aside class="sidebar">
+
+    <form action="${pageContext.request.contextPath}/professor/home" method="post">
+        <input type="hidden" name="teacherId" value="<%=teacherDTO.getTeacherId()%>">
+        <button type="submit" class="nav-button">Início</button>
+    </form>
+
+    <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post">
+        <input type="hidden" name="teacherName" value="<%=teacherDTO.getTeacherName()%>">
+        <input type="hidden" name="teacherId" value="<%=teacherDTO.getTeacherId()%>">
+        <input type="hidden" name="houseName" value="<%=teacherHouseName%>">
+        <button type="submit" class="nav-button">Observações</button>
+    </form>
+
+    <form action="${pageContext.request.contextPath}/teacher/yearsSubjects" method="post">
+        <input type="hidden" name="showGrades" value="true">
+        <input type="hidden" name="teacherName" value="<%=teacherDTO.getTeacherName()%>">
+        <input type="hidden" name="teacherId" value="<%=teacherDTO.getTeacherId()%>">
+        <input type="hidden" name="houseName" value="<%=teacherHouseName%>">
+        <button type="submit" class="nav-button">Notas</button>
+    </form>
+</aside>
 
 <main>
 
@@ -195,6 +214,6 @@ Nenhum aluno encontrado para este professor.
     </div>
 
 </main>
-
+<script src="${pageContext.request.contextPath}/js/sidebar.js"></script>
 </body>
 </html>
