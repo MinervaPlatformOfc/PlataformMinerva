@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/crud/inicio.css">
     <script src="${pageContext.request.contextPath}/js/inicio.js" defer></script>
     <script src="${pageContext.request.contextPath}/js/search.js" defer></script>
+    <script src="${pageContext.request.contextPath}/js/sidebar.js" defer></script>
 </head>
 <body>
 <%

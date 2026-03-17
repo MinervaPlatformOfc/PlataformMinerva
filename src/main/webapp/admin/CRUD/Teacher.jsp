@@ -13,6 +13,7 @@
     <title>CRUD - Professores</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/crud/inicio.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/crud/admin.css">
+    <script src="${pageContext.request.contextPath}/js/sidebar.js" defer></script>
     <style>
         .info-group {
             margin-bottom: 15px;
@@ -93,7 +94,7 @@
 </header>
 
 <aside class="sidebar">
-    <img src="" alt="minerva-logo" class="logo">
+    <img src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="minerva-logo" class="logo">
     <nav>
         <ul>
             <!-- HOME -->
