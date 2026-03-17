@@ -37,4 +37,8 @@
         <error-code>503</error-code>
         <location>/error</location>
     </error-page>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 </web-app>
