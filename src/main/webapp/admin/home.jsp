@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/crud/inicio.css">
     <script src="${pageContext.request.contextPath}/js/inicio.js" defer></script>
     <script src="${pageContext.request.contextPath}/js/search.js" defer></script>
+    <script src="${pageContext.request.contextPath}/js/sidebar.js" defer></script>
 </head>
 <body>
 <%
@@ -41,6 +42,7 @@
 %>
 
 <header>
+    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="54px" fill="#C7D9E5" class="escondido" id="menu-sandwich"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
     <div class="search-container">
         <input type="search" name="pesquisar-registros" id="searchbar"
                placeholder="Pesquisar Registros" oninput="search()">

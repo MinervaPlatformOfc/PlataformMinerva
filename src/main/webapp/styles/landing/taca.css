@@ -1,0 +1,297 @@
+/* reset fontes e variaveis */
+
+body {
+    font-family: 'Almendra', serif;
+    color: #fff;
+    min-height: 100vh;
+    background-attachment: fixed;
+    margin: 0;
+    background-color: #000;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Almendra', serif;
+}
+
+/* Header */
+
+.div-img{
+    background: url("../../assets/bg.png") center/cover no-repeat;
+    min-height: 80vh;
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 15px clamp(20px, 5vw, 90px);
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+header a {
+    text-decoration: none;
+    color: gray;
+    font-size: 1.1rem;
+    transition: 0.3s;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.nav-links a{
+    margin-right: 35px;
+}
+
+header #atual{
+    color: white;
+}
+
+header a:hover {
+    color: #fff;
+    text-shadow: 0 10px 15px #ffc402;
+}
+
+header img[alt="logo-Minerva"] {
+    height: auto;
+    width: 100%;
+    max-width: 300px;
+    position: absolute;
+    margin-top: 100px;
+    left: 40%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 0 5px #d4af37);
+    animation: flutuar 3s ease-in-out infinite;
+}
+
+.acoes {
+    display: flex;
+    gap: 15px;
+}
+
+header #cadastrar,
+header #entrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 20px;
+    min-width: 140px;
+    border: 2px solid #d4af37;
+    padding: 5px 10px;
+    border-radius: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+header #cadastrar:hover,
+header #entrar:hover {
+    color: #fff;
+    text-shadow: 0 10px 15px #ffc402;
+}
+
+/* Main */
+
+.casas{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 250px);
+    justify-content: center;
+    gap: 10px;
+    margin: 20px clamp(20px,5vw,200px);
+}
+
+.casas div{
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(3rem, 3.4rem, 3.7rem);
+}
+
+.casas div p{
+    padding: 0px 20px;
+    -webkit-text-stroke: 0.02rem #d4af37;
+}
+
+.casas img{
+    display: block;
+    width: auto;
+    max-width: 200px;
+    height: 240px;
+    object-fit: cover;
+    margin-top:clamp(10px,20px,30px);
+}
+.grif,#pontos .grif, #observacoes .grif{
+    color: red;
+    text-shadow:
+            0 0 10px #000,
+            0 0 20px #000,
+            0 0 40px #000,
+            0 0 80px #000;
+    border-radius: 20px;
+}
+.lufa,#pontos .lufa, #observacoes .lufa{
+    color:#F1C444;
+    text-shadow:
+            0 0 10px #000,
+            0 0 20px #000,
+            0 0 40px #000,
+            0 0 80px #000;
+    border-radius: 20px;
+}
+.sons,#pontos .sons, #observacoes .sons{
+    color: #1A754D;
+    text-shadow:
+            0 0 10px #000,
+            0 0 20px #000,
+            0 0 40px #000,
+            0 0 80px #000;
+    border-radius: 20px;
+}
+.corv,#pontos .corv, #observacoes .corv{
+    color:#056CB4;
+    text-shadow:
+            0 0 10px #000,
+            0 0 20px #000,
+            0 0 40px #000,
+            0 0 80px #000;
+    border-radius: 20px;
+}
+#pontos{
+    display: flex;
+    align-items: stretch;
+}
+
+#pontos article{
+    flex: 1;
+    margin: clamp(1rem, 2rem, 3rem);
+}
+
+#pontos h1, #observacoes h1{
+    color: #ffc402;
+    font-weight: 500;
+    font-size: clamp(2rem, 3rem, 4rem);
+}
+#pontos h1 span{
+    font-weight: bold;
+}
+
+#pontos p:nth-of-type(1){
+    font-size: clamp(0.5rem, 1.5rem, 1.8rem);
+    font-weight: 600;
+}
+#pontos p{
+    margin: clamp(1rem, 1.7rem, 2rem);
+    font-size: clamp(0.5rem, 1.5rem, 1.7rem)
+}
+#pontos span, #observacoes span:not(.bold-white, .grif, .sons){
+    color: #ffc402;
+}
+
+.divisor {
+    width: 2px;
+    background-color: #d4af37;
+}
+
+#observacoes{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px clamp(20px,5vw,200px);
+}
+
+#observacoes div:not(#lembre-se){
+    grid-column: span;
+    text-align: center;
+    font-size: clamp(1.2rem, 1.5rem, 2rem);
+}
+
+#observacoes div:not(#lembre-se) p:nth-last-child(n-2){
+    text-align: justify;
+    font-size: clamp(1rem, 1.2rem, 1.5rem);
+    backdrop-filter: blur(0px);
+    margin: 20px;
+}
+
+#observacoes .grif{
+    text-shadow: 0 0 10px #ef6f6f,
+    0 0 25px #ef6f6f,
+    0 0 50px #ef6f6f,
+    0 0 100px #ef6f6f;
+}
+
+#observacoes .sons{
+    text-shadow: 0 0 10px #039103,
+    0 0 25px #039103,
+    0 0 50px #039103,
+    0 0 100px #039103;
+}
+
+.bold-white{
+    font-weight: bold;
+}
+
+
+#lembre-se{
+    text-align: center;
+    font-size: clamp(1.8rem, 2.2rem, 2.5rem);
+}
+@keyframes flutuar {
+    0% {
+        transform: translateY(2px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateY(2px) rotate(0deg);
+    }
+}
+
+
+@keyframes brilho {
+    0%{
+        filter: blur(4px) brightness(0.7);
+        opacity: 0.6;
+    }
+    50%{
+        filter: blur(4px) brightness(1.8);
+        opacity: 1;
+    }
+    100%{
+        filter: blur(4px) brightness(1);
+        opacity: 1;
+    }
+}
+
+#efeito{
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    transform: scale(0);
+    pointer-events: none;
+    z-index: 9999;
+
+    background: radial-gradient(
+            circle,
+            rgba(255,255,240,1) 0%,
+            rgba(255,240,170,1) 30%,
+            rgba(255,220,120,1) 60%,
+            rgba(255,255,255,1) 100%
+    );
+
+    box-shadow:
+            0 0 40px rgba(255,230,120,1),
+            0 0 80px rgba(255,220,100,1);
+
+    filter: blur(4px);
+    animation: brilho 1s ease-out;
+}
