@@ -71,7 +71,7 @@
         %>
 
         <form action="${pageContext.request.contextPath}/aluno/subject" method="post">
-
+            <input type="hidden" name="name" value="<%= profile.getName()%>">
             <input type="hidden" name="id" value="<%= id %>">
             <input type="hidden" name="subjectId" value="<%= grade.getSubjectId() %>">
             <input type="hidden" name="subjectName" value="<%= subjectName %>">
