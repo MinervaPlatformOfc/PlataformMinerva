@@ -44,7 +44,7 @@
     </button>
 </header>
 <aside class="sidebar">
-    <img src="" alt="minerva-logo" class="logo">
+    <img src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="minerva-logo" class="logo">
     <nav>
         <ul>
             <!-- HOME -->
