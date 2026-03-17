@@ -316,3 +316,61 @@ header form{
     display: inline;
     margin-right: 35px;
 }
+
+#aluno-perfil svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+#chat{
+    margin: 20px;
+    cursor: pointer;
+    width: 100%;
+    min-width: 20px;
+    max-width: 32px;
+    height: auto;
+}
+
+/* Ajustes para o botão de chat */
+#form-chat {
+    margin-right: 0;
+    display: flex;
+    align-items: center;
+}
+
+#button-chat {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+#button-chat:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: scale(1.1);
+}
+
+#button-chat #chat {
+    fill: #d4af37;
+}
+
+#chat {
+    width: 22px;
+    height: 22px;
+    fill: #C7D9E5;
+    transition: fill 0.3s ease;
+}
+
+#div-chat{
+    gap: 10px;
+    display: flex;
+    height: 30px;
+}
+

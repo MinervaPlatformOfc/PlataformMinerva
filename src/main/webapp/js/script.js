@@ -24,7 +24,7 @@ cadastrar.addEventListener("click", (e)=>{
     }, 7000)
 })
 
-entrar.addEventListener(()=>{
+entrar.addEventListener("click", (e)=>{
     window.location.href = "login.jsp"
 })
 

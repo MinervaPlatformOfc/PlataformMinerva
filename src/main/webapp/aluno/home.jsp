@@ -70,11 +70,11 @@
             <input type="hidden" name="houseName" value="<%=houseName%>">
             <button type="submit">Matérias</button>
         </form>
-
     </div>
 
     <img class="logo" src="${pageContext.request.contextPath}/assets/Plataforma_minerva_transparente%202.png" alt="IMAGEM JOAOOOO">
 
+    <div id="div-chat">
     <div id="aluno-perfil">
 
         <form action="${pageContext.request.contextPath}/aluno/profile" method="post">
@@ -88,6 +88,11 @@
 
     </div>
 
+    <form action="${pageContext.request.contextPath}/aluno/frames" method="get" id="form-chat">
+        <button type="submit" id="button-chat">    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" id="chat" fill="#C7D9E5"><path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg>
+        </button>
+    </form>
+    </div>
 </header>
 
 <main>
@@ -139,11 +144,6 @@
             }
         }
     %>
-
-    <form action="${pageContext.request.contextPath}/aluno/frames" method="get">
-        <button type="submit">Sala dos quadros</button>
-    </form>
-
 </main>
 <br>
 <br>
